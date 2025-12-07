@@ -1,0 +1,247 @@
+ <div class="frame" data-model-id="14:88">
+      <div class="div">
+        <div class="group">
+          <div class="rectangle"></div>
+          <div class="rectangle-2"></div>
+          <img class="svgviewer-png-output" src="https://c.animaapp.com/Sn5FOIvd/img/svgviewer-png-output-2@2x.png" />
+        </div>
+        <div class="group-2">
+          <p class="text-wrapper">
+            Discover our commitment to exceptional customer service with every purchase. Your satisfaction is always our
+            top priority.
+          </p>
+          <div class="text-wrapper-2">CUSTOMER SERVICE</div>
+        </div>
+      </div>
+      <img class="line" src="https://c.animaapp.com/Sn5FOIvd/img/line-4.svg" />
+      <div class="div">
+        <img class="group" src="https://c.animaapp.com/Sn5FOIvd/img/group-15@2x.png" />
+        <div class="group-3">
+          <p class="text-wrapper">
+            Get your essentials delivered for free! Spend $100 or more and enjoy complimentary shipping on all orders.
+          </p>
+          <div class="text-wrapper-2">FAST FREE SHIPPING</div>
+        </div>
+      </div>
+      <img class="line" src="https://c.animaapp.com/Sn5FOIvd/img/line-4.svg" />
+      <div class="div">
+        <img class="group" src="https://c.animaapp.com/Sn5FOIvd/img/group-16@2x.png" />
+        <div class="group-2">
+          <p class="text-wrapper">
+            Shop confidently knowing your payment information is securely processed. Your privacy and security are our
+            top priorities.
+          </p>
+          <div class="text-wrapper-2">SECURE PAYMENT</div>
+        </div>
+      </div>
+      <img class="line" src="https://c.animaapp.com/Sn5FOIvd/img/line-4.svg" />
+      <div class="div">
+        <img class="group" src="https://c.animaapp.com/Sn5FOIvd/img/group-17@2x.png" />
+        <div class="group-4">
+          <p class="text-wrapper">Refer a friend and get 15% off each other.</p>
+          <div class="text-wrapper-2">REFER A FRIEND</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+        .frame {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  padding: 40px 55px;
+  position: relative;
+  max-width: 100%;
+}
+
+.frame .div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  flex: 1 1 calc(25% - 24px);
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.frame .group {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.frame .rectangle {
+  left: 5px;
+  position: absolute;
+  top: 16px;
+  width: 7px;
+  height: 10px;
+  background-color: #ffdf1c;
+}
+
+.frame .rectangle-2 {
+  left: 23px;
+  position: absolute;
+  top: 16px;
+  width: 7px;
+  height: 10px;
+  background-color: #ffdf1c;
+}
+
+.frame .svgviewer-png-output {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.frame .group-2 {
+  position: relative;
+  width: 100%;
+  max-width: 277px;
+  height: auto;
+  min-height: 112px;
+  flex: 1;
+}
+
+.frame .text-wrapper {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  width: 100%;
+  max-width: 273px;
+  font-family: "Segoe UI-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+}
+
+.frame .text-wrapper-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 251px;
+  font-family: "Asap Condensed", Helvetica;
+  font-weight: 900;
+  color: #004785;
+  font-size: 22px;
+  letter-spacing: 0.66px;
+  line-height: normal;
+}
+
+.frame .line {
+  position: relative;
+  width: 1px;
+  height: 50px;
+  object-fit: cover;
+  display: none;
+}
+
+/* Desktop: 4 columns (768px and above) */
+@media (min-width: 768px) {
+  .frame .line {
+    display: block;
+  }
+  
+  .frame .div {
+    flex: 1 1 calc(25% - 24px);
+  }
+}
+
+/* Tablet: 2 columns (600px - 767px) */
+@media (max-width: 767px) and (min-width: 600px) {
+  .frame .div {
+    flex: 1 1 calc(50% - 16px);
+    min-width: 0;
+  }
+  
+  .frame {
+    gap: 32px 16px;
+    padding: 30px;
+  }
+  
+  .frame .line {
+    display: none;
+  }
+  
+  .frame .group-2,
+  .frame .group-3,
+  .frame .group-4 {
+    max-width: 100%;
+  }
+  
+  .frame .text-wrapper,
+  .frame .text-wrapper-2 {
+    max-width: 100%;
+  }
+}
+
+/* Mobile: 1 column (below 600px) */
+@media (max-width: 599px) {
+  .frame {
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
+  }
+  
+  .frame .div {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .frame .group-2,
+  .frame .group-3,
+  .frame .group-4 {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .frame .text-wrapper,
+  .frame .text-wrapper-2 {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .frame .line {
+    display: none;
+  }
+}
+
+.frame .group-3 {
+  height: auto;
+  min-height: 113px;
+  position: relative;
+  width: 100%;
+  max-width: 277px;
+  flex: 1;
+}
+
+.frame .group-4 {
+  height: auto;
+  min-height: 111px;
+  position: relative;
+  width: 100%;
+  max-width: 277px;
+  flex: 1;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Home 4 Col",
+  "settings": [],
+  "presets": [
+    { "name": "Home 4 Col" }
+  ]
+}
+{% endschema %}

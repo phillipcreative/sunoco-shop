@@ -1,0 +1,288 @@
+{
+  "sections": {
+    "image_with_text_overlay_JkzBgY": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_dMbDiX": {
+          "type": "heading",
+          "settings": {
+            "heading": "WELCOME TO THE SUNOCO RACE FUELS",
+            "heading_size": "title-md",
+            "heading_tag": "h1",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "heading_dnyDtP": {
+          "type": "heading",
+          "settings": {
+            "heading": "<em>ONLINE STORE<\/em>",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h1",
+            "highlighted_text": "text",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_gfyhmq": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP ALL",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "lg",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_dMbDiX",
+        "heading_dnyDtP",
+        "button_gfyhmq"
+      ],
+      "custom_css": [
+        "h1 > em {color: #ffdf1c !important;}",
+        "h1.banner__title.heading.leading-none.title-lg.tracking-heading {margin-top: 4px;}",
+        "a.button.button--primary.button--md.button--fixed.icon-with-text {font-weight: 900; font-size: 20px; padding: 20px 40px;}",
+        "a.button.button--primary.button--lg.button--fixed.icon-with-text {font-weight: 800; font-size: 20px; padding: 16px 40px;}"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "transparent_header": false,
+        "image": "shopify:\/\/shop_images\/99b6b47e4b5155668f0aa27c2192422d06038e9d.jpg",
+        "image_height": "600px",
+        "content_width": "large",
+        "content_position": "md:items-center md:justify-center",
+        "text_alignment": "center",
+        "image_height_mobile": "auto",
+        "content_position_mobile": "items-center justify-center",
+        "text_alignment_mobile": "center",
+        "color_text": "#ffffff",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "#e0a580",
+        "gradient_highlight": "",
+        "color_button_text": "#000000",
+        "color_button_background": "#ffdf1c",
+        "color_button_gradient": "",
+        "color_overlay": "#022646",
+        "overlay_opacity": 60,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "divider": false,
+        "full_width": true,
+        "rounded": false,
+        "enable_parallax": false,
+        "parallax_direction": "vertical"
+      }
+    },
+    "homepage_featured_collection_QjmjUT": {
+      "type": "homepage-featured-collection",
+      "name": "HP Featured Collection",
+      "settings": {}
+    },
+    "featured_product_home_zdGT6y": {
+      "type": "featured-product-home",
+      "name": "Featured Product Home",
+      "settings": {
+        "product": "",
+        "side_heading": "Shop Fuel Jugs",
+        "side_subtext": "Heavy-duty jugs built for performance.",
+        "side_link_text": "Shop Now",
+        "side_link_url": "",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "featured_collection_DzjhCx": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.name",
+      "settings": {
+        "collection": "",
+        "products": [],
+        "product_limit": 6,
+        "columns": 3,
+        "carousel_on_desktop": true,
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "SHOP APPAREL",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "countdown_timer_z3nbxR": {
+      "type": "countdown-timer",
+      "blocks": {
+        "heading_Ay7jYJ": {
+          "type": "heading",
+          "settings": {
+            "heading": "LIMITED TIME OFFERS",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "timer_te9pyq": {
+          "type": "timer",
+          "settings": {
+            "year": "2026",
+            "month": "01",
+            "day": "1",
+            "hour": "03",
+            "minute": "00",
+            "text_font": "heading",
+            "text_size": "title-lg tracking-heading",
+            "message": ""
+          }
+        },
+        "button_NRDgBE": {
+          "type": "button",
+          "settings": {
+            "button_label": "shop all deals",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "md",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_Ay7jYJ",
+        "timer_te9pyq",
+        "button_NRDgBE"
+      ],
+      "name": "t:sections.countdown-timer.name",
+      "settings": {
+        "transparent_header": false,
+        "image": "shopify:\/\/shop_images\/Frame_2_fe2e49f4-7014-4a88-983a-9f87937a34fe.png",
+        "image_height": "650px",
+        "content_width": "small",
+        "content_position": "md:items-center md:justify-start",
+        "text_alignment": "left",
+        "image_height_mobile": "auto",
+        "content_position_mobile": "items-center justify-center",
+        "text_alignment_mobile": "center",
+        "color_text": "#ffffff",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "#ffdf1c",
+        "gradient_highlight": "",
+        "color_button_text": "#171717",
+        "color_button_background": "#ffdf1c",
+        "color_button_gradient": "",
+        "color_overlay": "#171717",
+        "overlay_opacity": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "divider": false,
+        "full_width": true,
+        "rounded": false,
+        "enable_parallax": false,
+        "parallax_direction": "vertical"
+      }
+    },
+    "collection_list_jEAC3b": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_LpbAtG": {
+          "type": "collection",
+          "settings": {
+            "collection": "frontpage",
+            "image": "shopify:\/\/shop_images\/Frame_3.png",
+            "title": "SHOP HATS",
+            "description": "",
+            "overlay_content": true,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "collection_yghdJy": {
+          "type": "collection",
+          "settings": {
+            "collection": "frontpage",
+            "image": "shopify:\/\/shop_images\/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
+            "title": "SHOP T-SHIRTS",
+            "description": "",
+            "overlay_content": true,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "collection_LpbAtG",
+        "collection_yghdJy"
+      ],
+      "name": "t:sections.collection-list.name",
+      "settings": {
+        "card_style": "overlap",
+        "image_type": "collection",
+        "image_ratio": "landscape",
+        "show_products_count": true,
+        "show_view_all": false,
+        "columns": 2,
+        "carousel_on_desktop": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "home_4_col_Xh8Hap": {
+      "type": "home-4-col",
+      "name": "Home 4 Col",
+      "settings": {}
+    }
+  },
+  "order": [
+    "image_with_text_overlay_JkzBgY",
+    "homepage_featured_collection_QjmjUT",
+    "featured_product_home_zdGT6y",
+    "featured_collection_DzjhCx",
+    "countdown_timer_z3nbxR",
+    "collection_list_jEAC3b",
+    "home_4_col_Xh8Hap"
+  ]
+}

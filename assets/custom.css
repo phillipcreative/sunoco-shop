@@ -1,0 +1,30 @@
+/*--Product Cards---*/
+
+.card.product-card.product-card--card.flex.flex-col.leading-none.relative {
+    background: #F5F5F5;
+    padding: 20px;
+}
+
+.product-card__top{
+    display: none;
+}
+
+.product-card__details {
+    flex-direction: column;
+}
+
+.cost_row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.product-card__content.grow.flex.flex-col.justify-start.text-left.w-full {
+    padding: 12px 0px 0px 0px;
+}
+
+a.product-card__title {
+    font-weight: 700;
+    font-family: var(--font-heading-family) !important;
+}
