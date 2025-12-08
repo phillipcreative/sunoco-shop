@@ -1,12 +1,21 @@
-{
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+ {
   "current": {
-    "logo": "shopify:\/\/shop_images\/Logo.svg",
-    "white_logo": "shopify:\/\/shop_images\/sunoco-race-fuels-logo.png",
-    "logo_width": 140,
-    "logo_mobile": "shopify:\/\/shop_images\/sunoco-race-fuels-logo.png",
-    "white_logo_mobile": "shopify:\/\/shop_images\/sunoco-race-fuels-logo.png",
+    "logo": "shopify://shop_images/Logo.svg",
+    "white_logo": "shopify://shop_images/sunoco-race-fuels-logo.png",
+    "logo_width": 145,
+    "logo_mobile": "shopify://shop_images/sunoco-logo_400x400_31b26b4a-263e-48b8-a811-364badc626c9.png",
+    "white_logo_mobile": "shopify://shop_images/sunoco-logo_400x400_31b26b4a-263e-48b8-a811-364badc626c9.png",
     "logo_width_mobile": 70,
-    "favicon": "shopify:\/\/shop_images\/sunoco-logo_400x400_31b26b4a-263e-48b8-a811-364badc626c9.png",
+    "favicon": "shopify://shop_images/sunoco-logo_400x400_31b26b4a-263e-48b8-a811-364badc626c9.png",
     "color_text": "#004785",
     "color_background": "#ffffff",
     "color_highlight": "#ffdf1c",
@@ -82,11 +91,11 @@
     "swatch_image_tooltip": true,
     "product_image_ratio": "square",
     "product_image_fill": true,
-    "product_vendor": true,
+    "product_vendor": false,
     "product_secondary_image": true,
-    "product_rating": true,
+    "product_rating": false,
     "product_countdown": true,
-    "product_quick_view": true,
+    "product_quick_view": false,
     "product_quick_add": true,
     "product_quick_add_by_size": false,
     "product_color_swatches": true,
@@ -110,10 +119,10 @@
     "predictive_search_show_price": true,
     "typewriter_effect_enabled": false,
     "typewriter_starter_text": "",
-    "social_facebook_link": "https:\/\/www.facebook.com\/shopify",
-    "social_twitter_link": "https:\/\/twitter.com\/shopify",
-    "social_instagram_link": "https:\/\/instagram.com\/shopify",
-    "social_youtube_link": "https:\/\/www.youtube.com\/user\/shopify",
+    "social_facebook_link": "https://www.facebook.com/shopify",
+    "social_twitter_link": "https://twitter.com/shopify",
+    "social_instagram_link": "https://instagram.com/shopify",
+    "social_youtube_link": "https://www.youtube.com/user/shopify",
     "social_tiktok_link": "",
     "social_snapchat_link": "",
     "social_pinterest_link": "",
@@ -284,10 +293,10 @@
       "predictive_search_show_price": true,
       "typewriter_effect_enabled": false,
       "typewriter_starter_text": "",
-      "social_facebook_link": "https:\/\/www.facebook.com\/shopify",
-      "social_twitter_link": "https:\/\/twitter.com\/shopify",
-      "social_instagram_link": "https:\/\/instagram.com\/shopify",
-      "social_youtube_link": "https:\/\/www.youtube.com\/user\/shopify",
+      "social_facebook_link": "https://www.facebook.com/shopify",
+      "social_twitter_link": "https://twitter.com/shopify",
+      "social_instagram_link": "https://instagram.com/shopify",
+      "social_youtube_link": "https://www.youtube.com/user/shopify",
       "social_tiktok_link": "",
       "social_snapchat_link": "",
       "social_pinterest_link": "",
@@ -455,10 +464,10 @@
       "predictive_search_show_price": true,
       "typewriter_effect_enabled": false,
       "typewriter_starter_text": "",
-      "social_facebook_link": "https:\/\/www.facebook.com\/shopify",
-      "social_twitter_link": "https:\/\/twitter.com\/shopify",
-      "social_instagram_link": "https:\/\/instagram.com\/shopify",
-      "social_youtube_link": "https:\/\/www.youtube.com\/user\/shopify",
+      "social_facebook_link": "https://www.facebook.com/shopify",
+      "social_twitter_link": "https://twitter.com/shopify",
+      "social_instagram_link": "https://instagram.com/shopify",
+      "social_youtube_link": "https://www.youtube.com/user/shopify",
       "social_tiktok_link": "",
       "social_snapchat_link": "",
       "social_pinterest_link": "",

@@ -73,7 +73,7 @@
     <a href="{{ collection.url }}" class="media-card__link flex flex-col w-full h-full relative" aria-label="{{ collection_title | escape }}">
       <div class="media media--{{ image_ratio }} relative overflow-hidden">
         {%- if collection_image != blank -%}
-          {{- collection_image | image_url: width: collection_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+          {{- collection_image | image_url: width: collection_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image', class: 'collection-card__image' -}}
         {%- else -%}
           <span class="block aspect-{{ image_ratio }}"></span>
         {%- endif -%}
@@ -86,13 +86,13 @@
               {%- if show_products_count and collection.all_products_count > 0 -%}
                 <small class="count font-medium absolute text-xs tracking-none whitespace-nowrap">{{ collection.all_products_count }}</small>
               {%- endif -%}
+              {%- render 'icon', icon: 'arrow-right', size: 'xs', class: 'transform shrink-0' -%}
             </span>
           </p>
           {%- if collection_description != blank -%}
             <p class="leading-none text-xs xl:text-sm">{{ collection_description }}</p>
           {%- endif -%}
         </div>
-        {%- render 'icon', icon: 'arrow-right', size: 'xs', class: 'transform shrink-0' -%}
       </div>
     </a>
   {%- else -%}

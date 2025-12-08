@@ -71,7 +71,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
             if (index === 0) {
               section.classList.add('section--first-rounded');
             }
-  
+
             if (index === rounded.length - 1) {
               section.classList.add('section--last-rounded');
             }
@@ -146,7 +146,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
         elementToFocus.setSelectionRange(0, elementToFocus.value.length);
       }
     },
-    
+
     removeTrapFocus: (elementToFocus = null) => {
       document.removeEventListener('focusin', theme.a11y.trapFocusHandlers.focusin);
       document.removeEventListener('focusout', theme.a11y.trapFocusHandlers.focusout);
@@ -207,11 +207,11 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
       options = options || {};
       const method = options['method'] || 'post';
       const params = options['parameters'] || {};
-    
+
       const form = document.createElement("form");
       form.setAttribute("method", method);
       form.setAttribute("action", path);
-    
+
       for (const key in params) {
         const hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
@@ -228,11 +228,11 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
       options = options || {};
       const method = options['method'] || 'post';
       const params = options['parameters'] || {};
-    
+
       const form = document.createElement("form");
       form.setAttribute("method", method);
       form.setAttribute("action", path);
-    
+
       for (const key in params) {
         if (typeof params[key] === 'string') {
           const hiddenField = document.createElement("input");
@@ -489,7 +489,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
       return Updater;
     })()
   };
-  
+
   theme.cookiesEnabled = function () {
     let cookieEnabled = navigator.cookieEnabled;
 
@@ -726,19 +726,19 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
       get immediate() {
         return this.container.hasAttribute('data-immediate');
       }
-    
+
       get media() {
         return Array.from(this.container.querySelectorAll('img, iframe, svg, g-map'));
       }
-    
+
       get type() {
         return this.container.hasAttribute('data-animate') ? this.container.getAttribute('data-animate') : 'fade-up';
       }
-    
+
       get delay() {
         return this.container.hasAttribute('data-animate-delay') ? parseInt(this.container.getAttribute('data-animate-delay')) / 1000 : 0;
       }
-    
+
       get paused() {
         return this.container.hasAttribute('paused');
       }
@@ -767,7 +767,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
 
       async load() {
         if (this.type === 'none' || this.paused) return;
-    
+
         switch (this.type) {
           case 'fade-in':
             await Motion.animate(this.container, { opacity: 1 }, { duration: 1.5, delay: this.delay, easing: [0.16, 1, 0.3, 1] }).finished;
@@ -796,20 +796,20 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
           case 'fade-in':
             await Motion.animate(this.container, { opacity: 0 }, { duration: duration ? duration : 1.5, delay: this.delay, easing: duration ? 'none' : [0.16, 1, 0.3, 1] }).finished;
             break;
-    
+
           case 'fade-up':
             await Motion.animate(this.container, { transform: 'translateY(max(-2rem, -90%))', opacity: 0 }, { duration: duration ? duration : 1.5, delay: this.delay, easing: duration ? 'none' : [0.16, 1, 0.3, 1] }).finished;
             break;
-    
+
           case 'fade-up-large':
             await Motion.animate(this.container, { transform: 'translateY(-90%)', opacity: 0 }, { duration: duration ? duration : 1, delay: this.delay, easing: duration ? 'none' : [0.16, 1, 0.3, 1] }).finished;
             break;
-    
+
           case 'zoom-out':
             await Motion.animate(this.container, { transform: 'scale(0)' }, { duration: duration ? duration : 1.3, delay: this.delay, easing: duration ? 'none' : [0.16, 1, 0.3, 1] }).finished;
             break;
         }
-    
+
         this.container.classList.remove('animated');
       }
 
@@ -907,14 +907,14 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
         this.callback = callback;
         this.triggered = false;
         this.timeoutId = null;
-        
+
         this.interactionEvents = ['click', 'mousemove', 'keydown', 'touchstart', 'touchmove', 'wheel'];
         this.handleInteraction = this.handleInteraction.bind(this);
-        
+
         this.interactionEvents.forEach(eventType => {
           window.addEventListener(eventType, this.handleInteraction, { passive: true });
         });
-        
+
         this.timeoutId = setTimeout(() => {
           if (!this.triggered) {
             this.handleInteraction({ type: 'timeout' });
@@ -924,7 +924,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
 
       handleInteraction(event) {
         if (this.triggered) return;
-    
+
         this.triggered = true;
         this.callback(event);
         this.cleanup();
@@ -934,7 +934,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
         this.interactionEvents.forEach(eventType => {
           window.removeEventListener(eventType, this.handleInteraction, { passive: true });
         });
-        
+
         clearTimeout(this.timeoutId);
         this.timeoutId = null;
         this.callback = null;
@@ -1070,6 +1070,10 @@ class CustomHeader extends HTMLElement {
   }
 
   get allowTransparent() {
+    if (this.hasAttribute('data-enable-transparent') && this.getAttribute('data-enable-transparent') === 'true') {
+      return true;
+    }
+
     if (document.querySelector('.shopify-section:first-child [allow-transparent-header]')) {
       return true;
     }
@@ -1226,7 +1230,7 @@ customElements.define('magnet-link', MagnetLink, { extends: 'a' });
 class HoverButton extends HTMLButtonElement {
   constructor() {
     super();
-    
+
     this.hoverButton = new theme.HoverButton(this);
     this.hoverButton.load();
 
@@ -1362,7 +1366,7 @@ customElements.define('animate-picture', AnimatePicture, { extends: 'picture' })
 class AnnouncementBar extends HTMLElement {
   constructor() {
     super();
-    
+
     this.selectedIndex = this.selectedIndex;
 
     if (!theme.config.isTouch || Shopify.designMode) {
@@ -1416,13 +1420,13 @@ class AnnouncementBar extends HTMLElement {
           }
         }
       });
-  
+
       this.slider.on('change', this.onChange.bind(this));
       this.addEventListener('slider:previous', () => this.slider.previous());
       this.addEventListener('slider:next', () => this.slider.next());
       this.addEventListener('slider:play', () => this.slider.playPlayer());
       this.addEventListener('slider:pause', () => this.slider.pausePlayer());
-      
+
       if (Shopify.designMode) {
         this.addEventListener('shopify:block:select', (event) => this.slider.select(this.items.indexOf(event.target)));
       }
@@ -1436,10 +1440,10 @@ class AnnouncementBar extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'selected-index' && oldValue !== null && oldValue !== newValue) {
       const focusableEvents = 'button, [href]';
-      
+
       const fromElement = this.items[parseInt(oldValue)];
       const toElement = this.items[parseInt(newValue)];
-      
+
       fromElement.querySelectorAll(focusableEvents).forEach((el) => {
         el.setAttribute('tabindex', '-1');
       });
@@ -1820,7 +1824,7 @@ class ModalElement extends HTMLElement {
 
   connectedCallback() {
     this.abortController = new AbortController();
-    
+
     this.controls.forEach((button) => button.addEventListener('click', this.onButtonClick.bind(this), { signal: this.abortController.signal }));
     document.addEventListener('keyup', (event) => event.code === 'Escape' && this.hide(), { signal: this.abortController.signal });
     document.addEventListener(this.events.closeAll, () => this.hide(), { signal: this.abortController.signal });
@@ -1852,7 +1856,7 @@ class ModalElement extends HTMLElement {
 
   disconnectedCallback() {
     this.abortController?.abort();
-    
+
     if (Shopify.designMode) {
       document.body.classList.remove(this.classes.open);
     }
@@ -1884,7 +1888,7 @@ class ModalElement extends HTMLElement {
           const hideTransitionPromise = this.hideTransition() || Promise.resolve();
           hideTransitionPromise.then(() => {
             this.afterHide();
-            
+
             if (!this.hasAttribute('inert')) return;
 
             if (this.parentElement === document.body && this.originalParentBeforeAppend) {
@@ -1969,8 +1973,8 @@ class ModalElement extends HTMLElement {
       if (!hasTransition) {
         resolve();
         return;
-      }  
-                          
+      }
+
       this.overlay.addEventListener('transitionend', resolve, { once: true });
     });
   }
@@ -2353,7 +2357,7 @@ class QuantityInput extends HTMLElement {
   quantityUpdateUnsubscriber = undefined;
   quantityBoundriesUnsubscriber = undefined;
   quantityRulesUnsubscriber = undefined;
-  
+
   constructor() {
     super();
   }
@@ -2477,7 +2481,7 @@ class QuantityInput extends HTMLElement {
 
   setQuantityBoundries({ data: { sectionId, productId } }) {
     if (sectionId !== this.sectionId || productId !== this.productId) return;
-    
+
     const data = {
       cartQuantity: this.input.hasAttribute('data-cart-quantity') ? parseInt(this.input.getAttribute('data-cart-quantity')) : 0,
       min: this.input.hasAttribute('data-min') ? parseInt(this.input.getAttribute('data-min')) : 1,
@@ -2693,10 +2697,10 @@ class ProductComplementary extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'selected-index' && oldValue !== null && oldValue !== newValue) {
       const focusableEvents = 'button, [href]';
-      
+
       const fromElement = this.items[parseInt(oldValue)];
       const toElement = this.items[parseInt(newValue)];
-      
+
       fromElement.querySelectorAll(focusableEvents).forEach((el) => {
         el.setAttribute('tabindex', '-1');
       });
@@ -2767,7 +2771,7 @@ class SplitWords extends HTMLElement {
   connectedCallback() {
     if (theme.config.motionReduced) return;
     if (!document.body.hasAttribute('data-title-animation')) return;
-    
+
     const splitting = Splitting({ target: this, by: 'words' });
 
     splitting[0].words.forEach((item, index) => {
@@ -3025,7 +3029,7 @@ class DropdownElement extends HTMLElement {
   show() {
     document.body.classList.add(this.classes.bodyClass);
     this.setAttribute('open', '');
-    
+
     document.addEventListener('click', this.detectClickOutsideListener);
     document.addEventListener('keyup', this.detectEscKeyboardListener);
     document.addEventListener('focusout', this.detectFocusOutListener);
@@ -3188,7 +3192,7 @@ class DetailsDropdown extends HTMLDetailsElement {
     if (value) {
       lockDropdownCount.set(DetailsDropdown, lockDropdownCount.get(DetailsDropdown) + 1);
       document.body.classList.add(this.classes.bodyClass);
-      
+
       this.setAttribute('open', '');
       this.summaryElement.setAttribute('open', '');
       if (theme.config.motionReduced) {
@@ -3207,7 +3211,7 @@ class DetailsDropdown extends HTMLDetailsElement {
     else {
       lockDropdownCount.set(DetailsDropdown, lockDropdownCount.get(DetailsDropdown) - 1);
       document.body.classList.toggle(this.classes.bodyClass, lockDropdownCount.get(DetailsDropdown) > 0);
-      
+
       this.summaryElement.removeAttribute('open');
       this.contentElement.removeAttribute('open');
       document.removeEventListener('click', this.detectClickOutsideListener);
@@ -3590,7 +3594,7 @@ class FooterParallax extends ParallaxElement {
   refresh() {
     if (theme.config.motionReduced) return;
     if (this.mobileDisabled && (theme.config.isTouch || theme.config.mqlSmall)) return;
-    
+
     setTimeout(() => {
       Motion.animate(this, { transform: 'translateY(0)' }, { duration: 0 });
     });
@@ -3693,7 +3697,7 @@ class CarouselElement extends HTMLElement {
       const { selectedIndex, slides } = this.carousel;
 
       immediate = Math.abs(index - selectedIndex) > 3;
-      
+
       if (index === 0 && selectedIndex === slides.length - 1) {
         immediate = false;
       }
@@ -3784,17 +3788,17 @@ class SecondaryMedia extends HTMLElement {
     if (this.mediaCount === 2) {
       return this.carousel.select(1);
     }
-    
+
     const { width } = this.carousel.size;
     const mouseX = event.clientX - this.getBoundingClientRect().left;
-    
+
     if (this.mediaCount === 3) {
       if (mouseX < width / 2) {
         return this.carousel.select(1);
       }
       return this.carousel.select(2);
     }
-    
+
     if (this.mediaCount === 4) {
       if (mouseX < width / 3) {
         return this.carousel.select(1);
@@ -3839,7 +3843,7 @@ class MotionList extends HTMLElement {
     this.motionReduced = theme.config.motionReduced || this.hasAttribute('motion-reduced');
 
     if (this.motionReduced || this.initialized) return;
-    
+
     this.unload();
     Motion.inView(this, this.load.bind(this));
   }
@@ -3868,18 +3872,18 @@ class MotionList extends HTMLElement {
     const viewportHeight = window.innerHeight + window.scrollY;
     const visible = [];
     const invisible = [];
-    
+
     items.forEach(item => {
       const rect = item.getBoundingClientRect();
       const isVisible = rect.top < viewportHeight && rect.bottom > 0;
-      
+
       if (isVisible) {
         visible.push(item);
       } else {
         invisible.push(item);
       }
     });
-    
+
     return { visible, invisible };
   }
 
@@ -3904,7 +3908,7 @@ class MotionList extends HTMLElement {
   async reload() {
     const { distance, duration, staggerDelay } = this.getAnimationParams();
     const { visible: visibleItems, invisible: inVisibleItems } = this.getVisibleItems(this.itemsToShow);
-    
+
     await Motion.animate(visibleItems, { y: [distance, 0], opacity: [0, 1], visibility: ['hidden', 'visible'] }, { duration: duration, delay: Motion.stagger(staggerDelay) }).finished;
     Motion.animate(inVisibleItems, { y: [distance, 0], opacity: [0, 1], visibility: ['hidden', 'visible'] }, { duration: duration });
 
@@ -4324,14 +4328,14 @@ class SliderElement extends HTMLElement {
     const style = window.getComputedStyle(this);
     const hasScrollableOverflow = style.overflow === 'scroll' || style.overflow === 'auto' || style.overflowY === 'scroll' || style.overflowY === 'auto' || style.overflowX === 'scroll' || style.overflowX === 'auto';
     const hasScrollableContent = this.scrollHeight > this.clientHeight || this.scrollWidth > this.clientWidth;
-    
+
     return hasScrollableOverflow && hasScrollableContent;
   }
 
   reset() {
     this._items = Array.from(this.hasAttribute('selector') ? this.querySelectorAll(this.getAttribute('selector')) : this.children);
   }
-  
+
   init() {
     this.hasPendingOnScroll = false;
     this.currentPage = 1;
@@ -4641,7 +4645,7 @@ class DeferredMedia extends HTMLElement {
       if (oldValue === null && newValue === '') {
         return this.dispatchEvent(new CustomEvent('video:play', { bubbles: true }));
       }
-      
+
       if (newValue === null) {
         return this.dispatchEvent(new CustomEvent('video:pause', { bubbles: true }));
       }
@@ -4859,7 +4863,7 @@ class VariantPicker extends HTMLElement {
     this.addEventListener('change', (event) => {
       const target = this.getInputForEventTarget(event.target);
       this.updateSelectionMetadata(event.target);
-      
+
       theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.optionValueSelectionChange, {
         data: {
           event,
@@ -4894,7 +4898,7 @@ class ProductInfo extends HTMLElement {
   pendingRequestUrl = null;
   preProcessHtmlCallbacks = [];
   postProcessHtmlCallbacks = [];
-  
+
   constructor() {
     super();
   }
@@ -5036,12 +5040,12 @@ class ProductInfo extends HTMLElement {
   handleUpdateProductInfo() {
     return (parsedHTML) => {
       const variant = this.getSelectedVariant(parsedHTML);
-      
+
       this.pickupAvailability?.update(variant);
       this.updateOptionValues(parsedHTML);
       this.updateURL(variant?.id);
       this.updateVariantInputs(variant?.id);
-      
+
       if (!variant) {
         this.setUnavailable();
         return;
@@ -5106,7 +5110,7 @@ class ProductInfo extends HTMLElement {
 
   updateVariantInputs(variantId) {
     if (!variantId) return;
-    
+
     const productForms = document.querySelectorAll(`#ProductForm-${this.sectionId}-${this.productId}, #ProductFormInstallment-${this.sectionId}-${this.productId}`);
     productForms.forEach((productForm) => {
       const input = productForm.querySelector('input[name="id"]');
@@ -5173,7 +5177,7 @@ class ProductInfo extends HTMLElement {
 
   updateQuantityRules(parsedHTML) {
     if (!this.quantityInput) return;
-    
+
     theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.quantityRules, {
       data: {
         sectionId: this.sectionId,
@@ -5222,7 +5226,7 @@ class ProductForm extends HTMLFormElement {
   prepareFormData(formData) {
     const bundlesLength = this.bundles.length;
     const itemsArray = new Array(bundlesLength + 1);
-    
+
     for (let i = 0; i < bundlesLength; i++) {
       const reverseIndex = bundlesLength - 1 - i;
       itemsArray[i] = {
@@ -5230,12 +5234,12 @@ class ProductForm extends HTMLFormElement {
         quantity: 1
       };
     }
-    
+
     const allFormData = { items: itemsArray.slice(0, bundlesLength) };
-    
+
     const json = {};
     const formEntries = Array.from(formData.entries());
-    
+
     for (const [name, value] of formEntries) {
       if (name === 'id' || name === 'quantity' || name.includes('properties')) {
         if (name === 'id' || name === 'quantity') {
@@ -5250,7 +5254,7 @@ class ProductForm extends HTMLFormElement {
         allFormData[name] = value;
       }
     }
-    
+
     allFormData.items.push(json);
     return allFormData;
   }
@@ -5271,7 +5275,7 @@ class ProductForm extends HTMLFormElement {
         return;
       }
     }
-    
+
     event.preventDefault();
     if (this.submitButton.hasAttribute('aria-disabled')) return;
     this.activeElement = event.submitter || event.currentTarget;
@@ -5280,7 +5284,7 @@ class ProductForm extends HTMLFormElement {
 
     let sectionsToBundle = [];
     document.documentElement.dispatchEvent(new CustomEvent('cart:bundled-sections', { bubbles: true, detail: { sections: sectionsToBundle } }));
-    
+
     const config = theme.utils.fetchConfig('javascript');
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     delete config.headers['Content-Type'];
@@ -5316,7 +5320,7 @@ class ProductForm extends HTMLFormElement {
               errorMessage: parsedState.description
             }
           }));
-          
+
           const submitButtonText = this.submitButton.querySelector('.btn-text>span');
           if (!submitButtonText || !submitButtonText.hasAttribute('data-sold-out')) return;
           submitButtonText.innerText = submitButtonText.getAttribute('data-sold-out');
@@ -5360,7 +5364,7 @@ class ProductForm extends HTMLFormElement {
 
   handleErrorMessage(errorMessage = false) {
     if (this.hideErrors) return;
-    
+
     this.errorMessage = this.errorMessage || this.querySelector('.product-form__error-message');
     if (!this.errorMessage) return;
 
@@ -5482,7 +5486,7 @@ class ProductStickyForm extends HTMLElement {
 
   handleErrorMessage(errorMessage = false) {
     if (this.productForm?.hideErrors) return;
-    
+
     this.errorMessage = this.errorMessage || this.querySelector('.product-form__error-message');
     if (!this.errorMessage) return;
 
@@ -5611,7 +5615,7 @@ class MediaGallery extends HTMLElement {
     });
 
     (this.productForm ?? document).addEventListener('variant:change', this.onVariantChanged.bind(this));
-    
+
     this.addEventListener('lightbox:open', (event) => this.openZoom(event.detail.index));
     this.sliderGallery.addEventListener('slider:change', this.onSlideChange.bind(this));
 
@@ -5720,7 +5724,7 @@ class MediaGallery extends HTMLElement {
 
   playActiveMedia(activeMedia) {
     if (typeof activeMedia === 'undefined') return;
-    
+
     const deferredMedia = activeMedia.querySelector('.deferred-media');
 
     this.sliderGallery.querySelectorAll('.deferred-media').forEach((media) => {
@@ -5753,7 +5757,7 @@ class MediaGallery extends HTMLElement {
           thumbCropped: true
         };
       }
-      
+
       if (media.getAttribute('data-media-type') === 'video' || media.getAttribute('data-media-type') === 'external_video' || media.getAttribute('data-media-type') === 'model') {
         const video = media.querySelector('.deferred-media');
         return {
@@ -5770,7 +5774,7 @@ class MediaGallery extends HTMLElement {
         };
       }
     });
-    
+
     if (this.mediaPreview && this.mediaPreview.offsetParent) {
       if (this.mediaPreview.getAttribute('data-media-type') === 'image') {
         const image = this.mediaPreview.querySelector('img');
@@ -5851,7 +5855,7 @@ class MediaHoverButton extends MediaLightboxButton {
       if (media) {
         const image = media.querySelector('img');
         this.gallery = this.closest('slider-element');
-  
+
         this.magnify(image);
         this.moveWithHover(image, event);
       }
@@ -5863,16 +5867,16 @@ class MediaHoverButton extends MediaLightboxButton {
     overlayImage.setAttribute('src', `${image.src}`);
     const overlay = document.createElement('media-hover-overlay');
     this.prepareOverlay(overlay, overlayImage);
-  
+
     this.toggleLoadingSpinner(image);
-  
+
     overlayImage.onload = () => {
       this.toggleLoadingSpinner(image);
       image.parentElement.insertBefore(overlay, image);
     };
 
     if (this.gallery) this.gallery.classList.add('magnify');
-  
+
     return overlay;
   }
 
@@ -5882,7 +5886,7 @@ class MediaHoverButton extends MediaLightboxButton {
     container.style.backgroundImage = `url('${image.src}')`;
     container.style.cursor = 'zoom-out';
   }
-  
+
   toggleLoadingSpinner(image) {
     const loadingSpinner = image.parentElement;
     loadingSpinner.classList.toggle('loading');
@@ -5996,7 +6000,7 @@ class LogoList extends HTMLElement {
   init() {
     if (this.childElementCount === 1) {
       this.childElement.classList.add('animated');
-      
+
       const maximum = this.maximum;
       for (let index = 0; index < maximum; index++) {
         this.clone = this.childElement.cloneNode(true);
@@ -6016,13 +6020,13 @@ class LogoList extends HTMLElement {
           freeScroll: true,
           rightToLeft: this.direction === 'right',
         });
-  
+
         // Set initial position to be 0
         this.marquee.x = 0;
-  
+
         // Start the marquee animation
         this.play();
-  
+
         this.addEventListener('mouseenter', this.pause);
         this.addEventListener('mouseleave', this.play);
       }
@@ -6115,7 +6119,7 @@ class TabsElement extends HTMLElement {
 
     const toPanel = document.getElementById(toButton.getAttribute('aria-controls'));
     Motion.animate(toPanel, { transform: ['translateY(2rem)', 'translateY(0)'], opacity: [0, 1] }, { duration: theme.config.motionReduced ? 0 : 0.15 });
-    
+
     const motionList = toPanel.querySelector('motion-list');
     if (motionList && motionList.initialized) {
       motionList.load();
@@ -6163,7 +6167,7 @@ class TabsElement extends HTMLElement {
     if (fromPanel) {
       await Motion.animate(fromPanel, { transform: ['translateY(0)', 'translateY(2rem)'], opacity: [1, 0] }, { duration: theme.config.motionReduced ? 0 : 0.15 }).finished;
     }
-    
+
     fromPanel.hidden = true;
     toPanel.hidden = false;
     Motion.animate(toPanel, { transform: ['translateY(2rem)', 'translateY(0)'], opacity: [0, 1] }, { duration: theme.config.motionReduced ? 0 : 0.15 });
@@ -6172,7 +6176,7 @@ class TabsElement extends HTMLElement {
     if (motionList && motionList.initialized) {
       motionList.load();
     }
-    
+
     theme.a11y.trapFocus(this, toPanel.querySelector('slider-element') || toPanel.querySelector('a'));
   }
 }
@@ -6276,7 +6280,7 @@ class ImageComparison extends HTMLElement {
     this.button.addEventListener('touchstart', this.startHandler.bind(this), theme.supportsPassive ? { passive: false } : false);
     document.body.addEventListener('touchend', this.endHandler.bind(this), theme.supportsPassive ? { passive: true } : false);
     document.body.addEventListener('touchmove', this.onHandler.bind(this), theme.supportsPassive ? { passive: true } : false);
-    
+
     this.button.addEventListener('mousedown', this.startHandler.bind(this));
     document.body.addEventListener('mouseup', this.endHandler.bind(this));
     document.body.addEventListener('mousemove', this.onHandler.bind(this));
@@ -6306,18 +6310,18 @@ class ImageComparison extends HTMLElement {
 
   onHandler(e) {
     if (!this.active) return;
-    
+
     const event = (e.touches && e.touches[0]) || e;
     let x = this.horizontal
                 ? event.pageX - (this.bounding.left + window.scrollX)
                 : event.pageY - (this.bounding.top + window.scrollY);
-                
+
     this.scrollIt(x);
   }
 
   scrollIt(x) {
     const distance = this.horizontal ? this.clientWidth : this.clientHeight;
-    
+
     const max = distance - 20;
     const min = 20;
     const mouseX = Math.max(min, (Math.min(x, max)));
@@ -6534,7 +6538,7 @@ class SlideshowElement extends HTMLElement {
       this.addEventListener('slider:next', () => this.slider.next());
       this.addEventListener('slider:play', () => this.slider.playPlayer());
       this.addEventListener('slider:pause', () => this.slider.pausePlayer());
-  
+
       if (Shopify.designMode) {
         this.addEventListener('shopify:block:select', (event) => this.slider.select(this.items.indexOf(event.target)));
       }
@@ -6675,7 +6679,7 @@ class SlideshowWords extends HTMLElement {
       this.items.forEach((item) => {
         item.setAttribute('aria-current', parseInt(item.getAttribute('data-index')) === parseInt(this.selectedIndex) ? 'true' : 'false');
       });
-      
+
       toWords.forEach((element) => element.refresh());
     }, 500 + (30 * fromWords.length));
   }
@@ -6891,7 +6895,7 @@ class RevealBanner extends HTMLElement {
       Motion.animate(this.querySelectorAll('.banner__media'), { clipPath: ['inset(20% 35% 0% 35% round var(--rounded-block))', 'inset(0% 0%)'] }, { easing: 'linear' }),
       { target: tracker, offset: Motion.ScrollOffset.Enter }
     );
-    
+
     const tracker2nd = this.querySelector('.reveal-banner__tracker2nd');
     if (tracker2nd) {
       Motion.scroll(Motion.timeline([
@@ -7173,7 +7177,7 @@ class ProductBundle extends HTMLElement {
       });
       return;
     }
-    
+
     event.preventDefault();
     if (this.submitButton.hasAttribute('aria-disabled')) return;
     this.activeElement = event.submitter || event.currentTarget;
@@ -7182,7 +7186,7 @@ class ProductBundle extends HTMLElement {
 
     let sectionsToBundle = [];
     document.documentElement.dispatchEvent(new CustomEvent('cart:bundled-sections', { bubbles: true, detail: { sections: sectionsToBundle } }));
-    
+
     const body = JSON.stringify({
       ...data,
       sections: sectionsToBundle,
@@ -7202,7 +7206,7 @@ class ProductBundle extends HTMLElement {
               errorMessage: parsedState.description
             }
           }));
-          
+
           const submitButtonText = this.submitButton.querySelector('.btn-text>span');
           if (!submitButtonText || !submitButtonText.hasAttribute('data-sold-out')) return;
           submitButtonText.innerText = submitButtonText.getAttribute('data-sold-out');
@@ -7238,7 +7242,7 @@ class ProductBundle extends HTMLElement {
 
   handleErrorMessage(errorMessage = false) {
     if (this.hideErrors) return;
-    
+
     this.errorMessage = this.errorMessage || this.querySelector('.product-form__error-message');
     if (!this.errorMessage) return;
 
@@ -7327,7 +7331,7 @@ class ProductBundle extends HTMLElement {
             <ul class="grid gap-1d5">
               ${variant.options.map(option => {
                 if (option !== 'Default Title') {
-                 return `<li class="text-xs text-opacity leading-tight">${option}</li>`; 
+                 return `<li class="text-xs text-opacity leading-tight">${option}</li>`;
                 }
               }).join('')}
             </ul>
@@ -7663,7 +7667,7 @@ class IconsCarousel extends HTMLDivElement {
     const style = window.getComputedStyle(this);
     const hasScrollableOverflow = style.overflow === 'scroll' || style.overflow === 'auto' || style.overflowY === 'scroll' || style.overflowY === 'auto' || style.overflowX === 'scroll' || style.overflowX === 'auto';
     const hasScrollableContent = this.scrollHeight > this.clientHeight || this.scrollWidth > this.clientWidth;
-    
+
     return hasScrollableOverflow && hasScrollableContent;
   }
 
@@ -7678,7 +7682,7 @@ class IconsCarousel extends HTMLDivElement {
 
   disconnectedCallback() {
     if (theme.config.isTouch) return;
-    
+
     this.removeEventListener('mouseenter', this.onEnterListener);
     this.removeEventListener('mouseleave', this.onLeaveListener);
     document.removeEventListener('matchSmall', this.onUpdateTabindex);
@@ -7729,7 +7733,7 @@ class ComparisonTable extends HTMLElement {
     this.addEventListener('scroll', theme.utils.throttle(this.onScrollHandler.bind(this)));
     this.tableSticky.addEventListener('scroll', theme.utils.throttle(this.onStickyScrollHandler.bind(this)));
 
-    Motion.scroll(({ y }) => 
+    Motion.scroll(({ y }) =>
       {
         if (y.current >= y.targetOffset + this.tableSticky.clientHeight / 2 && y.progress < 0.85) {
           this.tableSticky.classList.add('active');
@@ -7761,7 +7765,7 @@ class ComparisonTable extends HTMLElement {
         if (this.highlighted) {
           const columns = Array.from(item.querySelectorAll('.comparison-table__column'));
           const first_column = columns[0];
-          
+
           let highlighted = false;
           columns.forEach((column) => {
             console.log(column.innerHTML);
@@ -7800,7 +7804,7 @@ class ProductComparison extends HTMLSelectElement {
   get controlledElement() {
     return this.hasAttribute('aria-controls') ? document.getElementById(this.getAttribute('aria-controls')) : null;
   }
-  
+
   get items() {
     return Array.from(this.controlledElement.querySelectorAll('select[is="product-comparison"]'));
   }
@@ -7925,7 +7929,7 @@ class ScrollSpy extends HTMLElement {
     this.scrollspyLinks.forEach(link => {
       link.addEventListener('click', this.handleScrollspyLinkClick.bind(this));
     });
-    
+
     if (this.backToTopButton) {
       this.backToTopButton.addEventListener('click', this.handleBackToTopClick.bind(this));
     }
@@ -7942,7 +7946,7 @@ class ScrollSpy extends HTMLElement {
 
     const targetIds = link.hasAttribute('data-target') ? link.getAttribute('data-target').split(',') : [];
     const section = document.getElementById(targetIds[0]);
-    
+
     if (section) {
       const sectionTop = window.scrollY + section.getBoundingClientRect().top - this.headerHeight;
       window.scrollTo({
@@ -7961,25 +7965,25 @@ class ScrollSpy extends HTMLElement {
 
   updateActiveLink() {
     let current = '';
-      
+
     this.scrollspyLinks.forEach(link => {
       const targetIds = link.hasAttribute('data-target') ? link.getAttribute('data-target').split(',') : [];
 
       targetIds.forEach((targetId) => {
         const section = document.getElementById(targetId);
-        
+
         if (section) {
           const offset = 0;
           const sectionTop = section.offsetTop - offset;
           const sectionBottom = sectionTop + section.offsetHeight;
-          
+
           if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionBottom) {
             current = targetId;
           }
         }
       });
     });
-    
+
     this.scrollspyLinks.forEach(link => {
       const targetIds = link.hasAttribute('data-target') ? link.getAttribute('data-target').split(',') : [];
       let active = false;

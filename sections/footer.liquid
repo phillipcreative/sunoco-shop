@@ -42,45 +42,46 @@
         </div>
       </div>
     {%- endif -%}
+    {% comment %}
+      {%- if section.settings.enable_newsletter or section.settings.show_social or shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+        <div class="footer__right grid gap-10">
+          {%- if section.settings.enable_newsletter -%}
+            <div class="footer__newsletter grid gap-6">
+              {%- if section.settings.newsletter_logo -%}
+                <p class="footer__logo leading-none">
+                  <a href="{{ routes.root_url }}">
+                    <span class="sr-only">{{ shop.name }}</span>
+                    {%- capture sizes -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px{%- endcapture -%}
+                    {%- capture widths -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}, {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio | times: 2 | at_most: section.settings.newsletter_logo.width }}{%- endcapture -%}
+                    {%- capture style -%}--image-width: {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px; --image-height: {{ section.settings.newsletter_logo_height }}px;{%- endcapture -%}
+                    {{- section.settings.newsletter_logo | image_url: width: section.settings.newsletter_logo.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, style: style, preload: true, is: 'lazy-image' -}}
+                  </a>
+                </p>
+              {%- endif -%}
 
-    {%- if section.settings.enable_newsletter or section.settings.show_social or shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-      <div class="footer__right grid gap-10">
-        {%- if section.settings.enable_newsletter -%}
-          <div class="footer__newsletter grid gap-6">
-            {%- if section.settings.newsletter_logo -%}
-              <p class="footer__logo leading-none">
-                <a href="{{ routes.root_url }}">
-                  <span class="sr-only">{{ shop.name }}</span>
-                  {%- capture sizes -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px{%- endcapture -%}
-                  {%- capture widths -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}, {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio | times: 2 | at_most: section.settings.newsletter_logo.width }}{%- endcapture -%}
-                  {%- capture style -%}--image-width: {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px; --image-height: {{ section.settings.newsletter_logo_height }}px;{%- endcapture -%}
-                  {{- section.settings.newsletter_logo | image_url: width: section.settings.newsletter_logo.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, style: style, preload: true, is: 'lazy-image' -}}
-                </a>
-              </p>
-            {%- endif -%}
+              <p class="h3 text-xl {{ section.settings.newsletter_heading_size }} leading-none tracking-none font-medium lg:font-heading">{{ section.settings.newsletter_heading | escape }}</p>
+              {%- render 'newsletter-form', section_id: section.id, context: 'footer' -%}
 
-            <p class="h3 text-xl {{ section.settings.newsletter_heading_size }} leading-none tracking-none font-medium lg:font-heading">{{ section.settings.newsletter_heading | escape }}</p>
-            {%- render 'newsletter-form', section_id: section.id, context: 'footer' -%}
+              {%- if section.settings.newsletter_text != blank -%}
+                <div class="rte text-sm leading-tight">{{ section.settings.newsletter_text }}</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
 
-            {%- if section.settings.newsletter_text != blank -%}
-              <div class="rte text-sm leading-tight">{{ section.settings.newsletter_text }}</div>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+          {%- if section.settings.show_social -%}
+            <div class="footer__socials flex align-self-end justify-start md:justify-end xl:justify-start">
+              {%- render 'social-icons', size: 'lg', gap: '7' -%}
+            </div>
+          {%- endif -%}
 
-        {%- if section.settings.show_social -%}
-          <div class="footer__socials flex align-self-end justify-start md:justify-end xl:justify-start">
-            {%- render 'social-icons', size: 'lg', gap: '7' -%}
-          </div>
-        {%- endif -%}
-
-        {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-          <div class="follow-on-shop">
-            {{- shop | login_button: action: 'follow' -}}
-          </div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+            <div class="follow-on-shop">
+              {{- shop | login_button: action: 'follow' -}}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {% endcomment %}
   </div>
 
   {%- if section.settings.enable_parallax -%}

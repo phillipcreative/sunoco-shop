@@ -50,6 +50,8 @@
   :root {
     /*! General */
     --color-base-text: {{ settings.color_text.rgb }};
+    --color-base-heading: {% if settings.type_heading_color != blank %}{{ settings.type_heading_color.rgb }}{% else %}{{ settings.color_text.rgb }}{% endif %};
+    --color-base-body: {% if settings.type_body_color != blank %}{{ settings.type_body_color.rgb }}{% else %}{{ settings.color_text.rgb }}{% endif %};
     --color-base-highlight: {{ settings.color_highlight.rgb }};
     --color-base-background: {{ settings.color_background.rgb }};
     --color-base-button: {{ settings.color_button_background.rgb }};
@@ -69,7 +71,7 @@
     --color-error-background: {{ settings.color_error_background.rgb }};
     --color-info-text: {{ settings.color_info_text.rgb }};
     --color-info-background: {{ settings.color_info_background.rgb }};
-    
+
     /*! Menu and drawers */
     --color-drawer-text: {{ settings.color_drawer_text.rgb }};
     --color-drawer-background: {{ settings.color_drawer_background.rgb }};

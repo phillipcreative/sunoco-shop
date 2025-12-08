@@ -1,4 +1,13 @@
-{
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+ {
   "type": "footer",
   "name": "t:sections.footer-group.name",
   "sections": {
@@ -9,9 +18,9 @@
           "type": "column",
           "settings": {
             "icon": "support",
-            "custom_icon": "",
+            "custom_icon": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 36 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<rect x=\"5\" y=\"16\" width=\"7\" height=\"10\" fill=\"#FFDF1C\"></rect>\n<rect x=\"23\" y=\"16\" width=\"7\" height=\"10\" fill=\"#FFDF1C\"></rect>\n<rect width=\"36\" height=\"36\" fill=\"url(#pattern0_94_77)\"></rect>\n<defs>\n<pattern id=\"pattern0_94_77\" patterncontentunits=\"objectBoundingBox\" width=\"1\" height=\"1\">\n<use xlink:href=\"#image0_94_77\" transform=\"scale(0.0104167)\"></use>\n</pattern>\n<image id=\"image0_94_77\" width=\"96\" height=\"96\" preserveaspectratio=\"none\" xlink:href=\"data:image/png;base64,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\"></image>\n</defs>\n</svg>",
             "heading": "Customer service",
-            "text": "<p>It’s not actually free we just price it into the products.<\/p>",
+            "text": "<p>Discover our commitment to exceptional customer service with every purchase. Your satisfaction is always our top priority.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
@@ -20,9 +29,9 @@
           "type": "column",
           "settings": {
             "icon": "box",
-            "custom_icon": "",
+            "custom_icon": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 36 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<path d=\"M3 10.5L18.5 19V34.5L3 25V10.5Z\" fill=\"#FFDF1C\"></path>\n<path d=\"M33.5 10.5L18 19V34.5L33.5 25V10.5Z\" fill=\"#FFDF1C\"></path>\n<rect width=\"36\" height=\"36\" fill=\"url(#pattern0_94_86)\"></rect>\n<defs>\n<pattern id=\"pattern0_94_86\" patterncontentunits=\"objectBoundingBox\" width=\"1\" height=\"1\">\n<use xlink:href=\"#image0_94_86\" transform=\"scale(0.0104167)\"></use>\n</pattern>\n<image id=\"image0_94_86\" width=\"96\" height=\"96\" preserveaspectratio=\"none\" xlink:href=\"data:image/png;base64,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\"></image>\n</defs>\n</svg>",
             "heading": "Fast Free Shipping",
-            "text": "<p>Get free shipping on orders of $150 or more<\/p>",
+            "text": "<p>Get your essentials delivered for free! Spend $100 or more and enjoy complimentary shipping on all orders.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
@@ -31,9 +40,9 @@
           "type": "column",
           "settings": {
             "icon": "users",
-            "custom_icon": "",
+            "custom_icon": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 36 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<path d=\"M5.5 25.75L4.5 8.25L18.5 2L31 7.75V25.75L17.5 34.25L5.5 25.75Z\" fill=\"#FFDF1C\"></path>\n<rect width=\"36\" height=\"36\" fill=\"url(#pattern0_94_95)\"></rect>\n<defs>\n<pattern id=\"pattern0_94_95\" patterncontentunits=\"objectBoundingBox\" width=\"1\" height=\"1\">\n<use xlink:href=\"#image0_94_95\" transform=\"scale(0.0104167)\"></use>\n</pattern>\n<image id=\"image0_94_95\" width=\"96\" height=\"96\" preserveaspectratio=\"none\" xlink:href=\"data:image/png;base64,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\"></image>\n</defs>\n</svg>",
             "heading": "Refer a friend",
-            "text": "<p>Refer a friend and get 15% off each other.<\/p>",
+            "text": "<p>Shop confidently knowing your payment information is securely processed. Your privacy and security are our top priorities.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
@@ -42,9 +51,9 @@
           "type": "column",
           "settings": {
             "icon": "shield",
-            "custom_icon": "",
+            "custom_icon": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 36 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<path d=\"M20.5 32.5H3L1.5 26L5.5 21.5H18L22.5 26L20.5 32.5Z\" fill=\"#FFDF1C\"></path>\n<circle cx=\"12\" cy=\"8.5\" r=\"6\" fill=\"#FFDF1C\"></circle>\n<rect width=\"36\" height=\"36\" fill=\"url(#pattern0_94_103)\"></rect>\n<defs>\n<pattern id=\"pattern0_94_103\" patterncontentunits=\"objectBoundingBox\" width=\"1\" height=\"1\">\n<use xlink:href=\"#image0_94_103\" transform=\"scale(0.0104167)\"></use>\n</pattern>\n<image id=\"image0_94_103\" width=\"96\" height=\"96\" preserveaspectratio=\"none\" xlink:href=\"data:image/png;base64,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\"></image>\n</defs>\n</svg>",
             "heading": "Secure payment",
-            "text": "<p>Your payment information is processed securely<\/p>",
+            "text": "<p>Refer a friend and get 15% off each other.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
@@ -68,6 +77,8 @@
         "description": "",
         "button_label": "",
         "button_link": "",
+        "button_external": false,
+        "button_icon": true,
         "highlighted_text": "none",
         "highlighted_scribble": "circle",
         "color_text": "",
@@ -78,21 +89,91 @@
         "color_button_text": "",
         "color_button_background": "",
         "color_button_gradient": "",
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_top": 32,
+        "padding_bottom": 32,
         "divider": true,
         "full_width": false,
         "rounded": false
       }
     },
+    "newsletter_gTet3M": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_fk7Pi3": {
+          "type": "heading",
+          "settings": {
+            "heading": "SIGN UP AND SAVE",
+            "heading_size": "title-sm",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "text_E4pU6n": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Sign up and be the first to know about exclusive deals and new products!</p>",
+            "text_font": "body",
+            "text_size": "subtext-md",
+            "text_max_size": 32,
+            "text_line_height": 1.6,
+            "text_letter_spacing": 0,
+            "text_capitalize": false,
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "form_hwJi7X": {
+          "type": "form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_fk7Pi3",
+        "text_E4pU6n",
+        "form_hwJi7X"
+      ],
+      "name": "t:sections.newsletter.name",
+      "settings": {
+        "content_width": "medium",
+        "text_alignment": "center",
+        "text_alignment_mobile": "center",
+        "background_image": "shopify://shop_images/df51903cc2664e2d9511a4839f30f220772b6570.jpg",
+        "image_height": "650px",
+        "content_position": "md:items-center md:justify-center",
+        "image_height_mobile": "auto",
+        "content_position_mobile": "items-center justify-center",
+        "color_text": "",
+        "color_background": "#ffffff",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "color_overlay": "#171717",
+        "overlay_opacity": 27,
+        "box_background_color": "#ffffff",
+        "box_border_radius": 16,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "narrow": true,
+        "rounded": false,
+        "full_width": true,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
-        "logo_social": {
+        "logo_social_jGnfiC": {
           "type": "logo_social",
           "settings": {
-            "logo": "{{ shop.brand.logo }}",
-            "logo_height": 50,
+            "logo": "shopify://shop_images/Logo_4ec5be2f-cb31-43dc-bfe5-63b1ea8b45e1.svg",
+            "logo_height": 106,
             "show_social": false,
             "enable_follow_on_shop": false
           }
@@ -102,7 +183,8 @@
           "settings": {
             "heading": "Quick links",
             "menu": "footer",
-            "container_width": 50
+            "container_width": 50,
+            "opened": false
           }
         },
         "link_list-2": {
@@ -110,43 +192,27 @@
           "settings": {
             "heading": "Information",
             "menu": "footer",
-            "container_width": 50
-          }
-        },
-        "brand_information": {
-          "type": "brand_information",
-          "settings": {
-            "heading": "",
-            "button_label_1": "+21 (0) 987654321",
-            "button_link_1": "tel:+21(0)987654321",
-            "button_label_2": "hello@domain.com",
-            "button_link_2": "mailto:hello@domain.com",
-            "button_label_3": "",
-            "button_link_3": "",
-            "button_label_4": "",
-            "button_link_4": "",
-            "container_width": 95
+            "container_width": 50,
+            "opened": false
           }
         }
       },
       "block_order": [
-        "logo_social",
+        "logo_social_jGnfiC",
         "link_list-1",
-        "link_list-2",
-        "brand_information"
+        "link_list-2"
       ],
       "settings": {
         "invert_newsletter_others": false,
-        "enable_newsletter": true,
+        "enable_newsletter": false,
         "newsletter_heading": "Stay in the loop with our weekly newsletter",
         "newsletter_heading_size": "md:title-lg",
         "newsletter_text": "",
-        "newsletter_logo": "",
         "newsletter_logo_height": 50,
         "show_social": true,
         "enable_follow_on_shop": false,
-        "color_text": "#ffffff",
-        "color_background": "#1f1f1f",
+        "color_text": "#000000",
+        "color_background": "#ffffff",
         "gradient_background": "",
         "color_button_text": "#000000",
         "color_button_background": "#ffffff",
@@ -156,7 +222,7 @@
         "divider": false,
         "full_width": false,
         "rounded": true,
-        "enable_parallax": true
+        "enable_parallax": false
       }
     },
     "footer-copyright": {
@@ -169,8 +235,8 @@
         "monochrome_payment_icons": false,
         "show_copyright": true,
         "copyright_text": "",
-        "color_text": "#ffffff",
-        "color_background": "#171717",
+        "color_text": "#000000",
+        "color_background": "#ffffff",
         "gradient_background": "",
         "divider": false,
         "full_width": true,
@@ -181,6 +247,7 @@
   },
   "order": [
     "multicolumn-with-icons",
+    "newsletter_gTet3M",
     "footer",
     "footer-copyright"
   ]

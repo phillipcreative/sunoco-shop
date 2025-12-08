@@ -60,7 +60,7 @@
             </style>
           </template>
         </scroll-shadow>
-        
+
         {%- if section.settings.carousel_on_desktop -%}
           {%- for block in section.blocks -%}
             <div class="indicators hidden lg:flex gap-2d5"{% unless forloop.first %} hidden{% endunless %} data-index="{{ forloop.index0 }}">
@@ -80,7 +80,7 @@
           {%- endfor -%}
         {%- endif -%}
       </tabs-element>
-      
+
       {%- for block in section.blocks -%}
         {%- liquid
           assign collection = block.settings.collection
@@ -90,7 +90,7 @@
           <div id="TabPanelContent-{{ block.id }}">
             {%- if section_rendering_api or forloop.first -%}
               <slider-element id="Slider-{{ block.id }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card"{% if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile %} tabindex="0"{% endif %}>
-                <motion-list class="product-grid card-grid card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid">
+                <motion-list class="product-grid card-grid test123 card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid">
                   {%- for product in products limit: section.settings.product_limit -%}
                     {%- render 'product-card',
                       product: product,
@@ -125,7 +125,7 @@
                   {%- endfor -%}
                 </motion-list>
               </slider-element>
-        
+
               {%- if section.settings.show_view_all and collection != blank and section.settings.product_limit < collection.all_products_count -%}
                 <p class="text-center">
                   <a class="button button--secondary icon-with-text" href="{{ collection.url }}" is="hover-link" aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: collection.title }}">

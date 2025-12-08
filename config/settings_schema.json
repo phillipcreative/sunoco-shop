@@ -255,6 +255,12 @@
         "content": "t:settings_schema.typography.settings.header__headings"
       },
       {
+        "type": "color",
+        "id": "type_heading_color",
+        "label": "Heading text color",
+        "default": "#171717"
+      },
+      {
         "type": "font_picker",
         "id": "type_header_font",
         "label": "t:settings_schema.typography.settings.type_header_font.label",
@@ -286,6 +292,12 @@
       {
         "type": "header",
         "content": "t:settings_schema.typography.settings.header__body"
+      },
+      {
+        "type": "color",
+        "id": "type_body_color",
+        "label": "Body text color",
+        "default": "#171717"
       },
       {
         "type": "font_picker",

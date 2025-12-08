@@ -1,4 +1,13 @@
-{
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+ {
   "sections": {
     "image_with_text_overlay_JkzBgY": {
       "type": "image-with-text-overlay",
@@ -16,7 +25,7 @@
         "heading_dnyDtP": {
           "type": "heading",
           "settings": {
-            "heading": "<em>ONLINE STORE<\/em>",
+            "heading": "<em>ONLINE STORE</em>",
             "heading_size": "title-lg tracking-heading",
             "heading_tag": "h1",
             "highlighted_text": "text",
@@ -49,8 +58,8 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "transparent_header": false,
-        "image": "shopify:\/\/shop_images\/99b6b47e4b5155668f0aa27c2192422d06038e9d.jpg",
-        "image_height": "600px",
+        "image": "shopify://shop_images/99b6b47e4b5155668f0aa27c2192422d06038e9d.jpg",
+        "image_height": "800px",
         "content_width": "large",
         "content_position": "md:items-center md:justify-center",
         "text_alignment": "center",
@@ -76,37 +85,25 @@
         "parallax_direction": "vertical"
       }
     },
-    "homepage_featured_collection_QjmjUT": {
-      "type": "homepage-featured-collection",
-      "name": "HP Featured Collection",
-      "settings": {}
-    },
-    "featured_product_home_zdGT6y": {
-      "type": "featured-product-home",
-      "name": "Featured Product Home",
+    "product_list_AyhGWz": {
+      "type": "product-list",
+      "name": "Product list",
       "settings": {
-        "product": "",
-        "side_heading": "Shop Fuel Jugs",
-        "side_subtext": "Heavy-duty jugs built for performance.",
-        "side_link_text": "Shop Now",
-        "side_link_url": "",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "featured_collection_DzjhCx": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.name",
-      "settings": {
-        "collection": "",
+        "collection": "frontpage",
         "products": [],
-        "product_limit": 6,
-        "columns": 3,
+        "product_limit": 8,
+        "columns": 4,
         "carousel_on_desktop": true,
         "show_view_all": false,
+        "show_featured_image": true,
+        "featured_image": "shopify://shop_images/Frame_2.png",
+        "featured_heading": "NEW PRODUCTS",
+        "featured_link": "",
+        "button_background_color": "",
+        "button_padding": 12,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
-        "heading": "SHOP APPAREL",
+        "heading": "",
         "heading_size": "title-md",
         "heading_alignment": "text-left md:items-end md:flex-row",
         "heading_tag": "h2",
@@ -129,20 +126,20 @@
         "rounded": false
       }
     },
-    "countdown_timer_z3nbxR": {
+    "countdown_timer_FXcJe4": {
       "type": "countdown-timer",
       "blocks": {
-        "heading_Ay7jYJ": {
+        "heading_VdnKkR": {
           "type": "heading",
           "settings": {
-            "heading": "LIMITED TIME OFFERS",
+            "heading": "Limited Time Offers",
             "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
+            "heading_tag": "h3",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
         },
-        "timer_te9pyq": {
+        "timer_HJiPRB": {
           "type": "timer",
           "settings": {
             "year": "2026",
@@ -155,10 +152,10 @@
             "message": ""
           }
         },
-        "button_NRDgBE": {
+        "button_DzkfCt": {
           "type": "button",
           "settings": {
-            "button_label": "shop all deals",
+            "button_label": "SHOP ALL DEALS",
             "button_link": "",
             "button_style": "primary",
             "button_size": "md",
@@ -168,28 +165,28 @@
         }
       },
       "block_order": [
-        "heading_Ay7jYJ",
-        "timer_te9pyq",
-        "button_NRDgBE"
+        "heading_VdnKkR",
+        "timer_HJiPRB",
+        "button_DzkfCt"
       ],
       "name": "t:sections.countdown-timer.name",
       "settings": {
         "transparent_header": false,
-        "image": "shopify:\/\/shop_images\/Frame_2_fe2e49f4-7014-4a88-983a-9f87937a34fe.png",
+        "image": "shopify://shop_images/Frame_5.jpg",
         "image_height": "650px",
         "content_width": "small",
         "content_position": "md:items-center md:justify-start",
         "text_alignment": "left",
         "image_height_mobile": "auto",
-        "content_position_mobile": "items-center justify-center",
+        "content_position_mobile": "items-center justify-start",
         "text_alignment_mobile": "center",
         "color_text": "#ffffff",
         "color_background": "",
         "gradient_background": "",
         "color_highlight": "#ffdf1c",
         "gradient_highlight": "",
-        "color_button_text": "#171717",
-        "color_button_background": "#ffdf1c",
+        "color_button_text": "#004785",
+        "color_button_background": "#ffffff",
         "color_button_gradient": "",
         "color_overlay": "#171717",
         "overlay_opacity": 0,
@@ -202,15 +199,15 @@
         "parallax_direction": "vertical"
       }
     },
-    "collection_list_jEAC3b": {
+    "collection_list_enUYFV": {
       "type": "collection-list",
       "blocks": {
-        "collection_LpbAtG": {
+        "collection_8RyLfc": {
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify:\/\/shop_images\/Frame_3.png",
-            "title": "SHOP HATS",
+            "image": "shopify://shop_images/Frame_3.png",
+            "title": "shop hats",
             "description": "",
             "overlay_content": true,
             "color_text": "#ffffff",
@@ -218,12 +215,12 @@
             "overlay_opacity": 0
           }
         },
-        "collection_yghdJy": {
+        "collection_mMG7f4": {
           "type": "collection",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify:\/\/shop_images\/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
-            "title": "SHOP T-SHIRTS",
+            "image": "shopify://shop_images/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
+            "title": "shop t-shirts",
             "description": "",
             "overlay_content": true,
             "color_text": "#ffffff",
@@ -233,18 +230,19 @@
         }
       },
       "block_order": [
-        "collection_LpbAtG",
-        "collection_yghdJy"
+        "collection_8RyLfc",
+        "collection_mMG7f4"
       ],
       "name": "t:sections.collection-list.name",
       "settings": {
-        "card_style": "overlap",
+        "card_style": "card",
         "image_type": "collection",
-        "image_ratio": "landscape",
-        "show_products_count": true,
+        "image_ratio": "square",
+        "show_products_count": false,
         "show_view_all": false,
-        "columns": 2,
-        "carousel_on_desktop": false,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "center_content": true,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
         "heading": "",
@@ -255,7 +253,7 @@
         "description": "",
         "highlighted_text": "none",
         "highlighted_scribble": "circle",
-        "color_text": "",
+        "color_text": "#ffffff",
         "color_background": "",
         "gradient_background": "",
         "color_highlight": "",
@@ -263,26 +261,18 @@
         "color_button_text": "",
         "color_button_background": "",
         "color_button_gradient": "",
-        "padding_top": 48,
-        "padding_bottom": 48,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "divider": false,
         "full_width": false,
         "rounded": false
       }
-    },
-    "home_4_col_Xh8Hap": {
-      "type": "home-4-col",
-      "name": "Home 4 Col",
-      "settings": {}
     }
   },
   "order": [
     "image_with_text_overlay_JkzBgY",
-    "homepage_featured_collection_QjmjUT",
-    "featured_product_home_zdGT6y",
-    "featured_collection_DzjhCx",
-    "countdown_timer_z3nbxR",
-    "collection_list_jEAC3b",
-    "home_4_col_Xh8Hap"
+    "product_list_AyhGWz",
+    "countdown_timer_FXcJe4",
+    "collection_list_enUYFV"
   ]
 }
