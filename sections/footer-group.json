@@ -157,7 +157,7 @@
         "box_background_color": "#ffffff",
         "box_border_radius": 16,
         "padding_top": 0,
-        "padding_bottom": 72,
+        "padding_bottom": 0,
         "divider": false,
         "narrow": true,
         "rounded": false,
@@ -172,7 +172,7 @@
         "logo_social_jGnfiC": {
           "type": "logo_social",
           "settings": {
-            "logo": "shopify://shop_images/Logo_4ec5be2f-cb31-43dc-bfe5-63b1ea8b45e1.svg",
+            "logo": "shopify://shop_images/Logo.png",
             "logo_height": 106,
             "show_social": false,
             "enable_follow_on_shop": false
@@ -181,8 +181,8 @@
         "link_list-1": {
           "type": "link_list",
           "settings": {
-            "heading": "Quick links",
-            "menu": "footer",
+            "heading": "Get Started",
+            "menu": "get-started",
             "container_width": 50,
             "opened": false
           }
@@ -190,8 +190,44 @@
         "link_list-2": {
           "type": "link_list",
           "settings": {
-            "heading": "Information",
-            "menu": "footer",
+            "heading": "Fuels",
+            "menu": "fuels",
+            "container_width": 50,
+            "opened": false
+          }
+        },
+        "link_list_4gKRXV": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Sunoco",
+            "menu": "sunoco",
+            "container_width": 50,
+            "opened": false
+          }
+        },
+        "link_list_GDVMtg": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Technical Corner",
+            "menu": "technical-corner",
+            "container_width": 50,
+            "opened": false
+          }
+        },
+        "link_list_cbUTHx": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Contact",
+            "menu": "contact",
+            "container_width": 50,
+            "opened": false
+          }
+        },
+        "link_list_TJniwn": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Buy Fuel",
+            "menu": "buy-fuel",
             "container_width": 50,
             "opened": false
           }
@@ -200,7 +236,11 @@
       "block_order": [
         "logo_social_jGnfiC",
         "link_list-1",
-        "link_list-2"
+        "link_list-2",
+        "link_list_4gKRXV",
+        "link_list_GDVMtg",
+        "link_list_cbUTHx",
+        "link_list_TJniwn"
       ],
       "settings": {
         "invert_newsletter_others": false,
