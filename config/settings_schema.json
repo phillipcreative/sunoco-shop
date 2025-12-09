@@ -261,6 +261,12 @@
         "default": "#171717"
       },
       {
+        "type": "checkbox",
+        "id": "enable_ascap_condendesed",
+        "label": "Enable ASCAP condensed font",
+        "default": false
+      },
+      {
         "type": "font_picker",
         "id": "type_header_font",
         "label": "t:settings_schema.typography.settings.type_header_font.label",

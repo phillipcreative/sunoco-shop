@@ -29,6 +29,10 @@ a.product-card__title {
     font-family: var(--font-heading-family) !important;
 }
 
+.product-card {
+    min-width: 350px !important;
+}
+
 /* Featured Product List Section */
 
 .featured-product-list .product-card .media--square {
@@ -43,6 +47,42 @@ a.product-card__title {
     z-index: 13;
 }
 
+.product-list-featured__content svg path {
+    color: #ffffff !important;
+}
+
+
+.price__regular,
+a.product-card__title,
+.product-list-featured__heading,
+.product-card__details .button{
+    font-family: "Asap Condensed", Helvetica !important;
+}
+
+.product-card__details .button {
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+    font-size: 20px !important;
+}
+
+a.product-card__title {
+    font-weight: 600 !important;
+}
+
+.price__regular {
+    font-size: 40px !important;
+    font-weight: 900 !important;
+}
+
+a.product-card__title {
+    font-size: 30px !important;
+}
+
+.product-list-featured__content .icon-arrow-right {
+    width: 30px !important;
+    height: 30px !important;
+}
+
 /* Collection List Section */
 
 .collection-list-section .media-card__text p .heading{
@@ -55,10 +95,30 @@ a.product-card__title {
     position: absolute !important;
 }
 
+/* MultiColumn Section */
+
+.media-card__text .heading{
+    font-family: "Asap Condensed", Helvetica !important;
+    font-size: 44px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: normal !important;
+}
+
+.media-card__text svg {
+    width: 30px !important;
+    height: 30px !important;
+}
+
 /* Newsletter Banner Section */
 
 .newsletter-section .banner__content {
     color: #000000 !important;
+}
+
+.newsletter-section .banner__title {
+    color: #004785!important;
+    font-weight: 900 !important;
 }
 
 .newsletter-section .banner__box {
@@ -69,4 +129,47 @@ a.product-card__title {
     background-color: #004785 !important;
     color: #ffffff !important;
     min-width: 140px;
+}
+
+/* Countdown Timer Section */
+.split-words .word {
+    text-transform: uppercase !important;
+    letter-spacing: normal !important;
+}
+
+.banner__box .button {
+    font-family: "Asap Condensed", Helvetica !important;
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    text-transform: uppercase !important;
+}
+
+.countdown__item span {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    letter-spacing: normal !important;
+}
+
+.countdown-timer-section .btn-text {
+    font-size: 29px;
+}
+
+.countdown-timer-section .btn-text .icon-arrow-right {
+    width: 35px;
+    height: 35px;
+}
+
+/* Column Call Out Section */
+
+.column__title {
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    text-transform: uppercase;
+}
+
+.column__text.rte {
+    color: #000000 !important;
+    line-height: 20px;
+    font-size: 16px;
+    padding-top: 0px;
 }

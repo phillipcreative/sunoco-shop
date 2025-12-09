@@ -18,7 +18,7 @@
   {% endif -%}
 </style>
 
-<div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}"{% if section.settings.transparent_header %} allow-transparent-header{% endif %}>
+<div class="section section--padding countdown-timer-section {% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}"{% if section.settings.transparent_header %} allow-transparent-header{% endif %}>
   <div class="{% unless section.settings.full_width %}page-width {% endunless %}relative">
     <div class="banner media--{{ section.settings.image_height }} mobile:media--{{ section.settings.image_height_mobile }} relative">
       <media-element class="banner__media block w-full h-full overflow-hidden"{% if section.settings.enable_parallax %} data-parallax="0.3" data-parallax-dir="{{ section.settings.parallax_direction }}"{% endif %}>
@@ -40,7 +40,7 @@
           {%- endif -%}
         </picture>
       </media-element>
-      
+
       {%- if section.blocks.size > 0 -%}
         <span class="banner__overlay absolute top-0 left-0 w-full h-full pointer-events-none"></span>
         <div class="banner__content overflow-hidden absolute z-1 top-0 left-0 w-full h-full">
@@ -51,7 +51,7 @@
                 if section.settings.gradient_highlight != blank and section.settings.gradient_highlight != 'rgba(0,0,0,0)'
                   assign with_gradient = true
                 endif
-    
+
                 assign delay = 0
               -%}
               {%- for block in section.blocks -%}
@@ -143,7 +143,7 @@
                         </figure>
                       </div>
                     {%- endif -%}
-                    
+
                   {%- when 'button' -%}
                     {%- if block.settings.button_label != blank -%}
                       {%- render 'button',

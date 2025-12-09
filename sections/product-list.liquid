@@ -26,7 +26,7 @@
         gap: 32px;
       }
       #shopify-section-{{ section.id }} .product-list-featured {
-        width: 450px;
+        width: 350px;
         flex-shrink: 0;
       }
       #shopify-section-{{ section.id }} .product-list-container--with-featured slider-element {
@@ -53,21 +53,19 @@
     }
     #shopify-section-{{ section.id }} .product-list-featured__content {
       position: absolute;
-      bottom: 0;
+      bottom: 35px;
       left: 0;
       right: 0;
-      padding: 24px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 24px;
     }
     #shopify-section-{{ section.id }} .product-list-featured__heading {
       color: #ffffff;
       font-weight: 900;
-      font-size: 28px;
+      font-size: 36px;
       text-transform: uppercase;
-      letter-spacing: 1.08px;
-      line-height: normal;
     }
     @media (min-width: 1024px) {
       #shopify-section-{{ section.id }} .product-list-featured__heading {
@@ -159,9 +157,9 @@
             {%- if section.settings.featured_heading != blank -%}
               <div class="product-list-featured__content">
                 <span class="product-list-featured__heading">{{ section.settings.featured_heading }}</span>
-                {%- if section.settings.featured_link != blank -%}
-                  {%- render 'icon', icon: 'chevron-right', class: 'product-list-featured__icon' -%}
-                {%- endif -%}
+                <svg class="icon icon-arrow-right transform" viewBox="0 0 16 16" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 8.00012H14M14 8.00012L9.33333 3.3335M14 8.00012L9.33333 12.6668"></path>
+                </svg>
               </div>
             {%- endif -%}
           {%- if section.settings.featured_link != blank -%}
@@ -187,9 +185,9 @@
                 {%- if section.settings.featured_heading != blank -%}
                   <div class="product-list-featured__content">
                     <span class="product-list-featured__heading">{{ section.settings.featured_heading }}</span>
-                    {%- if section.settings.featured_link != blank -%}
-                      {%- render 'icon', icon: 'chevron-right', class: 'product-list-featured__icon' -%}
-                    {%- endif -%}
+                    <svg class="icon icon-arrow-right icon-xs transform" viewBox="0 0 16 16" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 8.00012H14M14 8.00012L9.33333 3.3335M14 8.00012L9.33333 12.6668"></path>
+                  </svg>
                   </div>
                 {%- endif -%}
               {%- if section.settings.featured_link != blank -%}

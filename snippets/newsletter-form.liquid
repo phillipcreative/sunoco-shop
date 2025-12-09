@@ -34,7 +34,7 @@
       autocorrect="off"
       autocapitalize="off"
       autocomplete="email"
-      placeholder="{{ 'general.newsletter.label' | t | escape }}"
+      placeholder="Your Email Address"
       required
       {%- if form.errors %} autofocus{% endif -%}
     />
@@ -49,7 +49,7 @@
       </button>
     </div>
   </div>
-  
+
   {%- liquid
     if form.errors and form.context == context
       assign form_errors = form.errors | default_errors
