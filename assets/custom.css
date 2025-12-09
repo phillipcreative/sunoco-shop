@@ -363,11 +363,19 @@ a.product-card__title {
    ML FEATURED PRODUCT SECTION
    ============================================ */
 
+.ml-featured-product:before {
+    display: none;
+}
+
+.ml-featured-product__content-wrapper {
+    padding: 4rem;
+}
+
 .ml-featured-product__title {
     font-family: "Asap Condensed", Helvetica !important;
     font-weight: 700 !important;
-    font-size: 32px !important;
-    line-height: 1.2 !important;
+    font-size: 44px !important;
+    line-height: 50px !important;
 }
 
 .ml-featured-product__price {
@@ -419,7 +427,9 @@ a.product-card__title {
 }
 
 .ml-featured-product__main-image {
-    border-radius: 0px !important;
+    border-radius: 16px !important;
+    border: 1px solid #CACACA !important;
+    background-color: #FFFFFF !important;
 }
 
 .ml-featured-product__featured-image {
@@ -431,6 +441,36 @@ a.product-card__title {
     height: 30px !important;
 }
 
+.ml-featured-product__featured-image-text {
+    font-family: "Asap Condensed", Helvetica !important;
+    border-radius: 0px !important;
+}
+
+.ml-featured-product__featured-image-text a {
+    color: #004785 !important;
+    text-decoration: none !important;
+}
+
+.ml-featured-product__thumbnails {
+    justify-content: flex-start !important;
+    padding: 12px 0 !important;
+}
+
+.ml-featured-product__description {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.ml-featured-product__variant-selector {
+    display: flex !important;
+    visibility: visible !important;
+}
+
+.ml-featured-product__variant-label {
+    display: block !important;
+    visibility: visible !important;
+}
+
 
 /* ============================================
    FOOTER SECTION
@@ -438,12 +478,6 @@ a.product-card__title {
 
 .footer {
     grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.footer__accordions {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 40px !important;
 }
 
 .footer-copyright {
@@ -461,6 +495,18 @@ a.product-card__title {
     .footer__accordions .details .details__summary {
         padding-bottom: 0px !important;
     }
+
+    .footer__accordions {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 40px !important;
+    }
+
+    .footer__accordions .details,
+    .footer__accordions .no-details {
+        width: 100% !important;
+    }
+
 }
 
 @media screen and (max-width: 1023px) {
@@ -473,9 +519,10 @@ a.product-card__title {
     .footer__accordions {
         grid-template-columns: 1fr !important;
     }
-}
 
-.footer__accordions .details,
-.footer__accordions .no-details {
-    width: 100% !important;
+    .footer__logo {
+        justify-content: center !important;
+        text-align: center !important;
+        align-items: center !important;
+    }
 }

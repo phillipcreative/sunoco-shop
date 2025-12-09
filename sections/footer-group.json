@@ -278,10 +278,10 @@
         "color_text": "#000000",
         "color_background": "#ffffff",
         "gradient_background": "",
-        "divider": false,
+        "divider": true,
         "full_width": true,
-        "rounded": true,
-        "enable_parallax": true
+        "rounded": false,
+        "enable_parallax": false
       }
     }
   },
