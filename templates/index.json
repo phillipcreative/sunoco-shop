@@ -130,6 +130,7 @@
     },
     "ml_featured_product_UVFnB9": {
       "type": "ML-featured-product",
+      "disabled": true,
       "name": "ML Featured Product",
       "settings": {
         "product": "3-gallon-jug-fastflo-kit-ff1000-3",
