@@ -28,6 +28,20 @@
       }
     }
   {% endif -%}
+
+  {%- if section.settings.image_position != blank -%}
+    #shopify-section-{{ section.id }} .banner__image {
+      object-position: {{ section.settings.image_position }};
+    }
+  {%- endif -%}
+
+  {%- if section.settings.image_position_mobile != blank -%}
+    @media screen and (max-width: 767px) {
+      #shopify-section-{{ section.id }} .banner__image {
+        object-position: {{ section.settings.image_position_mobile }};
+      }
+    }
+  {%- endif -%}
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}"{% if section.settings.transparent_header %} allow-transparent-header{% endif %}>
@@ -52,7 +66,7 @@
           {%- endif -%}
         </picture>
       </media-element>
-      
+
       {%- if section.blocks.size > 0 -%}
         <span class="banner__overlay absolute top-0 left-0 w-full h-full pointer-events-none"></span>
         <div class="banner__content overflow-hidden absolute z-1 top-0 left-0 w-full h-full">
@@ -169,7 +183,7 @@
                         </figure>
                       </div>
                     {%- endif -%}
-                    
+
                   {%- when 'button' -%}
                     {%- if block.settings.button_label != blank -%}
                       {%- render 'button',
@@ -222,6 +236,51 @@
       "type": "image_picker",
       "id": "image",
       "label": "t:sections.global.settings.image.label"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "default": "center center",
+      "options": [
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left top",
+          "label": "Top left"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "left bottom",
+          "label": "Bottom left"
+        },
+        {
+          "value": "right top",
+          "label": "Top right"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "right bottom",
+          "label": "Bottom right"
+        }
+      ],
+      "info": "Control which part of the image is visible when it's cropped"
     },
     {
       "type": "select",
@@ -361,6 +420,51 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "t:sections.global.settings.image_mobile.label"
+    },
+    {
+      "type": "select",
+      "id": "image_position_mobile",
+      "label": "Image position (mobile)",
+      "default": "center center",
+      "options": [
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left top",
+          "label": "Top left"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "left bottom",
+          "label": "Bottom left"
+        },
+        {
+          "value": "right top",
+          "label": "Top right"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "right bottom",
+          "label": "Bottom right"
+        }
+      ],
+      "info": "Control which part of the image is visible when it's cropped on mobile"
     },
     {
       "type": "select",

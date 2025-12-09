@@ -1,3 +1,18 @@
+/*-- Hero Section ---*/
+.banner__box a.button.button--primary.button--lg.button--fixed.icon-with-text {
+    font-size: 29px !important;
+    min-width: 240px;
+}
+
+.banner__box h1 {
+    letter-spacing: normal !important;
+}
+
+.banner__box .btn-text .icon-arrow-right {
+    width: 40px;
+    height: 40px;
+}
+
 /*--Product Cards---*/
 
 .card.product-card.product-card--card.flex.flex-col.leading-none.relative {
@@ -11,6 +26,7 @@
 
 .product-card__details {
     flex-direction: column;
+    height: 100%;
 }
 
 .cost_row {
@@ -39,11 +55,15 @@ a.product-card__title {
     border-radius: 0px !important;
 }
 
+.product-list-featured__image {
+    z-index: 13;
+}
+
 .featured-product-list .product-card .button--fixed {
     min-width: 45px !important;
 }
 
-.product-list-featured__wrapper {
+.product-list-featured {
     z-index: 13;
 }
 
@@ -106,8 +126,8 @@ a.product-card__title {
 }
 
 .media-card__text svg {
-    width: 30px !important;
-    height: 30px !important;
+    width: 35px !important;
+    height: 35px !important;
 }
 
 /* Newsletter Banner Section */
@@ -129,6 +149,19 @@ a.product-card__title {
     background-color: #004785 !important;
     color: #ffffff !important;
     min-width: 140px;
+}
+
+/* .newsletter-section .rte.body{
+    margin: 0px !important;
+} */
+
+.newsletter-section .rte.body p {
+    line-height: 27px !important;
+}
+
+.newsletter-form .field .input,
+.newsletter-section .label.is-floating {
+    height: 55px !important;
 }
 
 /* Countdown Timer Section */
