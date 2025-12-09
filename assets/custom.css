@@ -1,4 +1,7 @@
-/*-- Hero Section ---*/
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
 .banner__box a.button.button--primary.button--lg.button--fixed.icon-with-text {
     font-size: 29px !important;
     min-width: 240px;
@@ -13,7 +16,9 @@
     height: 40px;
 }
 
-/*--Product Cards---*/
+/* ============================================
+   PRODUCT CARDS
+   ============================================ */
 
 .card.product-card.product-card--card.flex.flex-col.leading-none.relative {
     background: #F5F5F5;
@@ -49,7 +54,9 @@ a.product-card__title {
     min-width: 350px !important;
 }
 
-/* Featured Product List Section */
+/* ============================================
+   FEATURED PRODUCT LIST SECTION
+   ============================================ */
 
 .featured-product-list .product-card .media--square {
     border-radius: 0px !important;
@@ -57,6 +64,16 @@ a.product-card__title {
 
 .product-list-featured__image {
     z-index: 13;
+    overflow: hidden;
+}
+
+.product-list-featured__image img {
+    transition: transform 0.5s ease;
+    transform: scale(1);
+}
+
+.product-list-featured__image:hover img {
+    transform: scale(1.1);
 }
 
 .featured-product-list .product-card .button--fixed {
@@ -103,7 +120,9 @@ a.product-card__title {
     height: 30px !important;
 }
 
-/* Collection List Section */
+/* ============================================
+   COLLECTION LIST SECTION
+   ============================================ */
 
 .collection-list-section .media-card__text p .heading{
     display: flex;
@@ -115,7 +134,9 @@ a.product-card__title {
     position: absolute !important;
 }
 
-/* MultiColumn Section */
+/* ============================================
+   MULTICOLUMN SECTION
+   ============================================ */
 
 .media-card__text .heading{
     font-family: "Asap Condensed", Helvetica !important;
@@ -130,7 +151,9 @@ a.product-card__title {
     height: 35px !important;
 }
 
-/* Newsletter Banner Section */
+/* ============================================
+   NEWSLETTER BANNER SECTION
+   ============================================ */
 
 .newsletter-section .banner__content {
     color: #000000 !important;
@@ -164,7 +187,23 @@ a.product-card__title {
     height: 55px !important;
 }
 
-/* Countdown Timer Section */
+.newsletter-section .banner__media {
+    border-radius: 0px !important;
+}
+
+@media only screen and (max-width: 450px) {
+    .newsletter-form .field {
+        flex-direction: column;
+    }
+
+    .newsletter-form .field .input, .newsletter-section .label.is-floating {
+        height: 48px !important;
+    }
+}
+
+/* ============================================
+   COUNTDOWN TIMER SECTION
+   ============================================ */
 .split-words .word {
     text-transform: uppercase !important;
     letter-spacing: normal !important;
@@ -192,7 +231,9 @@ a.product-card__title {
     height: 35px;
 }
 
-/* Column Call Out Section */
+/* ============================================
+   COLUMN CALL OUT SECTION
+   ============================================ */
 
 .column__title {
     font-weight: 900 !important;
@@ -205,4 +246,102 @@ a.product-card__title {
     line-height: 20px;
     font-size: 16px;
     padding-top: 0px;
+}
+
+.column__icon.with-svg {
+    height: 36px;
+    display: flex;
+    align-self: center;
+}
+
+.column__icon.with-svg svg {
+    width: 36px;
+    height: 36px;
+}
+
+/* ============================================
+   ML FEATURED COLLECTION SECTION
+   ============================================ */
+
+.ml-featured-collection-button {
+    font-family: "Asap Condensed", Helvetica !important;
+    border-radius: 0px !important;
+    min-width: 245px !important;
+    font-weight: 900 !important;
+}
+
+.ml-featured-collection h2 {
+    font-size: 52px !important;
+}
+
+.ml-featured-collection-button .btn-text {
+    font-size: 29px !important;
+}
+
+.ml-featured-collection-button::after {
+    border-radius: 0px !important;
+}
+
+.ml-featured-collection__button.button--fixed {
+    min-width: 45px !important;
+}
+
+.ml-featured-collection__product-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.ml-featured-collection__variants {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ml-featured-collection__variant-option {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ml-featured-collection__variant-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.ml-featured-collection__variant-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ml-featured-collection__variant-value {
+    padding: 6px 12px;
+    border: 1px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.ml-featured-collection__variant-value:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.ml-featured-collection__variant-value--unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.ml-featured-collection__variant-value--unavailable:hover {
+    background-color: transparent;
+    color: #000000;
 }
