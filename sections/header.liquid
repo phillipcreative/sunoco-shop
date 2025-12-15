@@ -43,7 +43,7 @@
     render 'header-icons', section: section, show_search: true, show_hamburger: true, show_toggle: show_toggle, context: 'start'
 
     if header_layout != 'center-left' and header_layout != 'center-split'
-      render 'header-logo', logo_h1: section.settings.logo_h1
+      render 'header-logo', logo_h1: section.settings.logo_h1, normal_logo: section.settings.normal_logo, normal_logo_mobile: section.settings.normal_logo_mobile
     endif
 
     if header_layout == 'center'
@@ -59,7 +59,7 @@
 
   {%- liquid
     if header_layout == 'center-left' or header_layout == 'center-split'
-      render 'header-logo', logo_h1: section.settings.logo_h1
+      render 'header-logo', logo_h1: section.settings.logo_h1, normal_logo: section.settings.normal_logo, normal_logo_mobile: section.settings.normal_logo_mobile
     endif
   -%}
 
@@ -323,6 +323,22 @@
       "type": "header",
       "content": "t:sections.header.settings.header__transparent.content",
       "info": "t:sections.header.settings.header__transparent.info"
+    },
+    {
+      "type": "header",
+      "content": "Logo for non-homepage pages"
+    },
+    {
+      "type": "image_picker",
+      "id": "normal_logo",
+      "label": "Normal logo",
+      "info": "For non-homepage pages"
+    },
+    {
+      "type": "image_picker",
+      "id": "normal_logo_mobile",
+      "label": "Normal logo (mobile)",
+      "info": "For non-homepage pages"
     },
     {
       "type": "paragraph",

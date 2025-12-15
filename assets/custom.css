@@ -348,6 +348,51 @@ a.product-card__title {
     flex-direction: column;
 }
 
+.recently-viewed .product-card__details .button {
+    min-width: 138px;
+    min-height: 45px;
+    padding: 14px 0px;
+}
+
+.recently-viewed .product-card__description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000 !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+    margin-bottom: 10px;
+}
+
+.recently-viewed .product-card .media {
+    border-radius: 0px !important;
+}
+
+.recently-viewed .product-card {
+    height: 585px;
+}
+
+.recently-viewed .product-card .product-card__bottom {
+    display: none;
+}
+
+.recently-viewed .ml-featured-product__variant-values {
+    gap: 9px;
+    margin: 10px 0px;
+}
+
+.recently-viewed .ml-featured-product__variant-value.is-color-swatch {
+    width: 24px;
+    height: 24px;
+}
+
+.recently-viewed a.product-card__title {
+    margin-bottom: 10px;
+}
+
 .ml-featured-collection__variants {
     margin-top: 12px;
     display: flex;
@@ -965,6 +1010,52 @@ a.product-card__title {
   appearance: textfield;
 }
 
+.quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid #CACACA;
+  max-width: 120px;
+}
+
+.quantity__button {
+  width: 40px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.quantity__button svg {
+  stroke: #000000;
+  height: 33px;
+  width: 100% !important;
+}
+
+.quantity__input {
+  color: #000000;
+  width: 60px;
+  height: 40px;
+  text-align: center;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.quantity__input::-webkit-inner-spin-button,
+.quantity__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity__input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .ml-featured-product__add-to-cart {
   flex: 1;
   height: 55px;
@@ -1437,4 +1528,187 @@ a.product-card__title {
     .ml-featured-collection__product-wrapper .product-card {
         height: 560px;
     }
+
+    .ml-featured-product__gallery .product__thumbnails-list {
+        justify-content: flex-start !important;
+    }
+
+    .cost_row {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .image-with-text .rich-text>*+*:not(.spacing-section) {
+        margin-top: 10px !important;
+    }
+}
+
+
+/* ============================================
+        Product Page Updates
+============================================ */
+
+.product__text {
+    color: #000000 !important;
+}
+
+.product-form__submit {
+    font-family: "Asap Condensed", Helvetica !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    text-transform: uppercase !important;
+}
+
+.product-form__input .form__label,
+.product-form__input .form__label span {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.quantity .quantity__input {
+    color: #000;
+    font-weight: bold !important;
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: none;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.quantity .quantity__button {
+    padding: 0px;
+}
+
+.quantity .quantity__button svg {
+    stroke: #000;
+    height: 33px;
+    width: 100% !important;
+}
+
+.banner__title split-words strong {
+    color: #FFDF1C;
+    font-weight: bold;
+}
+
+.image-with-text__item .rich-text .button {
+    font-family: "Asap Condensed", Helvetica !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    text-transform: uppercase !important;
+}
+
+#ezrv-root .ezrv-widget_write_review_container button {
+    color: #000000 !important;
+}
+
+#ezrv-root .ezrv-widget_write_review_container button {
+    background-color: #FFDF1C !important;
+    border: 0px !important;
+}
+
+.ezrv-widget_rating_star_content span::before {
+    color: #FFDF1C !important;
+}
+
+.ezrv-widget_review_reply,
+.ezrv-widget_rating_progress {
+    background-color: #FFDF1C !important;
+}
+
+.ezrv-widget_review_reply {
+    color: #000000 !important;
+    padding: 1rem !important;
+}
+
+.ezrv-widget_review_user {
+    font-weight: bold !important;
+    color: inherit !important;
+}
+
+.ezrv-widget_review_listing_row {
+    border-bottom: 1px solid #004785 !important;
+}
+
+.ezrv-widget_container_review_summary .flex-divider {
+    background-color: #004785 !important;
+}
+
+.ezrv-widget_review_listings_container {
+    border-top: 1px solid #004785 !important;
+}
+
+#ezrv-root .ezrv-widget_write_review_container button,
+.product-sticky-form__variant button {
+    font-family: "Asap Condensed", Helvetica !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+    text-transform: uppercase !important;
+}
+
+/* ============================================
+        Header Positioning
+============================================ */
+
+body:not(.template-index) .header-transparent .header {
+    position: static !important;
+}
+
+body:not(.template-index) .header-transparent.header-scrolled .header {
+    position: static !important;
+}
+
+
+body:not(.template-index) .header__icons .icon svg,
+body:not(.template-index) .header__buttons .icon svg,
+body:not(.template-index) .header__icons svg,
+body:not(.template-index) .header__buttons svg {
+    stroke: rgba(0, 71, 133, 1) !important;
+    color: rgba(0, 71, 133, 1) !important;
+}
+
+body:not(.template-index) .header__icons,
+body:not(.template-index) .header__buttons {
+    color: rgba(0, 71, 133, 1) !important;
+}
+
+body:not(.template-index) .header__icons .cart-drawer-button .count {
+    color: rgba(0, 71, 133, 1) !important;
+}
+
+body:not(.template-index) .header__logo {
+    display: flex !important;
+}
+
+body:not(.template-index) .header__logo .header__logo-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 45px !important;
+}
+
+body:not(.template-index) .header__logo img.logo {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@media screen and (max-width: 1023px) {
+    body:not(.template-index) .header__logo {
+        text-align: center !important;
+        margin-inline: auto !important;
+        justify-content: center !important;
+    }
+
+    body:not(.template-index) .header__logo .header__logo-link {
+        margin: 0 auto !important;
+        justify-content: center !important;
+    }
+}
+
+body:not(.template-index) .header__logo .white-logo {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
