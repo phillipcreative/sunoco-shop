@@ -724,37 +724,14 @@
           return;
         }
 
-        // Find all selected variant buttons
-        const selectedButtons = form.querySelectorAll('.ml-featured-product__variant-value.selected');
-        console.log('Selected buttons:', selectedButtons.length);
-
-        // Get selected option values
-        const selectedOptions = [];
-        selectedButtons.forEach(function(btn) {
-          const optionValue = btn.getAttribute('data-option-value');
-          const variantIdAttr = btn.getAttribute('data-variant-id');
-          console.log('Button:', { optionValue: optionValue, variantIdAttr: variantIdAttr });
-          selectedOptions.push(optionValue);
-        });
-
-        console.log('Selected options:', selectedOptions);
-        console.log('Product variants:', productVariants);
-
-        // Find the variant that matches all selected options
+        // Find the active swatch's data-variant-id
+        const selectedSwatch = form.querySelector('.ml-featured-product__variant-value.selected.is-swatch');
         let variantId = null;
-        const totalOptions = form.querySelectorAll('.ml-featured-product__variant-option').length;
 
-        if (productData.has_only_default_variant || totalOptions === 0) {
-          variantId = productVariants[0] ? productVariants[0].id : null;
-        } else if (selectedOptions.length === totalOptions) {
-          const matchingVariant = productVariants.find(function(variant) {
-            return variant.options.every(function(option, index) {
-              return String(option).trim().toLowerCase() === String(selectedOptions[index]).trim().toLowerCase();
-            });
-          });
-
-          if (matchingVariant) {
-            variantId = matchingVariant.id;
+        if (selectedSwatch) {
+          const variantIdAttr = selectedSwatch.getAttribute('data-variant-id');
+          if (variantIdAttr) {
+            variantId = parseInt(variantIdAttr);
           }
         }
 
@@ -773,6 +750,16 @@
         addToCartButton.setAttribute('aria-disabled', 'true');
         addToCartButton.setAttribute('aria-busy', 'true');
 
+        // Get sections to include in request
+        let sectionsToBundle = [];
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer) {
+          const sectionId = cartDrawer.getAttribute('data-section-id');
+          if (sectionId) {
+            sectionsToBundle.push(sectionId);
+          }
+        }
+
         // Add to cart using fetch
         fetch('/cart/add.js', {
           method: 'POST',
@@ -781,7 +768,9 @@
           },
           body: JSON.stringify({
             id: variantId,
-            quantity: quantity
+            quantity: quantity,
+            sections: sectionsToBundle,
+            sections_url: window.location.pathname
           })
         })
         .then(function(response) {
@@ -798,6 +787,10 @@
             return;
           }
 
+          // Remove loading state after successful add
+          addToCartButton.removeAttribute('aria-disabled');
+          addToCartButton.removeAttribute('aria-busy');
+
           // Dispatch cart update event if theme is available
           if (typeof theme !== 'undefined' && theme.pubsub) {
             fetch('/cart.js')
@@ -805,12 +798,28 @@
                 return response.json();
               })
               .then(function(cart) {
+                // Merge sections from add to cart response into cart
+                if (data.sections) {
+                  cart.sections = data.sections;
+                }
                 theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.cartUpdate, {
                   source: 'ml-featured-product',
                   productVariantId: variantId,
                   cart: cart
                 });
+
+                // Show cart drawer after cart update
+                const cartDrawerElement = document.querySelector('cart-drawer');
+                if (cartDrawerElement) {
+                  cartDrawerElement.show(addToCartButton);
+                }
               });
+          } else {
+            // Show cart drawer if theme is not available
+            const cartDrawerElement = document.querySelector('cart-drawer');
+            if (cartDrawerElement) {
+              cartDrawerElement.show(addToCartButton);
+            }
           }
 
           // Dispatch custom event
@@ -819,11 +828,6 @@
               product: data
             }
           }));
-
-          // Show cart drawer if available
-          if (typeof theme !== 'undefined' && theme.cartDrawer) {
-            theme.cartDrawer.show(addToCartButton);
-          }
         })
         .catch(function(error) {
           console.error('Error adding to cart:', error);
