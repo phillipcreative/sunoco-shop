@@ -8691,13 +8691,13 @@ details.active .drawer__promotions .mega-menu__item,
 @media screen and (min-width: 1024px) {
   .footer-copyright .credits {
     order: 1;
-    text-align: start
   }
 }
 
 .footer-copyright .credits ul {
-  margin-block-start: var(--sp-4);
+  /* margin-block-start: var(--sp-4); */
   margin-block-end: 0;
+  margin-top: 0px;
   padding-inline-start: 0;
   list-style: none;
 }

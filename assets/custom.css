@@ -667,11 +667,65 @@ a.product-card__title {
     justify-content: center !important;
     text-align: center !important;
     align-items: center !important;
+    flex-direction: column-reverse;
 }
 
 .footer__accordions .details .details__summary {
     text-transform: uppercase !important;
     color: #004785 !important;
+}
+
+.reversed-link:not([aria-disabled]):hover, .rte a:hover {
+    background-size: 0px !important;
+}
+
+.credits .reversed-link {
+    font-size: 15px;
+    text-decoration: underline;
+}
+
+.footer-copyright .credits {
+    font-size: 15px;
+}
+
+.footer-copyright .credits li {
+    position: relative;
+    padding: 0px 10px
+}
+
+.footer-copyright .credits li:last-child {
+    padding-right: 0px;
+}
+
+.footer-copyright .credits li:not(:last-child):after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 1px;
+    height: 15px;
+    background-color: #000;
+}
+
+.digmo-footer-content {
+    font-size: 16px;
+}
+
+.digmo-footer-content a {
+    text-decoration: underline;
+}
+
+.footer__logo .items-center svg {
+  color: #004785;
+  width: 20px;
+  height: 20px;
+}
+
+.footer__logo .items-center {
+    justify-content: center;
+    gap: 10px;
 }
 
 @media screen and (min-width: 768px) {

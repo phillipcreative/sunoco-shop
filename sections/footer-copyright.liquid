@@ -14,17 +14,12 @@
           echo '&copy;&nbsp;'
           echo 'now' | date: '%Y'
           echo '&nbsp;'
-          echo shop.name
-          if section.settings.copyright_text != blank
-            echo '&nbsp;'
-            echo section.settings.copyright_text
-          endif
-          echo '.&nbsp;'
+          echo 'Sunoco. '
+          echo 'All rights reserved.'
         endif
-        echo powered_by_link
       -%}
       {%- if section.settings.show_policy -%}
-        <ul class="flex flex-wrap gap-3 justify-center lg:justify-start">
+        <ul class="flex flex-wrap justify-center lg:justify-start">
           {%- for policy in shop.policies -%}
             {%- if policy != blank -%}
               <li>
@@ -36,6 +31,21 @@
           {%- endfor -%}
         </ul>
       {%- endif -%}
+      {%- if section.settings.show_payment_icons -%}
+        {%- unless shop.enabled_payment_types == empty -%}
+          <ul class="payment-icons{% if section.settings.monochrome_payment_icons %} payment-icons--gray{% endif %} flex flex-wrap justify-center gap-2 xl:gap-3 mt-4">
+            {%- for type in shop.enabled_payment_types -%}
+              <li>
+                {{- type | payment_type_svg_tag -}}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endunless -%}
+      {%- endif -%}
+    </div>
+
+    <div class="digmo-footer-content">
+      <p>Website Design & Development :: <a href="https://digitalmomentum.com" target="_blank">Digital Momentum, Inc.</a></p>
     </div>
 
     {%- liquid
@@ -120,17 +130,6 @@
       </div>
     {%- endif -%}
 
-    {%- if section.settings.show_payment_icons -%}
-      {%- unless shop.enabled_payment_types == empty -%}
-        <ul class="payment-icons{% if section.settings.monochrome_payment_icons %} payment-icons--gray{% endif %} flex flex-wrap justify-center gap-2 xl:gap-3">
-          {%- for type in shop.enabled_payment_types -%}
-            <li>
-              {{- type | payment_type_svg_tag -}}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endunless -%}
-    {%- endif -%}
   </div>
 </div>
 
