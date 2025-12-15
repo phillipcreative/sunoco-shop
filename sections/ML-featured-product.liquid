@@ -15,6 +15,7 @@
   }
 </style>
 
+
 {%- liquid
   assign product = section.settings.product
   if product != blank
@@ -214,6 +215,7 @@
                         {%- assign variant_available = false -%}
                         {%- assign variant_id = null -%}
                         {%- assign option_index = forloop.parentloop.index0 -%}
+
                         {%- for variant in product.variants -%}
                           {%- if variant.options[option_index] == value -%}
                             {%- if variant.available -%}
@@ -225,22 +227,55 @@
                             {%- endif -%}
                           {%- endif -%}
                         {%- endfor -%}
+
                         {%- assign is_selected = false -%}
                         {%- if product.selected_or_first_available_variant.options[option_index] == value -%}
                           {%- assign is_selected = true -%}
                         {%- endif -%}
+
+                        {% assign option_name_downcase = option.name | downcase %}
+                        {% if option_name_downcase == 'color' or option_name_downcase == 'colour' %}
+                          {% assign is_color_option = true %}
+                        {% else %}
+                          {% assign is_color_option = false %}
+                        {% endif %}
+                        {% assign swatch = value.swatch %}
+                        {% assign swatch_color = swatch.color %}
+
                         <button
+                          style="background-color: {{ swatch_color }};"
                           type="button"
-                          class="ml-featured-product__variant-value{% if is_selected %} selected{% endif %}{% unless variant_available %} unavailable{% endunless %}"
+                          class="ml-featured-product__variant-value{% if is_selected %} selected{% endif %}{% unless variant_available %} unavailable{% endunless %}{% if is_color_option %} is-swatch{% endif %}"
                           data-option-index="{{ option_index }}"
                           data-option-value="{{ value | escape }}"
                           {% if variant_id %}data-variant-id="{{ variant_id }}"{% endif %}
                           {% unless variant_available %}disabled{% endunless %}
+                          {% if is_color_option %}aria-label="{{ value | escape }}"{% endif %}
                         >
-                          {{ value }}
+                          {% if is_color_option and swatch != blank %}
+                            {% if swatch.image != blank %}
+                              <img
+                                class="ml-featured-product__swatch-image"
+                                src="{{ swatch.image | image_url: width: 64 }}"
+                                alt="{{ value | escape }}"
+                                loading="lazy"
+                              >
+                            {% elsif swatch.color != blank %}
+                              <span
+                                class="ml-featured-product__swatch-color"
+                                style="background-color: {{ swatch.color }};"
+                              ></span>
+                            {% else %}
+                              {{ value }}
+                            {% endif %}
+                          {% else %}
+                            {{ value }}
+                          {% endif %}
                         </button>
+
                       {%- endfor -%}
                     </div>
+
                   </div>
                 {%- endfor -%}
               </div>
@@ -603,7 +638,6 @@
         } else if (selectedOptions.length === totalOptions) {
           // Find variant that matches all selected options
           selectedVariant = findVariantByOptions(selectedOptions);
-          console.log('Selected variant:', selectedVariant);
         } else {
           // Clear selected variant if not all options are selected
           selectedVariant = null;
