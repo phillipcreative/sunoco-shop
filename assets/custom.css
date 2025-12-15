@@ -1688,3 +1688,7 @@ body:not(.template-index) .header__logo .white-logo {
 body:not(.template-index) .header__menu>ul.with-block .menu__item {
     color:  #004785 !important;
 }
+
+.white-logo {
+    display: none;
+}
