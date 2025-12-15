@@ -1,4 +1,13 @@
-{
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+ {
   "sections": {
     "main-product": {
       "type": "main-product",
@@ -7,6 +16,7 @@
           "type": "text",
           "settings": {
             "icon": "none",
+            "iwidth": "custom",
             "icon_width": 20,
             "text": "{{ product.vendor }}",
             "text_size": "text-base"
@@ -19,6 +29,12 @@
             "title_size_mobile": "product-title-md",
             "show_price": true,
             "show_rating": true
+          }
+        },
+        "easyreviews_star_rating_xDVdHK": {
+          "type": "shopify://apps/easyreviews/blocks/star_rating/1341251b-09d7-46f3-ba6a-e732a50e97a5",
+          "settings": {
+            "product": "{{product}}"
           }
         },
         "description": {
@@ -60,9 +76,9 @@
           "type": "buy_buttons",
           "settings": {
             "show_quantity_selector": true,
-            "show_price": true,
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true,
+            "show_price": false,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false,
             "enable_back_in_stock": true,
             "show_back_in_stock_name": true,
             "show_back_in_stock_phone": true
@@ -79,7 +95,8 @@
             "show_help_desk": true,
             "help_label": "Need help?",
             "help_type": "drawer",
-            "help_page": ""
+            "help_page": "",
+            "help_page_external": false
           }
         },
         "complementary": {
@@ -91,21 +108,23 @@
             "show_price": true
           }
         },
-        "text-1": {
-          "type": "text",
-          "settings": {
-            "icon": "truck",
-            "icon_width": 20,
-            "text": "In stock! Ships within 1-2 business days.",
-            "text_size": "text-sm"
-          }
-        },
         "text-2": {
           "type": "text",
           "settings": {
             "icon": "headphone",
+            "iwidth": "custom",
             "icon_width": 20,
-            "text": "90-day risk-free trial",
+            "text": "Discover our commitment to exceptional customer service with every purchase.",
+            "text_size": "text-sm"
+          }
+        },
+        "text-1": {
+          "type": "text",
+          "settings": {
+            "icon": "truck",
+            "iwidth": "custom",
+            "icon_width": 20,
+            "text": "Get your essentials delivered for free! Spend $100 or more and enjoy complimentary shipping on all orders.",
             "text_size": "text-sm"
           }
         },
@@ -113,8 +132,9 @@
           "type": "text",
           "settings": {
             "icon": "award",
+            "iwidth": "custom",
             "icon_width": 20,
-            "text": "2-Year Warranty",
+            "text": "Shop confidently knowing your payment information is securely processed. Your privacy and security are our top priorities.",
             "text_size": "text-sm"
           }
         },
@@ -122,8 +142,9 @@
           "type": "text",
           "settings": {
             "icon": "box",
+            "iwidth": "custom",
             "icon_width": 20,
-            "text": "Complimentary shipping & returns",
+            "text": "Refer a friend and get 15% off each other.",
             "text_size": "text-sm"
           }
         },
@@ -135,6 +156,7 @@
       "block_order": [
         "vendor",
         "title",
+        "easyreviews_star_rating_xDVdHK",
         "description",
         "countdown",
         "variant_picker",
@@ -143,16 +165,16 @@
         "pickup_availability",
         "share",
         "complementary",
-        "text-1",
         "text-2",
+        "text-1",
         "text-3",
         "text-4",
         "sticky_buy_button"
       ],
       "settings": {
         "enable_sticky_info": true,
-        "media_size": 66,
-        "gallery_layout": "scroll",
+        "media_size": 46,
+        "gallery_layout": "thumbnail",
         "thumbnail_position": "beside",
         "image_ratio": "adapt_first",
         "image_zoom": "lightbox",
@@ -177,7 +199,7 @@
           "settings": {
             "icon": "rocket",
             "heading": "Shipping Information",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle",
             "color_text": "#b45309",
@@ -192,7 +214,7 @@
           "settings": {
             "icon": "headphone",
             "heading": "Customer Support",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle",
             "color_text": "#0369a1",
@@ -207,7 +229,7 @@
           "settings": {
             "icon": "chat_bubble",
             "heading": "FAQ’s",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle",
             "color_text": "#be123c",
@@ -222,7 +244,7 @@
           "settings": {
             "icon": "phone",
             "heading": "Contact Us",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
             "highlighted_text": "none",
             "highlighted_scribble": "circle",
             "color_text": "#4d7c0f",
@@ -239,583 +261,229 @@
         "content-3",
         "content-4"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Need help?",
-        "description": "<p>If you have any questions, you are always welcome to contact us. We'll get back to you as soon as possible, within 24 hours on weekdays.<\/p>"
+        "description": "<p>If you have any questions, you are always welcome to contact us. We'll get back to you as soon as possible, within 24 hours on weekdays.</p>"
       }
     },
-    "video-hero": {
-      "type": "video-hero",
+    "images_with_text_overlay_nbc6V7": {
+      "type": "images-with-text-overlay",
       "blocks": {
-        "slide-1": {
-          "type": "slide",
+        "heading_8qLQ6Y": {
+          "type": "heading",
           "settings": {
-            "heading": "Video slide 1",
+            "heading": "HIGH OCTANE. <strong>HIGHER STANDARDS.</strong>",
             "heading_size": "title-lg tracking-heading",
             "heading_tag": "h2",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
         },
-        "slide-2": {
-          "type": "slide",
+        "text_iq38mC": {
+          "type": "text",
           "settings": {
-            "heading": "Video slide 2",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "slide-3": {
-          "type": "slide",
-          "settings": {
-            "heading": "Video slide 3",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "slide-4": {
-          "type": "slide",
-          "settings": {
-            "heading": "Video slide 4",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
+            "text": "<p>Over the years, Sunoco's fuels have been linked to racing excellence. From the mid-60s, when Sunoco partnered with the Roger Penske Racing Team and Mark Donohue, to create a lasting and fruitful collaboration, the company has evolved into a dominant force in the industry.</p>",
+            "text_font": "body",
+            "text_size": "subtext-md",
+            "text_max_size": 32,
+            "text_line_height": 1.6,
+            "text_letter_spacing": 0,
+            "text_capitalize": false,
+            "secondary_color": false,
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
           }
         }
       },
       "block_order": [
-        "slide-1",
-        "slide-2",
-        "slide-3",
-        "slide-4"
+        "heading_8qLQ6Y",
+        "text_iq38mC"
       ],
+      "name": "t:sections.images-with-text-overlay.name",
       "settings": {
         "transparent_header": false,
-        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
-        "description": "",
-        "enable_video_autoplay": true,
-        "enable_video_looping": true,
-        "content_width": "medium",
-        "video_url_mobile": "",
-        "color_text": "#ffffff",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 30,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "divider": false,
-        "full_width": true,
-        "rounded": false
-      }
-    },
-    "collage": {
-      "type": "collage",
-      "blocks": {
-        "image-1": {
-          "type": "image",
-          "settings": {
-            "subheading": "<em>Tagline<\/em>",
-            "heading": "Example heading",
-            "link": "",
-            "invert_subheading_heading": false,
-            "image": "",
-            "image_ratio": "landscape",
-            "content_position": "md:items-end md:justify-center",
-            "text_alignment": "center",
-            "image_ratio_mobile": "landscape",
-            "content_position_mobile": "items-end justify-center",
-            "text_alignment_mobile": "center",
-            "highlighted_text": "text",
-            "highlighted_scribble": "circle",
-            "color_text": "#ffffff",
-            "color_highlight": "#fde047",
-            "gradient_highlight": "",
-            "color_overlay": "#171717",
-            "overlay_opacity": 30
-          }
-        },
-        "image-2": {
-          "type": "image",
-          "settings": {
-            "subheading": "<em>Tagline<\/em>",
-            "heading": "Example heading",
-            "link": "",
-            "invert_subheading_heading": false,
-            "image": "",
-            "image_ratio": "portrait",
-            "content_position": "md:items-end md:justify-start",
-            "text_alignment": "left",
-            "image_ratio_mobile": "portrait",
-            "content_position_mobile": "items-end justify-start",
-            "text_alignment_mobile": "left",
-            "highlighted_text": "text",
-            "highlighted_scribble": "circle",
-            "color_text": "#ffffff",
-            "color_highlight": "#fde047",
-            "gradient_highlight": "",
-            "color_overlay": "#171717",
-            "overlay_opacity": 30
-          }
-        },
-        "image-3": {
-          "type": "image",
-          "settings": {
-            "subheading": "<em>Tagline<\/em>",
-            "heading": "Example heading",
-            "link": "",
-            "invert_subheading_heading": false,
-            "image": "",
-            "image_ratio": "portrait",
-            "content_position": "md:items-start md:justify-end",
-            "text_alignment": "right",
-            "image_ratio_mobile": "portrait",
-            "content_position_mobile": "items-start justify-end",
-            "text_alignment_mobile": "right",
-            "highlighted_text": "text",
-            "highlighted_scribble": "circle",
-            "color_text": "#ffffff",
-            "color_highlight": "#fde047",
-            "gradient_highlight": "",
-            "color_overlay": "#171717",
-            "overlay_opacity": 30
-          }
-        },
-        "image-4": {
-          "type": "image",
-          "settings": {
-            "subheading": "<em>Tagline<\/em>",
-            "heading": "Example heading",
-            "link": "",
-            "invert_subheading_heading": true,
-            "image": "",
-            "image_ratio": "landscape",
-            "content_position": "md:items-end md:justify-end",
-            "text_alignment": "right",
-            "image_ratio_mobile": "landscape",
-            "content_position_mobile": "items-end justify-end",
-            "text_alignment_mobile": "right",
-            "highlighted_text": "text",
-            "highlighted_scribble": "circle",
-            "color_text": "#ffffff",
-            "color_highlight": "#fde047",
-            "gradient_highlight": "",
-            "color_overlay": "#171717",
-            "overlay_opacity": 30
-          }
-        }
-      },
-      "block_order": [
-        "image-1",
-        "image-2",
-        "image-3",
-        "image-4"
-      ],
-      "settings": {
-        "heading": "Collage",
-        "heading_size": "title-md",
-        "heading_alignment": "text-left md:items-end md:flex-row",
-        "heading_tag": "h2",
-        "subheading": "",
-        "description": "<p>Share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-        "button_label": "View more",
-        "button_link": "",
-        "button_external": false,
-        "button_icon": true,
-        "highlighted_text": "scribble",
-        "highlighted_scribble": "basic-underline",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 72,
-        "padding_bottom": 0,
-        "divider": false,
-        "full_width": false,
-        "rounded": false,
-        "enable_parallax": true
-      }
-    },
-    "image-with-text-1": {
-      "type": "image-with-text",
-      "blocks": {
-        "image": {
-          "type": "image",
-          "settings": {
-            "image": "",
-            "image_width": "custom",
-            "image_max_width": 50,
-            "image_max_width_mobile": 50
-          }
-        },
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image with text",
-            "heading_size": "title-md",
-            "heading_tag": "h2",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "text_font": "body",
-            "text_size": "subtext-md",
-            "text_max_size": 32,
-            "secondary_color": false,
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        }
-      },
-      "block_order": [
-        "image",
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "image": "",
-        "image_height": "600px",
-        "image_width": "medium",
-        "layout": "image_first",
+        "image_height": "650px",
+        "content_width": "small",
+        "content_position": "md:items-center md:justify-start",
         "text_alignment": "left",
-        "content_position": "align-self-center",
-        "image_height_mobile": "400px",
+        "image_1": "shopify://shop_images/3abe0944d99255a28a1ff5461823b607167647c9.jpg",
+        "image_2": "shopify://shop_images/CNF06544.jpg",
+        "image_3": "shopify://shop_images/GarrettAlbertsonFireworks.jpg",
+        "image_4": "shopify://shop_images/CNF06166.jpg",
+        "image_5": "shopify://shop_images/df51903cc2664e2d9511a4839f30f220772b6570.jpg",
+        "image_height_mobile": "auto",
+        "content_position_mobile": "items-end justify-start",
         "text_alignment_mobile": "left",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_background_2": "#fafafa",
-        "gradient_background_2": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "divider": false,
-        "full_width": false,
-        "rounded": false,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
-      }
-    },
-    "scrolling-text": {
-      "type": "scrolling-text",
-      "blocks": {
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<em><strong>Free shipping and returns<\/strong><\/em>",
-            "text_size": 160,
-            "text_font": "body",
-            "highlighted_text": "stencil",
-            "highlighted_scribble": "circle"
-          }
-        }
-      },
-      "block_order": [
-        "text"
-      ],
-      "settings": {
-        "direction": "left",
-        "speed": 20,
-        "grid_horizontal": 70,
-        "enable_twin": false,
-        "enable_parallax": true,
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "padding_top": 28,
-        "padding_bottom": 28,
-        "divider": false,
-        "rounded": false
-      }
-    },
-    "image-with-text-2": {
-      "type": "image-with-text",
-      "blocks": {
-        "image": {
-          "type": "image",
-          "settings": {
-            "image": "",
-            "image_width": "custom",
-            "image_max_width": 50,
-            "image_max_width_mobile": 50
-          }
-        },
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image with text",
-            "heading_size": "title-md",
-            "heading_tag": "h2",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "text_font": "body",
-            "text_size": "subtext-md",
-            "text_max_size": 32,
-            "secondary_color": false,
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        }
-      },
-      "block_order": [
-        "image",
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "image": "",
-        "image_height": "600px",
-        "image_width": "medium",
-        "layout": "text_first",
-        "text_alignment": "left",
-        "content_position": "align-self-center",
-        "image_height_mobile": "400px",
-        "text_alignment_mobile": "left",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_background_2": "#fafafa",
-        "gradient_background_2": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "divider": false,
-        "full_width": false,
-        "rounded": false,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
-      }
-    },
-    "product-details": {
-      "type": "product-details",
-      "blocks": {
-        "collapsible_tab-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "icon": "none",
-            "icon_image": "",
-            "icon_width": 24,
-            "heading": "Collapsible row 1",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "metafields": "",
-            "text_size": "text-base"
-          }
-        },
-        "collapsible_tab-2": {
-          "type": "collapsible_tab",
-          "settings": {
-            "icon": "none",
-            "icon_image": "",
-            "icon_width": 24,
-            "heading": "Collapsible row 2",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "metafields": "",
-            "text_size": "text-base"
-          }
-        },
-        "collapsible_tab-3": {
-          "type": "collapsible_tab",
-          "settings": {
-            "icon": "none",
-            "icon_image": "",
-            "icon_width": 24,
-            "heading": "Collapsible row 3",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "metafields": "",
-            "text_size": "text-base"
-          }
-        },
-        "collapsible_tab-4": {
-          "type": "collapsible_tab",
-          "settings": {
-            "icon": "none",
-            "icon_image": "",
-            "icon_width": 24,
-            "heading": "Collapsible row 4",
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
-            "metafields": "",
-            "text_size": "text-base"
-          }
-        },
-        "specification": {
-          "type": "specification",
-          "disabled": true,
-          "settings": {
-            "icon": "",
-            "heading": "",
-            "text_size": "text-sm"
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_tab-1",
-        "collapsible_tab-2",
-        "collapsible_tab-3",
-        "collapsible_tab-4",
-        "specification"
-      ],
-      "settings": {
-        "style": "with-border",
-        "open_first_row": true,
-        "specifications_heading": "Included in the Box",
-        "heading": "Product details",
-        "heading_size": "title-md",
-        "heading_alignment": "text-left md:items-end md:flex-row",
-        "heading_tag": "h2",
-        "subheading": "",
-        "description": "",
-        "button_label": "",
-        "button_link": "",
-        "button_external": false,
-        "button_icon": true,
-        "highlighted_text": "none",
-        "highlighted_scribble": "circle",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 28,
-        "padding_bottom": 28,
-        "divider": false,
-        "full_width": false,
-        "rounded": false
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "question-1": {
-          "type": "question",
-          "settings": {
-            "title": "Frequently asked question",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "question-2": {
-          "type": "question",
-          "settings": {
-            "title": "Frequently asked question",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "question-3": {
-          "type": "question",
-          "settings": {
-            "title": "Frequently asked question",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "question-4": {
-          "type": "question",
-          "settings": {
-            "title": "Frequently asked question",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "question-5": {
-          "type": "question",
-          "settings": {
-            "title": "Frequently asked question",
-            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "contact": {
-          "type": "contact",
-          "settings": {
-            "heading": "Didn’t find your answer?",
-            "text": "<p>Don't hestitate to contact us<\/p>",
-            "show_phone": false,
-            "avatar": "",
-            "avatar_height": 60,
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        }
-      },
-      "block_order": [
-        "question-1",
-        "question-2",
-        "question-3",
-        "question-4",
-        "question-5",
-        "contact"
-      ],
-      "settings": {
-        "style": "with-background",
-        "heading": "FAQs",
-        "heading_size": "title-lg tracking-heading",
-        "heading_alignment": "text-left md:items-end md:flex-row",
-        "heading_tag": "h2",
-        "subheading": "",
-        "description": "<p>Please read our <a href=\"#\" title=\"FAQ's\">FAQs<\/a> page to find out more.<\/p>",
-        "button_label": "",
-        "button_link": "",
-        "button_external": false,
-        "button_icon": true,
-        "highlighted_text": "none",
-        "highlighted_scribble": "circle",
         "color_text": "#ffffff",
-        "color_background": "#171717",
+        "color_background": "",
         "gradient_background": "",
-        "color_highlight": "",
+        "color_highlight": "#e0a580",
         "gradient_highlight": "",
         "color_button_text": "#171717",
         "color_button_background": "#ffffff",
         "color_button_gradient": "",
-        "color_overlay": "#ffffff",
-        "overlay_opacity": 4,
-        "padding_top": 84,
-        "padding_bottom": 84,
+        "color_overlay": "#021d36",
+        "overlay_opacity": 100,
+        "padding_top": 0,
+        "padding_bottom": 0,
         "divider": false,
-        "narrow": false,
-        "rounded": false
+        "full_width": true,
+        "rounded": false,
+        "enable_parallax": true
+      }
+    },
+    "image_with_text_U3CX7Y": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_dnwXCN": {
+          "type": "heading",
+          "settings": {
+            "heading": "OFFICIAL FUEL OF NASCAR",
+            "heading_size": "title-md",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "text_bXQLeR": {
+          "type": "text",
+          "settings": {
+            "text": "<p>With more than 18 million miles and 700 cup races, Sunoco is proud to have been fueling victories for over 20 years as the Official Fuel of NASCAR.</p>",
+            "text_font": "body",
+            "text_size": "subtext-xl",
+            "text_max_size": 32,
+            "text_line_height": 1.6,
+            "text_letter_spacing": 0,
+            "text_capitalize": false,
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_WTicWj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn More",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "md",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_dnwXCN",
+        "text_bXQLeR",
+        "button_WTicWj"
+      ],
+      "name": "t:sections.image-with-text.name",
+      "settings": {
+        "image": "shopify://shop_images/NFC3539.jpg",
+        "image_height": "650px",
+        "image_width": "medium",
+        "layout": "image_first",
+        "text_alignment": "left",
+        "content_position": "align-self-center",
+        "image_height_mobile": "auto",
+        "text_alignment_mobile": "left",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_background_2": "",
+        "gradient_background_2": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
+      }
+    },
+    "image_with_text_FqUkmG": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_fRRTfn": {
+          "type": "heading",
+          "settings": {
+            "heading": "LOOK LIKE A PRO",
+            "heading_size": "title-md",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "text_BmBaLf": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Elevate Your Style to Pro Levels with Sunoco Racing.</p>",
+            "text_font": "body",
+            "text_size": "subtext-xl",
+            "text_max_size": 32,
+            "text_line_height": 1.6,
+            "text_letter_spacing": 0,
+            "text_capitalize": false,
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_fNRcUj": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP APPAREL",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "md",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_fRRTfn",
+        "text_BmBaLf",
+        "button_fNRcUj"
+      ],
+      "name": "t:sections.image-with-text.name",
+      "settings": {
+        "image": "shopify://shop_images/ChatGPT_Image_Oct_9_2025_09_16_58_AM.png",
+        "image_height": "650px",
+        "image_width": "medium",
+        "layout": "text_first",
+        "text_alignment": "left",
+        "content_position": "align-self-center",
+        "image_height_mobile": "adapt",
+        "text_alignment_mobile": "left",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_background_2": "",
+        "gradient_background_2": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
       }
     },
     "product-recommendations": {
       "type": "product-recommendations",
+      "disabled": true,
       "settings": {
         "product_limit": 6,
         "columns": 4,
@@ -845,9 +513,49 @@
         "rounded": true
       }
     },
+    "ml_featured_collection_mi8ag6": {
+      "type": "ML-featured-collection",
+      "name": "ML Featured Collection",
+      "settings": {
+        "collection": "frontpage",
+        "products": [],
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "show_navigation_buttons": false,
+        "show_view_all": false,
+        "show_product_variants": false,
+        "show_product_description": false,
+        "custom_button_label": "SHOP ALL",
+        "custom_button_link": "",
+        "custom_button_external": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "OTHER CUSTOMERS BOUGHT",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
     "recently-viewed": {
       "type": "recently-viewed",
-      "disabled": true,
       "settings": {
         "product_limit": 6,
         "columns": 4,
@@ -876,19 +584,46 @@
         "full_width": false,
         "rounded": false
       }
+    },
+    "1765807912e6c068ae": {
+      "type": "apps",
+      "blocks": {
+        "easyreviews_product_review_gxg3Dt": {
+          "type": "shopify://apps/easyreviews/blocks/product_review/1341251b-09d7-46f3-ba6a-e732a50e97a5",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "easyreviews_product_review_gxg3Dt"
+      ],
+      "settings": {
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
     }
   },
   "order": [
     "main-product",
     "help-drawer",
-    "video-hero",
-    "collage",
-    "image-with-text-1",
-    "scrolling-text",
-    "image-with-text-2",
-    "product-details",
-    "faq",
+    "images_with_text_overlay_nbc6V7",
+    "image_with_text_U3CX7Y",
+    "image_with_text_FqUkmG",
     "product-recommendations",
-    "recently-viewed"
+    "ml_featured_collection_mi8ag6",
+    "recently-viewed",
+    "1765807912e6c068ae"
   ]
 }

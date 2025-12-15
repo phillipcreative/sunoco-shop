@@ -1649,17 +1649,20 @@ a.product-card__title {
 }
 
 /* ============================================
-        Header Positioning
+        Header - Non-Homepage Styles
 ============================================ */
 
 body:not(.template-index) .header-transparent .header {
     position: static !important;
 }
 
+.header__logo .has-white-logo .logo {
+    opacity: 1 !important;
+}
+
 body:not(.template-index) .header-transparent.header-scrolled .header {
     position: static !important;
 }
-
 
 body:not(.template-index) .header__icons .icon svg,
 body:not(.template-index) .header__buttons .icon svg,
@@ -1678,37 +1681,10 @@ body:not(.template-index) .header__icons .cart-drawer-button .count {
     color: rgba(0, 71, 133, 1) !important;
 }
 
-body:not(.template-index) .header__logo {
-    display: flex !important;
-}
-
-body:not(.template-index) .header__logo .header__logo-link {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    height: 45px !important;
-}
-
-body:not(.template-index) .header__logo img.logo {
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-@media screen and (max-width: 1023px) {
-    body:not(.template-index) .header__logo {
-        text-align: center !important;
-        margin-inline: auto !important;
-        justify-content: center !important;
-    }
-
-    body:not(.template-index) .header__logo .header__logo-link {
-        margin: 0 auto !important;
-        justify-content: center !important;
-    }
-}
-
 body:not(.template-index) .header__logo .white-logo {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
+}
+
+body:not(.template-index) .header__menu>ul.with-block .menu__item {
+    color:  #004785 !important;
 }
