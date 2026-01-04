@@ -148,6 +148,23 @@
       </motion-list>
     </slider-element>
 
+    {%- if section.settings.swipe_on_mobile and section.settings.show_navigation_buttons -%}
+      <div class="indicators lg:hidden flex gap-2d5 items-center justify-center mt-4">
+        <button class="button button--primary pointer-events-auto" type="button" is="previous-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled>
+          <span class="btn-fill" data-fill></span>
+          <span class="btn-text">
+            {%- render 'icon', icon: 'chevron-left', class: 'transform' -%}
+          </span>
+        </button>
+        <button class="button button--primary pointer-events-auto" type="button" is="next-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}">
+          <span class="btn-fill" data-fill></span>
+          <span class="btn-text">
+            {%- render 'icon', icon: 'chevron-right', class: 'transform' -%}
+          </span>
+        </button>
+      </div>
+    {%- endif -%}
+
     {%- if section.settings.custom_button_label != blank -%}
       <div class="lg:hidden mt-4">
         <a class="ml-featured-collection-button button button--primary button--lg button--fixed icon-with-text pointer-events-auto" href="{{ section.settings.custom_button_link | default: '#' }}"{% if section.settings.custom_button_external %} target="_blank" rel="noopener"{% endif %} is="hover-link" aria-label="{{ section.settings.custom_button_label | escape }}">
@@ -165,6 +182,14 @@
     {%- endif -%}
   </div>
 </div>
+
+<style>
+  @media screen and (max-width: 990px) {
+    .ml-featured-collection .indicators {
+      margin-top: 10px !important;
+    }
+  }
+</style>
 
 
 {% schema %}
