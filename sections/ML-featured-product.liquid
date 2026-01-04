@@ -95,7 +95,7 @@
                     </div>
                   </slider-element>
 
-                  <div class="indicators hidden lg:flex gap-2d5 items-center !justify-between absolute top-0 left-0 w-full h-full pointer-events-none">
+                  <div class="indicators flex gap-2d5 items-center !justify-between absolute top-0 left-0 w-full h-full pointer-events-none">
                     <button class="button button--secondary pointer-events-auto" type="button" is="previous-button" aria-controls="MLSliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled data-button="previous">
                       <span class="btn-fill" data-fill></span>
                       <span class="btn-text">
@@ -156,7 +156,7 @@
                       </s>
                       <style>
                         :host{display:inline-block;position:relative}:host([hidden]){display:none}
-                        s{position:absolute;inset:0;pointer-events:none;}
+                        s{position:absolute;inset:0;pointer-events:none;display:none;}
                         s svg{width:24px;height:auto;stroke-width:var(--icon-weight);}
                         s span{position:absolute;display:grid;align-items:center;justify-items:center;background-color:rgb(var(--color-background));padding:8px;opacity:0;transition:opacity var(--animation-short);}
                         s .t{inset-block-start:0;inset-inline:-5px;border-block-end:1px solid rgb(var(--color-border));opacity:var(--t);}
@@ -332,7 +332,7 @@
             </div>
           {%- endform -%}
 
-          <a href="{{ product.url }}" class="ml-featured-product__view-product-link">View More {% render 'icon', icon: 'arrow-right', class: 'transform' %}</a>
+          {% comment %} <a href="{{ product.url }}" class="ml-featured-product__view-product-link">View More {% render 'icon', icon: 'arrow-right', class: 'transform' %}</a> {% endcomment %}
 
           </div>
         </div>

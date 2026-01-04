@@ -14,7 +14,7 @@
   <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative">
     {%- capture view_all -%}
       {%- if section.settings.show_view_all and collection != blank and section.settings.product_limit < collection.all_products_count -%}
-        <a class="button button--secondary icon-with-text" href="{{ collection.url }}" is="hover-link" aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: collection.title }}">
+        <a class="button button--primary icon-with-text" href="{{ collection.url }}" is="hover-link" aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: collection.title }}">
           <span class="btn-fill" data-fill></span>
           <span class="btn-text">
             {%- liquid
@@ -27,7 +27,7 @@
     {%- endcapture -%}
     {%- capture custom_button -%}
       {%- if section.settings.custom_button_label != blank -%}
-        <a class="ml-featured-collection-button button button--primary button--lg button--fixed icon-with-text" href="{{ section.settings.custom_button_link | default: '#' }}"{% if section.settings.custom_button_external %} target="_blank" rel="noopener"{% endif %} is="hover-link">
+        <a class="ml-featured-collection-button button button--primary button--lg button--fixed icon-with-text pointer-events-auto" href="{{ section.settings.custom_button_link | default: '#' }}"{% if section.settings.custom_button_external %} target="_blank" rel="noopener"{% endif %} is="hover-link" aria-label="{{ section.settings.custom_button_label | escape }}">
           <span class="btn-fill" data-fill></span>
           <span class="btn-text">
             {{ section.settings.custom_button_label | escape }}
@@ -41,13 +41,13 @@
         <div class="indicators hidden lg:flex gap-2d5 items-center">
           {{ custom_button }}
           {%- if section.settings.show_navigation_buttons -%}
-            <button class="button button--secondary" type="button" is="previous-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled>
+            <button class="button button--primary pointer-events-auto" type="button" is="previous-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled>
               <span class="btn-fill" data-fill></span>
               <span class="btn-text">
                 {%- render 'icon', icon: 'chevron-left', class: 'transform' -%}
               </span>
             </button>
-            <button class="button button--secondary" type="button" is="next-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}">
+            <button class="button button--primary pointer-events-auto" type="button" is="next-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}">
               <span class="btn-fill" data-fill></span>
               <span class="btn-text">
                 {%- render 'icon', icon: 'chevron-right', class: 'transform' -%}
@@ -67,7 +67,7 @@
     {%- endcapture -%}
     {%- render 'section-heading', section: section, section_button: indicators -%}
 
-    <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card"{% if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile %} tabindex="0"{% endif %}>
+    <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid .card"{% if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile %} tabindex="0"{% endif %}>
       <motion-list class="product-grid card-grid card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid">
         {%- for product in products limit: section.settings.product_limit -%}
           <div class="ml-featured-collection__product-wrapper">
@@ -146,30 +146,11 @@
           {%- endfor -%}
         {%- endfor -%}
       </motion-list>
-
-      {%- if section.settings.heading == blank and section.settings.subheading == blank and section.settings.description == blank -%}
-        {%- if section.settings.carousel_on_desktop and section.settings.show_navigation_buttons -%}
-          <div class="indicators hidden lg:flex gap-2d5 items-center absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 page-width">
-            <button class="button button--primary pointer-events-auto" type="button" is="previous-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled>
-              <span class="btn-fill" data-fill></span>
-              <span class="btn-text">
-                {%- render 'icon', icon: 'chevron-left', class: 'stroke-2 transform' -%}
-              </span>
-            </button>
-            <button class="button button--primary pointer-events-auto" type="button" is="next-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}">
-              <span class="btn-fill" data-fill></span>
-              <span class="btn-text">
-                {%- render 'icon', icon: 'chevron-right', class: 'stroke-2 transform' -%}
-              </span>
-            </button>
-          </div>
-        {%- endif -%}
-      {%- endif -%}
     </slider-element>
 
     {%- if section.settings.custom_button_label != blank -%}
       <div class="lg:hidden mt-4">
-        <a class="ml-featured-collection-button button button--primary button--lg button--fixed icon-with-text" href="{{ section.settings.custom_button_link | default: '#' }}"{% if section.settings.custom_button_external %} target="_blank" rel="noopener"{% endif %} is="hover-link">
+        <a class="ml-featured-collection-button button button--primary button--lg button--fixed icon-with-text pointer-events-auto" href="{{ section.settings.custom_button_link | default: '#' }}"{% if section.settings.custom_button_external %} target="_blank" rel="noopener"{% endif %} is="hover-link" aria-label="{{ section.settings.custom_button_label | escape }}">
           <span class="btn-fill" data-fill></span>
           <span class="btn-text">
             {{ section.settings.custom_button_label | escape }}
@@ -184,6 +165,7 @@
     {%- endif -%}
   </div>
 </div>
+
 
 {% schema %}
 {

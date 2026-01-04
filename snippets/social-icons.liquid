@@ -16,7 +16,7 @@
     {%- if settings.social_facebook_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.facebook' | t -%}
-        <a href="{{ settings.social_facebook_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_facebook_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'facebook', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -25,7 +25,7 @@
     {%- if settings.social_twitter_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.twitter' | t -%}
-        <a href="{{ settings.social_twitter_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_twitter_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'twitter', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -34,7 +34,7 @@
     {%- if settings.social_instagram_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.instagram' | t -%}
-        <a href="{{ settings.social_instagram_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_instagram_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'instagram', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -43,7 +43,7 @@
     {%- if settings.social_youtube_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.youtube' | t -%}
-        <a href="{{ settings.social_youtube_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_youtube_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'youtube', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -52,7 +52,7 @@
     {%- if settings.social_tiktok_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.tiktok' | t -%}
-        <a href="{{ settings.social_tiktok_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_tiktok_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'tiktok', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -61,7 +61,7 @@
     {%- if settings.social_snapchat_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.snapchat' | t -%}
-        <a href="{{ settings.social_snapchat_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_snapchat_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'snapchat', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -70,7 +70,7 @@
     {%- if settings.social_pinterest_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.pinterest' | t -%}
-        <a href="{{ settings.social_pinterest_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_pinterest_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'pinterest', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -79,7 +79,7 @@
     {%- if settings.social_tumblr_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.tumblr' | t -%}
-        <a href="{{ settings.social_tumblr_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_tumblr_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'tumblr', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -88,7 +88,7 @@
     {%- if settings.social_linkedin_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.linkedin' | t -%}
-        <a href="{{ settings.social_linkedin_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_linkedin_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'linkedin', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -97,7 +97,7 @@
     {%- if settings.social_vimeo_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.vimeo' | t -%}
-        <a href="{{ settings.social_vimeo_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_vimeo_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'vimeo', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -106,7 +106,7 @@
     {%- if settings.social_discord_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.discord' | t -%}
-        <a href="{{ settings.social_discord_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_discord_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'discord', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>
@@ -115,7 +115,7 @@
     {%- if settings.social_line_link != blank -%}
       <li>
         {%- assign platform =  'general.social.links.line' | t -%}
-        <a href="{{ settings.social_line_link }}" class="social_platform block relative" is="magnet-link" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
+        <a href="{{ settings.social_line_link }}" class="social_platform block relative"  title="{{ 'general.social.social_platform' | t: name: shop.name, platform: platform | escape }}">
           {%- render 'icon-brand', icon: 'line', size: size, width: width -%}
           <span class="sr-only">{{ platform }}</span>
         </a>

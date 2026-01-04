@@ -93,7 +93,7 @@
     "product_image_ratio": "square",
     "product_image_fill": true,
     "product_vendor": false,
-    "product_secondary_image": true,
+    "product_secondary_image": false,
     "product_rating": false,
     "product_countdown": false,
     "product_quick_view": false,
