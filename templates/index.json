@@ -62,7 +62,7 @@
         "image_position": "center top",
         "image_height": "800px",
         "content_width": "medium",
-        "content_position": "md:items-end md:justify-center",
+        "content_position": "md:items-center md:justify-center",
         "text_alignment": "center",
         "image_position_mobile": "center center",
         "image_height_mobile": "400px",
