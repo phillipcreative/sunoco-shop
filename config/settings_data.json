@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "current": {
     "logo": "shopify://shop_images/sunoco-race-fuels-logo.png",
     "white_logo": "shopify://shop_images/Logo_1.svg",
@@ -109,7 +109,7 @@
     "product_icon_list_metafield": "",
     "product_icon_list": false,
     "product_icon_list_carousel": true,
-    "product_disable_collection_portion": false,
+    "product_disable_collection_portion": true,
     "cart_type": "drawer",
     "cart_icon": "cart",
     "enable_search": true,
