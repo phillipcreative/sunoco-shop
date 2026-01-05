@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "image_with_text_overlay_JkzBgY": {
       "type": "image-with-text-overlay",
@@ -208,7 +208,7 @@
           "settings": {
             "year": "2026",
             "month": "01",
-            "day": "1",
+            "day": "31",
             "hour": "03",
             "minute": "00",
             "text_font": "heading",
