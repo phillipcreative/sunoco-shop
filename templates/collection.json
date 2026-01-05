@@ -63,13 +63,6 @@
     "main-collection": {
       "type": "main-collection",
       "blocks": {
-        "subcollections": {
-          "type": "subcollections",
-          "settings": {
-            "menu": "",
-            "show_count": true
-          }
-        },
         "promotion-1": {
           "type": "promotion",
           "settings": {
@@ -150,7 +143,6 @@
         }
       },
       "block_order": [
-        "subcollections",
         "promotion-1",
         "promotion-2"
       ],
