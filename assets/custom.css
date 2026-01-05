@@ -60,6 +60,16 @@ a.product-card__title {
     border: 1px solid #CACACA !important;
 }
 
+@media screen and (max-width: 1400px) {
+    .ml-featured-collection .slider--desktop .product-card {
+        min-width: 0 !important;
+    }
+
+    .ml-featured-collection .slider--desktop .card-grid .product-card {
+        width: var(--slider-item-width);
+    }
+}
+
 /* ============================================
    FEATURED PRODUCT LIST SECTION
    ============================================ */
