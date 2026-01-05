@@ -40,7 +40,7 @@
       "settings": {
         "transparent_header": true,
         "show_image": true,
-        "image_height": "750px",
+        "image_height": "500px",
         "content_position": "md:items-end md:justify-start",
         "text_alignment": "left",
         "image_height_mobile": "auto",
