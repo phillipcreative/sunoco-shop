@@ -58,18 +58,19 @@
         "promotion-1": {
           "type": "promotion",
           "settings": {
-            "position": 8,
+            "position": 6,
             "column_size": "1",
             "row_size": "1",
+            "image": "shopify://shop_images/ChatGPT_Image_Oct_9_2025_09_16_58_AM.png",
             "content_position": "md:items-center",
             "text_alignment": "center",
             "content_layout": "default",
             "subheading": "",
-            "heading": "Example heading",
+            "heading": "Top Tier Gear",
             "heading_size": "title-xl tracking-heading",
-            "content": "<p>Share information about your brand with your customers.</p>",
+            "content": "<p>Shop the newest arrivals </p>",
             "button_label": "Shop now",
-            "button_link": "",
+            "button_link": "shopify://collections/apparel",
             "button_style": "secondary",
             "button_size": "md",
             "button_external": false,
@@ -86,10 +87,10 @@
             "color_highlight": "",
             "gradient_highlight": "",
             "color_button_text": "#171717",
-            "color_button_background": "#ffffff",
+            "color_button_background": "#ffdf1c",
             "color_button_gradient": "",
             "color_overlay": "#171717",
-            "overlay_opacity": 30
+            "overlay_opacity": 36
           }
         },
         "promotion-2": {
