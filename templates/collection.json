@@ -149,7 +149,7 @@
         "filter_color_swatches": true,
         "enable_sorting": true,
         "show_on_model": false,
-        "buttons_style": "secondary",
+        "buttons_style": "primary",
         "padding_top": 40,
         "padding_bottom": 100,
         "divider": false,
