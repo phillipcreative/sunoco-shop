@@ -11671,6 +11671,10 @@ details.active .drawer__promotions .mega-menu__item,
   .slider--tablet .mobile\:card-grid--1 {
     --slider-item-width: 74vw;
   }
+
+  .ml-featured-collection__product-wrapper .slider--tablet .mobile\:card-grid--1 {
+    --slider-item-width: 55vw !important;
+  }
 }
 
 @media screen and (min-width: 1024px) {
