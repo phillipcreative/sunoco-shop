@@ -55,7 +55,7 @@ a.product-card__title {
     font-family: var(--font-heading-family) !important;
 }
 
-.product-card {
+.alternate-product-card {
     min-width: 350px !important;
     border: 1px solid #CACACA !important;
 }
@@ -537,7 +537,7 @@ a.product-card__title {
     display: none;
 }
 
-.product-card__bottom {
+.alternate-product-card .product-card__bottom {
     display: none;
 }
 
@@ -2020,3 +2020,66 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 .white-logo {
     display: none;
 }
+
+/* ============================================
+   COLLECTION PAGE
+============================================ */
+
+/* Product Cards */
+
+.collection__content a.product-card__title,
+.collection__content .price__regular {
+    font-size: 25px !important;
+}
+
+.collection__content .product-card__bottom {
+    padding-block-start: var(--sp-2);
+    padding-block-end: var(--sp-2);
+}
+
+/* Color Swatch */
+.color-pattern {
+    font-family: "Asap Condensed", Helvetica !important;
+    position: relative;
+    border-radius: 50%;
+    width: 28px;           /* was 27 */
+    height: 28px;          /* was 27 */
+    padding: 0;
+    border: 0;             /* remove harsh border */
+    box-shadow: 0 0 0 1px #000000; /* replaces border */
+    background-color: transparent;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease; /* was all */
+  }
+
+  /* Outer ring (hover/selected) */
+  .color-swatch.with-image::after,
+  .color-pattern::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;          /* make even too */
+    height: 34px;         /* make even too */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    box-shadow: 0 0 0 2px #000000;  /* ring instead of border */
+    pointer-events: none;
+  }
+
+  .color-swatch.with-image::after {
+    border-radius: 5px;
+  }
+
+  .color-swatch.color-pattern.with-image::after {
+    border-radius: 50%;
+  }
+
+  .color-pattern.is-selected::after,
+  .color-swatch.with-image.is-selected::after {
+    opacity: 1;
+  }

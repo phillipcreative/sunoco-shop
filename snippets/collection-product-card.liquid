@@ -25,8 +25,8 @@
   @param {boolean} [mobile_quick_add] - Add mobile-specific quick add button
   @param {string} [display_mode] - Rating display mode ('count' or value)
   @param {boolean} [show_on_model] - Show on model image
-  @param {boolean} [show_description] - Display product description below title
-  @param {boolean} [show_variant_color_swatches] - Display color variant swatches below description
+  @param {string} [card_style] - Card style ('standard' or 'card')
+  @param {boolean} [dynamic_swatches] - Enable dynamic swatch behavior (updates URL and image on click)
 
   @example
   {% render 'product-card',
@@ -55,8 +55,10 @@
       assign loading = 'eager'
       assign lazyimage = null
     endunless
+
+    assign card_style_value = card_style | default: settings.card_style
   -%}
-  <div class="card product-card alternate-product-card product-card--{{ settings.card_style }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative">
+  <div class="card product-card product-card--{{ card_style_value }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative">
     {%- if featured_media -%}
       <div class="product-card__media relative h-auto">
         {%- if show_quick_view -%}
@@ -328,165 +330,97 @@
         </div>
       {%- endif -%}
 
-      <div class="product-card__details flex flex-col lg:flex-row items-baseline w-full">
-        <div class="grow">
-          <p>
-            <a class="product-card__title reversed-link text-base-xl font-medium leading-tight" href="{{ product_url }}">
-              {{- product.title | escape -}}
-            </a>
-          </p>
-          {%- if show_description and product.description != blank -%}
-            <p class="product-card__description text-sm text-opacity mt-1">
-              {{ product.description | strip_html | truncatewords: 30 }}
-            </p>
-          {%- endif -%}
-          {%- if show_variant_color_swatches and product.variants.size > 1 -%}
-            {%- for option in product.options_with_values -%}
-              {%- assign option_index = forloop.index0 -%}
-              {% assign option_name_downcase = option.name | downcase %}
-              {% if option_name_downcase == 'color' or option_name_downcase == 'colour' %}
-                <div class="product-card__variant-color-swatches ml-featured-product__variant-option mt-2">
-                  <div class="ml-featured-product__variant-values">
-                    {%- for value in option.values -%}
-                      {%- assign variant_available = false -%}
-                      {%- assign variant_id = null -%}
-                      {%- assign variant_url = product_url -%}
-                      {%- for variant in product.variants -%}
-                        {%- if variant.options[option_index] == value -%}
-                          {%- if variant.available -%}
-                            {%- assign variant_available = true -%}
-                            {%- assign variant_id = variant.id -%}
-                            {%- assign variant_url = variant.url -%}
-                            {%- break -%}
-                          {%- elsif variant_id == null -%}
-                            {%- assign variant_id = variant.id -%}
-                          {%- endif -%}
-                        {%- endif -%}
-                      {%- endfor -%}
+      <div class="product-card__details flex flex-col lg:flex-row items-baseline gap-2 w-full">
+        <a class="product-card__title reversed-link text-base-xl font-medium leading-tight" href="{{ product_url }}">
+          {{- product.title | escape -}}
+        </a>
 
-                      {%- assign is_selected = false -%}
-                      {%- if product.selected_or_first_available_variant.options[option_index] == value -%}
-                        {%- assign is_selected = true -%}
+
+        {% comment %} DIGMO: START COLOR CUSTOM SWATCHES {% endcomment %}
+
+        {%- if show_color_swatches -%}
+          {%- liquid
+            assign swatch_trigger_list = 'products.general.color_swatch_trigger' | t | downcase | split: ','
+            assign color_count = 0
+          -%}
+          {%- for option in product.options_with_values -%}
+            {%- liquid
+              assign is_color = false
+              assign option_name = option.name | downcase
+              for trigger in swatch_trigger_list
+                assign swatch_trigger = trigger | strip
+                if option_name contains swatch_trigger
+                  assign is_color = true
+                elsif swatch_trigger == 'color' and option_name contains 'colour'
+                  assign is_color = true
+                endif
+
+                if is_color == true
+                  break
+                endif
+              endfor
+            -%}
+            {%- if is_color -%}
+              {%- liquid
+                assign option_index = forloop.index0
+                assign values = ''
+                assign max_color_count = settings.product_max_color_swatches
+              -%}
+              <div class="product-card__bottom flex items-center gap-2">
+                <script>console.log('product patterns?', {{ product.metafields.shopify.color-pattern.value | json }})</script>
+                <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start gap-2">
+                  {%- for variant in product.variants -%}
+                    {%- assign value = variant.options[option_index] %}
+                    {%- unless values contains value -%}
+                      {%- liquid
+                        assign values = values | join: ',' | append: ',' | append: value | split: ','
+                        assign color_count = color_count | plus: 1
+                        assign color_title = product.title | append: ' - ' | append: value
+                        assign color_url = variant.url | within: collection
+                        if settings.product_disable_collection_portion
+                          assign color_url = variant.url
+                        endif
+
+                        assign swatch = blank
+                        if value.swatch != blank
+                          assign swatch = value.swatch
+                        endif
+
+                        if settings.product_color_swatch_type == 'variant' and variant.image
+                          assign swatch = variant
+                        endif
+                      -%}
+                      {%- if color_count <= max_color_count -%}
+                        <li>
+                          {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, dynamic_swatches: dynamic_swatches -%}
+                        </li>
                       {%- endif -%}
-
-                      {% assign swatch = value.swatch %}
-                      {% assign swatch_color = swatch.color %}
-
-                      <a href="{{ variant_url }}" class="ml-featured-product__variant-value{% if is_selected %} selected{% endif %}{% unless variant_available %} unavailable{% endunless %} is-color-swatch" data-variant-value="{{ value | escape }}"{% unless variant_available %} aria-disabled="true"{% endunless %} aria-label="{{ value | escape }}" style="background-color: {{ swatch_color }};">
-                        {% if swatch != blank %}
-                          {% if swatch.image != blank %}
-                            <img
-                              class="ml-featured-product__swatch-image"
-                              src="{{ swatch.image | image_url: width: 64 }}"
-                              alt="{{ value | escape }}"
-                              width="64"
-                              height="64"
-                              loading="lazy"
-                            >
-                          {% elsif swatch.color != blank %}
-                            <span
-                              class="ml-featured-product__swatch-color"
-                              style="background-color: {{ swatch.color }};"
-                            ></span>
-                          {% else %}
-                            {{ value }}
-                          {% endif %}
-                        {% else %}
-                          {{ value }}
-                        {% endif %}
-                      </a>
-                    {%- endfor -%}
-                  </div>
-                </div>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                </ul>
+                {%- if color_count > max_color_count -%}
+                  <a href="{{ product_url }}" class="reversed-link font-medium text-xs text-opacity leading-none tracking-widest" is="hover-link"{% if show_quick_view %} aria-controls="{{ quick_view_id }}" aria-expanded="false"{% endif %}>+{{ color_count | minus: max_color_count }}</a>
+                {%- endif -%}
+              </div>
+              {%- if color_count < 1 -%}
+                <style>
+                  .swatches--{{ product.id }} { display: none; }
+                </style>
               {%- endif -%}
-            {%- endfor -%}
-          {%- endif -%}
-        </div>
-        <div class="cost_row">
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {% comment %} DIGMO: END COLOR CUSTOM SWATCHES {% endcomment %}
+
+
         <div class="flex flex-col gap-2">
           {%- render 'product-price', product: product, class: 'flex flex-wrap lg:flex-col lg:items-end gap-2 md:gap-1d5' -%}
           {%- if product.quantity_price_breaks_configured? -%}
             <div class="text-sm font-medium leading-tight">{{ 'products.volume_pricing.note' | t }}</div>
           {%- endif -%}
         </div>
-        <a href="{{ product_url }}" class="button button--primary button--lg button--fixed icon-with-text" is="hover-link" aria-label="Buy now">
-          <span class="btn-fill" data-fill></span>
-          <span class="btn-text">buy now</span>
-        </a>
-        </div>
       </div>
-
-      {%- if show_color_swatches -%}
-        {%- liquid
-          assign swatch_trigger_list = 'products.general.color_swatch_trigger' | t | downcase | split: ','
-          assign color_count = 0
-        -%}
-        {%- for option in product.options_with_values -%}
-          {%- liquid
-            assign is_color = false
-            assign option_name = option.name | downcase
-            for trigger in swatch_trigger_list
-              assign swatch_trigger = trigger | strip
-              if option_name contains swatch_trigger
-                assign is_color = true
-              elsif swatch_trigger == 'color' and option_name contains 'colour'
-                assign is_color = true
-              endif
-
-              if is_color == true
-                break
-              endif
-            endfor
-          -%}
-          {%- if is_color -%}
-            {%- liquid
-              assign option_index = forloop.index0
-              assign values = ''
-              assign max_color_count = settings.product_max_color_swatches
-            -%}
-            <div class="product-card__bottom flex items-center gap-2">
-              <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start gap-2">
-                {%- for variant in product.variants -%}
-                  {%- assign value = variant.options[option_index] %}
-                  {%- unless values contains value -%}
-                    {%- liquid
-                      assign values = values | join: ',' | append: ',' | append: value | split: ','
-                      assign color_count = color_count | plus: 1
-                      assign color_title = product.title | append: ' - ' | append: value
-                      assign color_url = variant.url | within: collection
-                      if settings.product_disable_collection_portion
-                        assign color_url = variant.url
-                      endif
-
-                      assign swatch = blank
-                      if value.swatch != blank
-                        assign swatch = value.swatch
-                      endif
-
-                      if settings.product_color_swatch_type == 'variant' and variant.image
-                        assign swatch = variant
-                      endif
-                    -%}
-                    {%- if color_count <= max_color_count -%}
-                      <li>
-                        {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product -%}
-                      </li>
-                    {%- endif -%}
-                  {%- endunless -%}
-                {%- endfor -%}
-              </ul>
-              {%- if color_count > max_color_count -%}
-                <a href="{{ product_url }}" class="reversed-link font-medium text-xs text-opacity leading-none tracking-widest" is="hover-link"{% if show_quick_view %} aria-controls="{{ quick_view_id }}" aria-expanded="false"{% endif %}>+{{ color_count | minus: max_color_count }}</a>
-              {%- endif -%}
-            </div>
-            {%- if color_count < 1 -%}
-              <style>
-                .swatches--{{ product.id }} { display: none; }
-              </style>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-      {%- endif -%}
     </div>
 
     {%- if show_icon_list -%}
@@ -520,7 +454,7 @@
             </div>
             <template>
               <slot></slot>
-              <s dir="{% render 'direction' %}" style="--t: 0;--b: 0;--l: 0;--r: 0;" class="{{ settings.card_style }}">
+              <s dir="{% render 'direction' %}" style="--t: 0;--b: 0;--l: 0;--r: 0;" class="{{ card_style_value }}">
                 <span class="l"></span>
                 <span class="r"></span>
               </s>

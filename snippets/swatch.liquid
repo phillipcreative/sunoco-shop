@@ -18,6 +18,7 @@
   @param {string} [form_id] - Form element to associate input with
   @param {boolean} [no_instant] - Disable instant page loading
   @param {string} [class] - Additional CSS classes
+  @param {boolean} [dynamic_swatches] - Enable dynamic swatch behavior (updates URL and image on click)
 
   @example
   {% render 'swatch',
@@ -28,11 +29,28 @@
 {%- enddoc -%}
 
 {%- liquid
+
+  assign product_color_pattern = product.metafields.shopify.color-pattern.value
+  assign has_color_pattern = false
+
+  for pattern in product_color_pattern
+    if pattern.label == value
+      assign has_color_pattern = true
+      assign swatch_fallback = pattern.color
+      if pattern.image
+        assign swatch_image = pattern.image | image_url: width: 72
+        assign swatch_fallback_override = false
+      else
+        assign swatch_image = blank
+        assign swatch_fallback_override = true
+      endif
+      break
+    endif
+  endfor
+
   if swatch == blank
     assign file_extension = file_extension | default: 'png'
     assign file_name = value_label | handle | append: '.' | append: file_extension
-    assign swatch_fallback = value_label | split: ' ' | last | handle
-    assign swatch_fallback_override = false
 
     if settings.swatch_config != blank
       assign value_downcase = value_label | downcase
@@ -61,28 +79,55 @@
       assign swatch_image = file_name
     endif
   else
-    assign swatch_image = blank
-    assign swatch_fallback = value | split: ' ' | last | handle
-    if swatch.image
-      assign swatch_image = swatch.image | image_url: width: 72
+    unless has_color_pattern
+      assign swatch_image = blank
+      assign swatch_fallback = value | split: ' ' | last | handle
       assign swatch_fallback_override = false
-    elsif swatch.color
-      assign swatch_fallback = swatch.color
-    endif
+
+      if swatch.image
+        assign swatch_image = swatch.image | image_url: width: 72
+        assign swatch_fallback_override = false
+      elsif swatch.color
+        assign swatch_fallback = swatch.color
+      endif
+    else
+      if swatch_image == blank and swatch.image
+        assign swatch_image = swatch.image | image_url: width: 72
+      endif
+    endunless
   endif
 -%}
 
 {%- if href -%}
-  <a href="{{ href }}" class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" title="{{ title | escape }}" aria-label="{{ title | escape }}" style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"{% if no_instant %} data-no-instant{% endif %}>
-    {%- if tooltip != blank -%}
-      <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ tooltip | escape }}</span>
-    {%- else -%}
-      <span class="sr-only">{{ value | escape }}</span>
-    {%- endif -%}
-  </a>
+  {%- liquid
+    assign variant_url = href
+    assign variant_image_url = blank
+    if variant and variant.featured_media
+      assign variant_image_url = variant.featured_media | image_url: width: 720
+    elsif variant and variant.image
+      assign variant_image_url = variant.image | image_url: width: 720
+    endif
+  -%}
+  {% if dynamic_swatches %}
+    <div class="color-swatch{% if has_color_pattern %} color-pattern{% endif %}{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" title="{{ title | escape }}" aria-label="{{ title | escape }}" style="background-color: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}background-image: url({{ swatch_image }});{% endif %}"{% if no_instant %} data-no-instant{% endif %}{% if dynamic_swatches and variant %} data-variant-url="{{ variant_url }}"{% if variant_image_url != blank %} data-variant-image="{{ variant_image_url }}"{% endif %}{% if variant.id %} data-variant-id="{{ variant.id }}"{% endif %} data-product-card-swatch{% endif %}>
+      {%- if tooltip != blank -%}
+        <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ tooltip | escape }}</span>
+      {%- else -%}
+        <span class="sr-only">{{ value | escape }}</span>
+      {%- endif -%}
+    </div>
+  {% else %}
+    <a href="{{ href }}" class="color-swatch{% if has_color_pattern %} color-pattern{% endif %}{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" title="{{ title | escape }}" aria-label="{{ title | escape }}" style="background-color: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}background-image: url({{ swatch_image }});{% endif %}"{% if no_instant %} data-no-instant{% endif %}{% if dynamic_swatches and variant %} data-variant-url="{{ variant_url }}"{% if variant_image_url != blank %} data-variant-image="{{ variant_image_url }}"{% endif %}{% if variant.id %} data-variant-id="{{ variant.id }}"{% endif %} data-product-card-swatch{% endif %}>
+      {%- if tooltip != blank -%}
+        <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ tooltip | escape }}</span>
+      {%- else -%}
+        <span class="sr-only">{{ value | escape }}</span>
+      {%- endif -%}
+    </a>
+  {% endif %}
 {%- else -%}
   <input class="sr-only" name="{{ name }}" value="{{ value | escape }}" type="{% if allow_multiple %}checkbox{% else %}radio{% endif %}"{% if form_id %} form="{{ form_id | escape }}"{% endif %} id="{{ id | escape }}"{% if disabled %} disabled{% endif %}{% if selected %} checked{% endif %} />
-  <label class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" for="{{ id | escape }}" style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}">
+  <label class="color-swatch{% if has_color_pattern %} color-pattern{% endif %}{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" for="{{ id | escape }}" style="background-color: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}background-image: url({{ swatch_image }});{% endif %}">
     {%- if tooltip != blank -%}
       <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ tooltip | escape }}</span>
     {%- else -%}

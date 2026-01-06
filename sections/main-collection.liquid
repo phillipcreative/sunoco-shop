@@ -238,7 +238,7 @@
                     assign lazy_load = true
                   endif
                 -%}
-                {%- render 'product-card',
+                {%- render 'collection-product-card',
                   product: product,
                   product_id: product.id,
                   section_id: section.id,
@@ -257,7 +257,9 @@
                   show_save_amount: settings.product_save_amount,
                   save_type: settings.product_save_type,
                   show_icon_list: settings.product_icon_list,
-                  show_on_model: show_on_model
+                  show_on_model: show_on_model,
+                  card_style: section.settings.card_style,
+                  dynamic_swatches: section.settings.dynamic_swatches
                 -%}
               {%- endfor -%}
             </motion-list>
@@ -407,6 +409,13 @@
       "label": "t:sections.main-collection.settings.show_on_model.label"
     },
     {
+      "type": "checkbox",
+      "id": "dynamic_swatches",
+      "default": false,
+      "label": "Enable dynamic swatches",
+      "info": "When enabled, clicking swatches will update the product card URL and featured image without navigating away"
+    },
+    {
       "type": "select",
       "id": "buttons_style",
       "options": [
@@ -421,6 +430,22 @@
       ],
       "default": "secondary",
       "label": "t:sections.main-collection.settings.buttons_style.label"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "options": [
+        {
+          "value": "standard",
+          "label": "t:settings_schema.cards.settings.style.options__1.label"
+        },
+        {
+          "value": "card",
+          "label": "t:settings_schema.cards.settings.style.options__2.label"
+        }
+      ],
+      "default": "card",
+      "label": "t:settings_schema.cards.settings.style.label"
     },
     {
       "type": "header",

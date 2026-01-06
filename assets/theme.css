@@ -3500,7 +3500,8 @@ button.shopify-payment-button__button--unbranded {
 }
 
 .indicators .button[hidden] {
-  display: none;
+  /* display: none; */
+  opacity: 0.3;
 }
 
 .indicators .button[disabled] {

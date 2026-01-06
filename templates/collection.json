@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
     "main-collection-banner": {
       "type": "main-collection-banner",
@@ -140,9 +140,9 @@
         "promotion-2"
       ],
       "settings": {
-        "products_per_page": 11,
-        "columns": 3,
-        "columns_mobile": "2",
+        "products_per_page": 10,
+        "columns": 4,
+        "columns_mobile": "1",
         "pagination": "paginated",
         "enable_filtering": true,
         "filter_type": "drawer",

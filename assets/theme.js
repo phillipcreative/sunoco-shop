@@ -4376,6 +4376,10 @@ class SliderElement extends HTMLElement {
   scrollend() {
     this.hasPendingOnScroll = false;
     this.dispatchEventHandler();
+
+    if (!this.looping) {
+      this.updateButtons();
+    }
   }
 
   update() {
@@ -4413,7 +4417,10 @@ class SliderElement extends HTMLElement {
 
     if (this.perPage > 1) {
       previousDisabled = previousDisabled || this.itemsToShow.length > 0 && this.isVisible(this.itemsToShow[0]) && this.scrollLeft === 0;
-      nextDisabled = nextDisabled || this.itemsToShow.length > 0 && this.isVisible(this.itemsToShow[this.itemsToShow.length - 1]);
+      const lastItem = this.itemsToShow[this.itemsToShow.length - 1];
+      const maxScrollLeft = theme.config.rtl ? 0 : this.scrollWidth - this.clientWidth;
+      const isAtEnd = theme.config.rtl ? this.scrollLeft <= maxScrollLeft : this.scrollLeft >= maxScrollLeft;
+      nextDisabled = nextDisabled || (this.itemsToShow.length > 0 && (this.isVisible(lastItem) || isAtEnd));
     }
 
     this.dispatchEvent(
@@ -7999,3 +8006,66 @@ class ScrollSpy extends HTMLElement {
   }
 };
 customElements.define('scroll-spy', ScrollSpy, { extends: 'nav' });
+
+// Product card swatch click handler - updates URL and featured image
+theme.DOMready(function() {
+  document.addEventListener('click', function(e) {
+    const swatch = e.target.closest('[data-product-card-swatch]');
+    if (!swatch) return;
+
+    const productCard = swatch.closest('.product-card');
+    if (!productCard) return;
+
+    // Remove is-selected class from all swatches in this product card
+    const allSwatches = productCard.querySelectorAll('[data-product-card-swatch]');
+    allSwatches.forEach(function(otherSwatch) {
+      otherSwatch.classList.remove('is-selected');
+    });
+
+    // Add is-selected class to the clicked swatch
+    swatch.classList.add('is-selected');
+
+    const variantUrl = swatch.getAttribute('data-variant-url');
+    const variantImageUrl = swatch.getAttribute('data-variant-image');
+
+    if (!variantUrl) return;
+
+    // Update product card links
+    const productLinks = productCard.querySelectorAll('.product-card__media a, .product-card__title, a[href*="/products/"]');
+    productLinks.forEach(function(link) {
+      if (link !== swatch) {
+        link.href = variantUrl;
+      }
+    });
+
+    // Update featured image if variant has an image
+    if (variantImageUrl) {
+      const mediaContainer = productCard.querySelector('.product-card__media');
+      if (mediaContainer) {
+        // Find the main featured image
+        const featuredImage = mediaContainer.querySelector('img:not(.product-card__model img)');
+        if (featuredImage) {
+          // Update image source
+          const newSrc = variantImageUrl;
+          const newSrcset = variantImageUrl.replace('width=720', 'width=180') + ' 180w, ' +
+                           variantImageUrl.replace('width=720', 'width=360') + ' 360w, ' +
+                           variantImageUrl.replace('width=720', 'width=540') + ' 540w, ' +
+                           variantImageUrl.replace('width=720', 'width=720') + ' 720w, ' +
+                           variantImageUrl.replace('width=720', 'width=900') + ' 900w, ' +
+                           variantImageUrl.replace('width=720', 'width=1080') + ' 1080w';
+
+          featuredImage.src = newSrc;
+          featuredImage.srcset = newSrcset;
+          featuredImage.setAttribute('src', newSrc);
+          featuredImage.setAttribute('srcset', newSrcset);
+
+          // Handle lazy-image component if present
+          const lazyImage = featuredImage.closest('lazy-image');
+          if (lazyImage) {
+            lazyImage.setAttribute('src', newSrc);
+          }
+        }
+      }
+    }
+  });
+});
