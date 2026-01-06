@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "main-collection-banner": {
       "type": "main-collection-banner",
@@ -150,7 +150,9 @@
         "filter_color_swatches": true,
         "enable_sorting": true,
         "show_on_model": false,
+        "dynamic_swatches": true,
         "buttons_style": "primary",
+        "card_style": "card",
         "padding_top": 40,
         "padding_bottom": 100,
         "divider": false,
