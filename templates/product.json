@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "main-product": {
       "type": "main-product",
@@ -29,12 +29,6 @@
             "title_size_mobile": "product-title-md",
             "show_price": true,
             "show_rating": true
-          }
-        },
-        "easyreviews_star_rating_xDVdHK": {
-          "type": "shopify://apps/easyreviews/blocks/star_rating/1341251b-09d7-46f3-ba6a-e732a50e97a5",
-          "settings": {
-            "product": "{{product}}"
           }
         },
         "description": {
@@ -61,15 +55,6 @@
             "enable_color_swatches": true,
             "color_swatch_type": "variant",
             "size_chart": ""
-          }
-        },
-        "inventory": {
-          "type": "inventory",
-          "settings": {
-            "inventory_threshold": 15,
-            "show_inventory_transfer": true,
-            "show_inventory_quantity": "low",
-            "color_scheme": "accent-1"
           }
         },
         "buy_buttons": {
@@ -156,11 +141,9 @@
       "block_order": [
         "vendor",
         "title",
-        "easyreviews_star_rating_xDVdHK",
         "description",
         "countdown",
         "variant_picker",
-        "inventory",
         "buy_buttons",
         "pickup_availability",
         "share",
@@ -584,35 +567,6 @@
         "full_width": false,
         "rounded": false
       }
-    },
-    "1765807912e6c068ae": {
-      "type": "apps",
-      "blocks": {
-        "easyreviews_product_review_gxg3Dt": {
-          "type": "shopify://apps/easyreviews/blocks/product_review/1341251b-09d7-46f3-ba6a-e732a50e97a5",
-          "settings": {
-            "product": "{{product}}"
-          }
-        }
-      },
-      "block_order": [
-        "easyreviews_product_review_gxg3Dt"
-      ],
-      "settings": {
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "divider": false,
-        "full_width": false,
-        "rounded": false
-      }
     }
   },
   "order": [
@@ -623,7 +577,6 @@
     "image_with_text_FqUkmG",
     "product-recommendations",
     "ml_featured_collection_mi8ag6",
-    "recently-viewed",
-    "1765807912e6c068ae"
+    "recently-viewed"
   ]
 }
