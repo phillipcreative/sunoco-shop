@@ -22,15 +22,33 @@
   %}
 {%- enddoc -%}
 
+{%- liquid
+  assign has_jug_import_tag = false
+  for tag in product.tags
+    if tag == 'jug-import'
+      assign has_jug_import_tag = true
+      break
+    endif
+  endfor
+
+  assign jug_import_collection = blank
+  if has_jug_import_tag
+    if collections.jug-import != blank
+      assign jug_import_collection = collections.jug-import
+    elsif collections.all != blank
+      assign jug_import_collection = collections.all
+    endif
+  endif
+-%}
 {%- unless product.has_only_default_variant -%}
   {%- liquid
     case block.settings.picker_type
       when 'button'
         if block.settings.enable_color_swatches
           if block.settings.color_swatch_type == 'variant'
-            render 'product-variant-picker-variant', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', image_ratio: image_ratio, image_ratio_mobile: image_ratio_mobile, image_fill: image_fill
+            render 'product-variant-picker-variant', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', image_ratio: image_ratio, image_ratio_mobile: image_ratio_mobile, image_fill: image_fill, has_jug_import_tag: has_jug_import_tag, jug_import_collection: jug_import_collection
           else
-            render 'product-variant-picker-swatch', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product'
+            render 'product-variant-picker-swatch', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', has_jug_import_tag: has_jug_import_tag, jug_import_collection: jug_import_collection
           endif
         else
           render 'product-variant-picker-button', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product'

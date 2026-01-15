@@ -4412,10 +4412,21 @@ input[type=checkbox].switch:is(:disabled, .disabled):not(:checked)::after {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate));
 }
 
-:checked+.color-swatch::after {
+:checked+.color-swatch::after,
+.color-swatch.active::after {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
   opacity: 1
+}
+
+.swatches--variant .color-swatch.active::after {
+  --tw-shadow-colored: 0 0 0 2px var(--tw-shadow-color);
+  --tw-shadow-color: rgb(var(--color-foreground));
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.swatches--variant .color-swatch.active::before {
+  box-shadow: inset 0 0 0 2px rgb(var(--color-background));
 }
 
 .swatches input:is([type=checkbox], [type=radio]):is(:disabled, .disabled)+.color-swatch {

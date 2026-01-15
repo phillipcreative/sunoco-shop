@@ -2083,3 +2083,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
   .color-swatch.with-image.is-selected::after {
     opacity: 1;
   }
+
+  .color-swatch.with-image.active:after {
+    opacity: 1;
+    border-radius: var(--swatch-radius);
+    width: 40px;
+    height: 40px;
+  }
