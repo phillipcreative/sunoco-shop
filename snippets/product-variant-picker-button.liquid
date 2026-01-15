@@ -79,7 +79,7 @@
       {%- capture swatchs_content -%}
         {%- for value in option.values -%}
           <li>
-            <magnet-element class="block">
+            <magnet-element class="block" data-magnet="0">
               <input
                 type="radio"
                 class="sr-only{% unless value.available %} disabled{% endunless %}"

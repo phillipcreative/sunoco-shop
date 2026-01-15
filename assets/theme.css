@@ -4600,13 +4600,13 @@ input[type=checkbox].switch:is(:disabled, .disabled):not(:checked)::after {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
-@media screen and (pointer:fine) {
+/* @media screen and (pointer:fine) {
   .swatches--variant input:is([type=checkbox], [type=radio]):not(:disabled, .disabled)+.color-swatch:hover::after {
     --tw-shadow-colored: 0 0 0 2px var(--tw-shadow-color);
     --tw-shadow-color: rgb(var(--color-foreground));
     --tw-shadow: var(--tw-shadow-colored);
   }
-}
+} */
 
 .swatches--variant .color-swatch~span {
   max-width: clamp(var(--sp-10), 3.368vw, var(--sp-16));

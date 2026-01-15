@@ -110,7 +110,7 @@
         {%- for product_variation in block.settings.products -%}
           {%- assign value = product_variation.metafields[metafield_namespace][metafield_key].value -%}
           <li>
-            <magnet-element class="block">
+            <magnet-element class="block" data-magnet="0">
               <input
                 type="radio"
                 class="sr-only{% unless product_variation.available %} disabled{% endunless %}"
@@ -125,14 +125,14 @@
                     assign file_name = value | handle | append: '.' | append: file_extension
                     assign swatch_fallback = value | split: ' ' | last | handle
                     assign swatch_fallback_override = false
-    
+
                     if settings.swatch_config != blank
                       assign value_downcase = value | downcase
                       assign swatch_config = settings.swatch_config | newline_to_br | split: '<br />'
                       for swatch in swatch_config
                         assign swatch_parts = swatch | strip | split: ':'
                         assign swatch_name = swatch_parts.first | downcase | strip
-      
+
                         if swatch_name == value_downcase
                           assign swatch_value = swatch_parts.last | strip
                           if swatch_value contains '#'
@@ -145,7 +145,7 @@
                         endif
                       endfor
                     endif
-    
+
                     assign swatch_image = blank
                     if images[file_name] != blank
                       assign swatch_image = images[file_name] | image_url: width: 72
@@ -162,7 +162,7 @@
                       assign swatch_fallback = value.swatch.color
                     endif
                   endif
-  
+
                   if block.settings.color_swatch_type == 'variant'
                     if product_variation.featured_media
                       assign swatch_image = product_variation.featured_media | image_url: width: 144
