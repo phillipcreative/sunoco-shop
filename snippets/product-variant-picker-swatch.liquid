@@ -136,9 +136,27 @@
                   endfor
                 endif
 
+                assign related_color_handle = related_product_color_value | handleize
+                assign swatch_entry = metaobjects['color'][related_color_handle]
+                assign related_metaobject_value = metaobjects['shopify--color-pattern'][related_color_handle]
+
                 assign swatch_image = blank
                 assign swatch_fallback = blank
                 assign swatch_fallback_override = false
+
+                if related_metaobject_value != blank
+                  assign swatch_image = related_metaobject_value.image.value | image_url: width: 72
+                  assign swatch_fallback = related_metaobject_value.color.value
+                  assign swatch_fallback_override = true
+                elsif swatch_entry
+                  assign swatch_fallback = swatch_entry.color.value
+                  assign swatch_fallback_override = true
+
+                  if swatch_entry.image.value != blank
+                    assign swatch_image = swatch_entry.image.value | image_url: width: 72
+                    assign swatch_fallback_override = false
+                  endif
+                endif
 
                 if related_product_variant.image
                   assign swatch_image = related_product_variant.image | image_url: width: 72
@@ -211,6 +229,17 @@
 
                 assign input_id = section_id | append: '-' | append: product_id | append: '-' | append: option.name | handle | append: '-' | append: related_product.id
               -%}
+
+              {% assign related_metaobject_value = metaobjects['shopify--color-pattern'][related_color_handle] %}
+
+              {% if related_metaobject_value != blank %}
+                {% assign swatch_image = related_metaobject_value.image.value | image_url: width: 72 %}
+                {% assign swatch_fallback = related_metaobject_value.color.value %}
+                {% assign swatch_fallback_override = true %}
+              {% endif %}
+
+              <script>console.log('is_current_product: ', '{{ is_current_product }}')</script>
+
             <li>
               <magnet-element class="block" data-magnet="0">
                 {%- if is_current_product -%}
@@ -227,7 +256,7 @@
                 {%- endif -%}
                 <a
                   href="{{ related_product.url }}"
-                  class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if is_current_product %} cursor-pointer{% endif %}{% if is_current_product and is_selected %} active{% endif %}"
+                  class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative cursor-pointer {% if is_current_product and is_selected %}active{% endif %}"
                   title="{{ related_product_color_value | escape }}"
                   style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
                   data-jug-color="{{ related_product_color_value | escape }}"

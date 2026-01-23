@@ -2245,6 +2245,7 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     border-radius: 50%;
   }
 
+  .color-swatch.active::after,
   .color-pattern.is-selected::after,
   .collection__content .color-swatch.with-image.is-selected::after {
     opacity: 1;
@@ -2256,8 +2257,6 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     width: 40px;
     height: 40px;
   }
-
-
 
 /* ============================================
    Side Cart Styles
