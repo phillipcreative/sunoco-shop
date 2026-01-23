@@ -154,7 +154,7 @@
       "type": "ML-featured-collection",
       "name": "ML Featured Collection",
       "settings": {
-        "collection": "frontpage",
+        "collection": "fuel-jugs",
         "products": [],
         "product_limit": 6,
         "columns": 4,
