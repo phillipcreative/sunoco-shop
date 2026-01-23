@@ -696,6 +696,40 @@ a.product-card__title {
     border-radius: 16px !important;
     border: 1px solid #CACACA !important;
     background-color: #FFFFFF !important;
+    min-height: max-content;
+    contain: layout style paint;
+}
+
+.ml-featured-product__gallery .product__media-container {
+    min-height: 400px;
+}
+
+.ml-featured-product__gallery .product__gallery {
+    will-change: contents;
+}
+
+.ml-featured-product__gallery .product__media-list {
+    min-height: 350px;
+}
+
+.ml-featured-product__price {
+    min-height: 1.5em;
+}
+
+.ml-featured-product__gallery .product__gallery,
+.ml-featured-product__gallery .product__media-container,
+.ml-featured-product__gallery .product__media-list {
+    scroll-behavior: smooth;
+}
+
+@media screen and (min-width: 768px) {
+    .ml-featured-product__gallery .product__media-container {
+        min-height: 500px;
+    }
+
+    .ml-featured-product__gallery .product__media-list {
+        min-height: 450px;
+    }
 }
 
 .product__media-container {
@@ -721,6 +755,13 @@ a.product-card__title {
     color: #000000 !important;
 }
 
+.ml-featured-product__description .disclaimer-text {
+    line-height: 1 !important;
+}
+
+.ml-featured-product__description .disclaimer-text strong {
+    font-size: 14px !important;
+}
 
 .ml-featured-product__add-to-cart {
     font-family: "Asap Condensed", Helvetica !important;
@@ -800,6 +841,10 @@ a.product-card__title {
     letter-spacing: normal;
     color: #000000;
     height: 42px;
+}
+
+.ml-featured-product__form .product-form__input .form__label {
+    margin: 0px;
 }
 
 
@@ -1107,11 +1152,17 @@ a.product-card__title {
   font-size: 16px;
   line-height: 1.6;
   color: #000000;
-  margin-top: 8px;
+  /* margin-top: 8px; */
+  margin: 1rem 0 0 0;
 }
 
+.ml-featured-product__description.rte li,
 .ml-featured-product__description.rte p {
-  margin: 0;
+  margin-bottom: 10px;
+}
+
+.ml-featured-product__description.rte li {
+    padding-left: 0px;
 }
 
 .ml-featured-product__variant-selector {
@@ -1450,10 +1501,19 @@ a.product-card__title {
   color: #000000 !important;
 }
 
-.ml-featured-product__content-wrapper {
-    grid-template-columns: 1fr 1fr;
+@media screen and (min-width: 706px) {
+  .ml-featured-product__content-wrapper {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 30px;
+    align-items: start;
   }
+
+  .ml-featured-product__gallery {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+  }
+}
 
 /* ============================================
             MEDIA QUERIES
@@ -2090,3 +2150,17 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     width: 40px;
     height: 40px;
   }
+
+/* ============================================
+   Override Theme Styles
+============================================ */
+
+/* Paragraph ul, ol spacing */
+.rte :where(ul,ol):not(:where([class~=not-rte] *)) {
+    margin-block: var(--sp-3) !important;
+}
+
+/* Product Swatch Spacing */
+.variant-picker .color-swatch {
+    --swatch-size: 27px;
+}

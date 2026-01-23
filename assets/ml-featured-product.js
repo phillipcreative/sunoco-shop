@@ -1,15 +1,13 @@
 // Constants
 const SELECTORS = {
   section: '[data-ml-featured-product]',
-  variantValue: '.ml-featured-product__variant-value',
-  variantOption: '.ml-featured-product__variant-option',
-  variantSelected: '.ml-featured-product__variant-selected',
   addToCart: '.ml-featured-product__add-to-cart',
   price: '.ml-featured-product__price',
   thumbnail: '.product__thumbnail',
   thumbnailList: '.product__thumbnails-list',
   media: '.product__media',
-  cartDrawer: 'cart-drawer'
+  cartDrawer: 'cart-drawer',
+  variantPicker: 'variant-picker'
 };
 
 const DELAYS = {
@@ -174,265 +172,48 @@ function setupGalleryNavigation(gallery, galleryId) {
   });
 }
 
-// Variant selection and cart functionality
-class VariantSelector {
-  constructor(form, productData, gallery, galleryId) {
-    this.form = form;
-    this.productData = productData;
-    this.gallery = gallery;
-    this.galleryId = galleryId;
-    this.variantInput = form.querySelector('input[name="id"]');
-    this.variantButtons = form.querySelectorAll(SELECTORS.variantValue);
-    this.addToCartButton = form.querySelector(SELECTORS.addToCart);
-    this.priceElement = document.querySelector(SELECTORS.price);
-    this.quantityInput = form.querySelector('input[name="quantity"]');
-    this.productVariants = productData.variants || [];
-    this.selectedVariant = null;
+// Listen to variant change events from ProductInfo to update ML-specific elements
+function setupMLProductInfoListeners() {
+  if (typeof theme === 'undefined' || !theme.pubsub) return;
 
-    this.init();
-  }
+  theme.pubsub.subscribe(
+    theme.pubsub.PUB_SUB_EVENTS.variantChange,
+    (data) => {
+      const sectionId = data.data.sectionId;
+      const variant = data.data.variant;
 
-  init() {
-    this.variantButtons.forEach(button => {
-      button.addEventListener('click', (e) => this.handleVariantClick(e, button));
-    });
+      if (!variant) return;
 
-    this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
-    this.updateVariantSelection();
-  }
+      // Find the ML featured product section
+      const section = document.querySelector(`[data-ml-featured-product][data-section-id="${sectionId}"]`);
+      if (!section) return;
 
-  findVariantByOptions(selectedOptions) {
-    return this.productVariants.find(variant =>
-      variant.options.every((option, index) =>
-        String(option).trim().toLowerCase() === String(selectedOptions[index]).trim().toLowerCase()
-      )
-    );
-  }
+      const productId = section.getAttribute('data-product-id');
+      const form = document.getElementById(`ProductForm-${sectionId}-${productId}`);
+      const addToCartButton = form?.querySelector('.ml-featured-product__add-to-cart');
 
-  getSelectedOptions() {
-    const optionGroups = this.form.querySelectorAll(SELECTORS.variantOption);
-    return Array.from(optionGroups)
-      .map(optionGroup => {
-        const selectedButton = optionGroup.querySelector(`${SELECTORS.variantValue}.selected`);
-        return selectedButton?.getAttribute('data-option-value');
-      })
-      .filter(Boolean);
-  }
-
-  updateVariantSelection() {
-    const selectedOptions = this.getSelectedOptions();
-    const optionGroups = this.form.querySelectorAll(SELECTORS.variantOption);
-    const totalOptions = optionGroups.length;
-
-    if (this.productData.has_only_default_variant || totalOptions === 0) {
-      this.selectedVariant = this.productVariants[0] || null;
-    } else if (selectedOptions.length === totalOptions) {
-      this.selectedVariant = this.findVariantByOptions(selectedOptions);
-    } else {
-      this.selectedVariant = null;
-    }
-
-    if (!this.selectedVariant) return;
-
-    this.variantInput.value = this.selectedVariant.id;
-    this.variantInput.removeAttribute('disabled');
-
-    this.updatePrice();
-    this.updateAddToCartButton();
-    this.updateQuantityInput();
-  }
-
-  updatePrice() {
-    if (!this.priceElement || typeof theme === 'undefined' || !theme.Currency) return;
-
-    const priceFormat = theme.settings.currencyCodeEnabled
-      ? theme.settings.moneyWithCurrencyFormat
-      : theme.settings.moneyFormat;
-    this.priceElement.textContent = theme.Currency.formatMoney(this.selectedVariant.price, priceFormat);
-  }
-
-  updateAddToCartButton() {
-    if (!this.addToCartButton || typeof theme === 'undefined' || !theme.variantStrings) return;
-
-    const buttonText = this.addToCartButton.querySelector('.btn-text');
-    if (!buttonText) return;
-
-    if (this.selectedVariant.available) {
-      buttonText.textContent = theme.variantStrings.addToCart;
-      this.addToCartButton.removeAttribute('disabled');
-    } else {
-      buttonText.textContent = theme.variantStrings.soldOut;
-      this.addToCartButton.setAttribute('disabled', 'disabled');
-    }
-  }
-
-  updateQuantityInput() {
-    if (!this.quantityInput || !this.selectedVariant.quantity_rule) return;
-
-    const rule = this.selectedVariant.quantity_rule;
-    this.quantityInput.setAttribute('data-quantity-variant-id', this.selectedVariant.id);
-    this.quantityInput.setAttribute('data-min', rule.min || 1);
-    this.quantityInput.setAttribute('min', rule.min || 1);
-    this.quantityInput.setAttribute('step', rule.increment || 1);
-
-    if (rule.max) {
-      this.quantityInput.setAttribute('data-max', rule.max);
-      this.quantityInput.setAttribute('max', rule.max);
-    } else {
-      this.quantityInput.removeAttribute('data-max');
-      this.quantityInput.removeAttribute('max');
-    }
-  }
-
-  scrollToMedia(imageId) {
-    if (!imageId || !this.gallery) return;
-
-    const mediaElement = this.gallery.querySelector(`[data-media-id="${imageId}"]`);
-    if (!mediaElement) return;
-
-    const mediaItems = this.gallery.itemsToShow || this.gallery.querySelectorAll('[data-media-id]');
-    const mediaIndex = Array.from(mediaItems).indexOf(mediaElement);
-
-    if (mediaIndex !== -1 && typeof this.gallery.select === 'function') {
-      this.gallery.select(mediaIndex + 1);
-    } else {
-      requestAnimationFrame(() => {
-        const behavior = theme?.config?.motionReduced ? 'auto' : 'smooth';
-        this.gallery.scrollTo({ left: mediaElement.offsetLeft, behavior });
-      });
-    }
-  }
-
-  handleVariantClick(event, button) {
-    if (button.hasAttribute('disabled')) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const imageId = button.getAttribute('data-variant-media-id');
-    const optionValue = button.getAttribute('data-option-value');
-    const optionGroup = button.closest(SELECTORS.variantOption);
-
-    if (imageId) {
-      this.scrollToMedia(imageId);
-    }
-
-    optionGroup.querySelectorAll(SELECTORS.variantValue).forEach(btn => btn.classList.remove('selected'));
-    button.classList.add('selected');
-
-    const selectedSpan = optionGroup.querySelector(SELECTORS.variantSelected);
-    if (selectedSpan) {
-      selectedSpan.textContent = optionValue;
-    }
-
-    this.updateVariantSelection();
-  }
-
-  async handleFormSubmit(event) {
-    event.preventDefault();
-
-    if (this.addToCartButton.hasAttribute('aria-disabled')) return;
-
-    const variantId = this.getVariantId();
-    if (!variantId) return;
-
-    const quantity = parseInt(this.quantityInput.value) || 1;
-    this.setLoadingState(true);
-
-    try {
-      const data = await this.addToCart(variantId, quantity);
-      if (data.status) {
-        console.error('Add to cart error:', data.description || data.message);
-        this.setLoadingState(false);
-        return;
+      // Update add to cart button
+      if (addToCartButton && typeof theme !== 'undefined' && theme.variantStrings) {
+        const buttonText = addToCartButton.querySelector('.btn-text');
+        if (buttonText) {
+          if (variant.available) {
+            buttonText.textContent = theme.variantStrings.addToCart;
+            addToCartButton.removeAttribute('disabled');
+          } else {
+            buttonText.textContent = theme.variantStrings.soldOut;
+            addToCartButton.setAttribute('disabled', 'disabled');
+          }
+        }
       }
-
-      this.setLoadingState(false);
-      await this.handleCartUpdate(variantId, data);
-      this.dispatchCustomEvent(data);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      this.setLoadingState(false);
     }
-  }
+  );
+}
 
-  getVariantId() {
-    const selectedSwatch = this.form.querySelector(`${SELECTORS.variantValue}.selected.is-swatch`);
-    const variantIdAttr = selectedSwatch?.getAttribute('data-variant-id');
-
-    if (variantIdAttr) return parseInt(variantIdAttr);
-    if (this.variantInput?.value) return parseInt(this.variantInput.value);
-
-    return null;
-  }
-
-  setLoadingState(loading) {
-    if (loading) {
-      this.addToCartButton.setAttribute('aria-disabled', 'true');
-      this.addToCartButton.setAttribute('aria-busy', 'true');
-    } else {
-      this.addToCartButton.removeAttribute('aria-disabled');
-      this.addToCartButton.removeAttribute('aria-busy');
-    }
-  }
-
-  async addToCart(variantId, quantity) {
-    const sectionsToBundle = this.getSectionsToBundle();
-
-    const response = await fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: variantId,
-        quantity,
-        sections: sectionsToBundle,
-        sections_url: window.location.pathname
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    return response.json();
-  }
-
-  getSectionsToBundle() {
-    const cartDrawer = document.querySelector(SELECTORS.cartDrawer);
-    const sectionId = cartDrawer?.getAttribute('data-section-id');
-    return sectionId ? [sectionId] : [];
-  }
-
-  async handleCartUpdate(variantId, data) {
-    if (typeof theme === 'undefined' || !theme.pubsub) {
-      this.showCartDrawer();
-      return;
-    }
-
-    const cart = await fetch('/cart.js').then(res => res.json());
-    if (data.sections) {
-      cart.sections = data.sections;
-    }
-
-    theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.cartUpdate, {
-      source: 'ml-featured-product',
-      productVariantId: variantId,
-      cart
-    });
-
-    this.showCartDrawer();
-  }
-
-  showCartDrawer() {
-    const cartDrawerElement = document.querySelector(SELECTORS.cartDrawer);
-    cartDrawerElement?.show(this.addToCartButton);
-  }
-
-  dispatchCustomEvent(data) {
-    document.dispatchEvent(new CustomEvent('ajaxProduct:added', {
-      detail: { product: data }
-    }));
-  }
+// Initialize listeners when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupMLProductInfoListeners);
+} else {
+  setupMLProductInfoListeners();
 }
 
 // Main initialization
@@ -444,10 +225,10 @@ function initMLFeaturedProduct(sectionElement) {
   if (!productDataJson) return;
 
   const productData = JSON.parse(productDataJson);
-  const formId = `MLProductForm-${sectionId}-${productId}`;
-  const galleryId = `MLSliderGallery-${sectionId}-${productId}`;
+  const formId = `ProductForm-${sectionId}-${productId}`;
+  const galleryId = `SliderGallery-${sectionId}-${productId}`;
   const thumbnailsId = `MLThumbnails-${sectionId}-${productId}`;
-  const mediaGalleryId = `MLProductGallery-${sectionId}-${productId}`;
+  const mediaGalleryId = `ProductGallery-${sectionId}-${productId}`;
 
   const form = document.getElementById(formId);
   const gallery = document.getElementById(galleryId);
@@ -467,10 +248,8 @@ function initMLFeaturedProduct(sectionElement) {
   // Setup gallery navigation
   setupGalleryNavigation(gallery, galleryId);
 
-  // Initialize variant selector
-  if (form) {
-    new VariantSelector(form, productData, gallery, galleryId);
-  }
+  // Variant updates are handled by ProductInfo component via AJAX
+  // We just listen to variantChange events for ML-specific updates
 }
 
 function initAllMLFeaturedProducts() {

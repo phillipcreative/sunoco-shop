@@ -19,7 +19,7 @@
 {%- liquid
   assign product = section.settings.product
   if product != blank
-    assign product_form_id = 'MLProductForm-' | append: section.id | append: '-' | append: product.id
+    assign product_form_id = 'ProductForm-' | append: section.id | append: '-' | append: product.id
     assign media_count = product.media.size
     assign product_variant = product.selected_or_first_available_variant
     assign featured_media = product_variant.featured_media | default: product.featured_media | default: product.media.first
@@ -51,10 +51,10 @@
               assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src'
               assign sizes = '(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min(580px, 30vw)'
             -%}
-            <media-gallery id="MLProductGallery-{{ section.id }}-{{ product.id }}" class="product__gallery product__gallery--thumbnail block w-full relative" form="{{ product_form_id }}" aria-label="{{ 'products.media.gallery_viewer' | t | escape }}">
+            <media-gallery id="ProductGallery-{{ section.id }}-{{ product.id }}" class="product__gallery product__gallery--thumbnail block w-full relative" form="{{ product_form_id }}" aria-label="{{ 'products.media.gallery_viewer' | t | escape }}">
               <div class="product__media-container flex flex-col gap-4">
                 <div class="relative w-full h-full">
-                  <slider-element id="MLSliderGallery-{{ section.id }}-{{ product.id }}" class="slider slider--desktop slider--tablet block w-full h-full" selector=".product__media" tabindex="0">
+                  <slider-element id="SliderGallery-{{ section.id }}-{{ product.id }}" class="slider slider--desktop slider--tablet block w-full h-full" selector=".product__media" tabindex="0">
                     <div class="product__media-list flex gap-1">
                       {%- if featured_media != null -%}
                         {%- render 'product-media',
@@ -105,13 +105,13 @@
                   </slider-element>
 
                   <div class="indicators flex gap-2d5 items-center !justify-between absolute top-0 left-0 w-full h-full pointer-events-none">
-                    <button class="button button--secondary pointer-events-auto" type="button" is="previous-button" aria-controls="MLSliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled data-button="previous">
+                    <button class="button button--secondary pointer-events-auto" type="button" is="previous-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled data-button="previous">
                       <span class="btn-fill" data-fill></span>
                       <span class="btn-text">
                         {%- render 'icon', icon: 'chevron-left', class: 'transform' -%}
                       </span>
                     </button>
-                    <button class="button button--secondary pointer-events-auto" type="button" is="next-button" aria-controls="MLSliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}" data-button="next">
+                    <button class="button button--secondary pointer-events-auto" type="button" is="next-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}" data-button="next">
                       <span class="btn-fill" data-fill></span>
                       <span class="btn-text">
                         {%- render 'icon', icon: 'chevron-right', class: 'transform' -%}
@@ -122,7 +122,7 @@
 
                 {%- if media_count > 1 -%}
                   <scroll-shadow id="MLThumbnails-{{ section.id }}-{{ product.id }}" class="product__thumbnails product__thumbnails--below grid items-center relative w-full">
-                    <media-dots class="product__thumbnails-list scroll-area grid items-end justify-start gap-1 w-full" aria-controls="MLSliderGallery-{{ section.id }}-{{ product.id }}">
+                    <media-dots class="product__thumbnails-list scroll-area grid items-end justify-start gap-1 w-full" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}">
                       {%- if featured_media != null -%}
                         {%- render 'product-thumbnail',
                           product: product,
@@ -192,7 +192,7 @@
           <div class="ml-featured-product__info">
           <h2 class="ml-featured-product__title">{{ product.title }}</h2>
 
-          <div class="ml-featured-product__price">
+          <div id="Price-{{ section.id }}-{{ product.id }}" class="ml-featured-product__price">
             {%- liquid
               if settings.currency_code_enabled
                 echo product.selected_or_first_available_variant.price | money_with_currency
@@ -208,119 +208,59 @@
             </div>
           {%- endif -%}
 
-          {%- form 'product', product, id: product_form_id, class: 'ml-featured-product__form', is: 'product-form' -%}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled />
+          <product-info
+            id="ProductInfo-{{ section.id }}-{{ product.id }}"
+            class="product__info block w-full"
+            data-section-id="{{ section.id }}"
+            data-product-id="{{ product.id }}"
+            data-product-url="{{ product.url }}"
+            data-update-url="false"
+            form="{{ product_form_id }}"
+          >
+            {%- form 'product', product, id: product_form_id, class: 'ml-featured-product__form', is: 'product-form' -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled />
 
-            {%- unless product.has_only_default_variant -%}
-              <div class="ml-featured-product__variant-selector">
-                {%- for option in product.options_with_values -%}
-                  <div class="ml-featured-product__variant-option">
-                    <label class="ml-featured-product__variant-label">
-                      Select {{ option.name }}:
-                      <span class="ml-featured-product__variant-selected">{{ option.selected_value }}</span>
-                    </label>
-                    <div class="ml-featured-product__variant-values">
-                      {%- for value in option.values -%}
-                        {%- assign variant_available = false -%}
-                        {%- assign variant_id = null -%}
-                        {%- assign option_index = forloop.parentloop.index0 -%}
-
-                        {%- for variant in product.variants -%}
-                          {%- if variant.options[option_index] == value -%}
-                            {%- if variant.available -%}
-                              {%- assign variant_available = true -%}
-                              {%- assign variant_id = variant.id -%}
-                              {%- assign variant_media_id = variant.featured_media.id-%}
-                              {%- break -%}
-                            {%- elsif variant_id == null -%}
-                              {%- assign variant_id = variant.id -%}
-                            {%- endif -%}
-                          {%- endif -%}
-                        {%- endfor -%}
-
-                        {%- assign is_selected = false -%}
-                        {%- if product.selected_or_first_available_variant.options[option_index] == value -%}
-                          {%- assign is_selected = true -%}
-                        {%- endif -%}
-
-                        {% assign option_name_downcase = option.name | downcase %}
-                        {% if option_name_downcase == 'color' or option_name_downcase == 'colour' %}
-                          {% assign is_color_option = true %}
-                        {% else %}
-                          {% assign is_color_option = false %}
-                        {% endif %}
-                        {% assign swatch = value.swatch %}
-                        {% assign swatch_color = swatch.color %}
-
-                        <button
-                          style="background-color: {{ swatch_color }};"
-                          type="button"
-                          class="ml-featured-product__variant-value{% if is_selected %} selected{% endif %}{% unless variant_available %} unavailable{% endunless %}{% if is_color_option %} is-swatch{% endif %}"
-                          data-option-index="{{ option_index }}"
-                          data-option-value="{{ value | escape }}"
-                          {% if variant_id %}data-variant-id="{{ variant_id }}"{% endif %}
-                          {% if variant_media_id %}data-variant-media-id="{{ variant_media_id }}"{% endif %}
-                          {% unless variant_available %}disabled{% endunless %}
-                          {% if is_color_option %}aria-label="{{ value | escape }}"{% endif %}
-                        >
-                          {% if is_color_option and swatch != blank %}
-                            {% if swatch.image != blank %}
-                              <img
-                                class="ml-featured-product__swatch-image"
-                                src="{{ swatch.image | image_url: width: 64 }}"
-                                alt="{{ value | escape }}"
-                                loading="lazy"
-                              >
-                            {% elsif swatch.color != blank %}
-                              <span
-                                class="ml-featured-product__swatch-color"
-                                style="background-color: {{ swatch.color }};"
-                              ></span>
-                            {% else %}
-                              {{ value }}
-                            {% endif %}
-                          {% else %}
-                            {{ value }}
-                          {% endif %}
-                        </button>
-
-                      {%- endfor -%}
-                    </div>
-
-                  </div>
-                {%- endfor -%}
-              </div>
-            {%- endunless -%}
+              {%- unless product.has_only_default_variant -%}
+                {%- render 'ml-product-variant-picker-swatch',
+                  product: product,
+                  product_id: product.id,
+                  section_id: section.id,
+                  show_variant_labels: true,
+                  context: 'product'
+                -%}
+              {%- endunless -%}
 
             <div class="ml-featured-product__quantity-cart">
               {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
-              <quantity-input class="ml-featured-product__quantity inline-flex relative" data-section-id="{{ section.id }}" data-product-id="{{ product.id }}">
-                <button type="button" name="minus" class="ml-featured-product__quantity-button" aria-label="{{ 'products.quantity.decrease' | t: product: product.title | escape }}">
-                  {%- render 'icon', icon: 'chevron-left', size: 'sm', class: 'stroke-2 transform' -%}
-                </button>
-                <input
-                  type="number"
-                  name="quantity"
-                  id="MLQuantity-{{ section.id }}-{{ product.id }}"
-                  class="ml-featured-product__quantity-input"
-                  inputmode="numeric"
-                  autocomplete="off"
-                  data-quantity-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                  data-cart-quantity="{{ cart_qty }}"
-                  data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                    data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                    max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                  {% endif %}
-                  step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                  value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  form="{{ product_form_id }}"
-                />
-                <button type="button" name="plus" class="ml-featured-product__quantity-button" aria-label="{{ 'products.quantity.increase' | t: product: product.title | escape }}">
-                  {%- render 'icon', icon: 'chevron-right', size: 'sm', class: 'stroke-2 transform' -%}
-                </button>
-              </quantity-input>
+              <div id="QuantityForm-{{ section.id }}-{{ product.id }}" class="field">
+                <quantity-input class="ml-featured-product__quantity inline-flex relative" data-section-id="{{ section.id }}" data-product-id="{{ product.id }}">
+                  <button type="button" name="minus" class="ml-featured-product__quantity-button" aria-label="{{ 'products.quantity.decrease' | t: product: product.title | escape }}">
+                    {%- render 'icon', icon: 'chevron-left', size: 'sm', class: 'stroke-2 transform' -%}
+                  </button>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="MLQuantity-{{ section.id }}-{{ product.id }}"
+                    class="ml-featured-product__quantity-input"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    data-quantity-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    data-cart-quantity="{{ cart_qty }}"
+                    data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                      data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                      max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                    {% endif %}
+                    step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                    value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                    form="{{ product_form_id }}"
+                  />
+                  <button type="button" name="plus" class="ml-featured-product__quantity-button" aria-label="{{ 'products.quantity.increase' | t: product: product.title | escape }}">
+                    {%- render 'icon', icon: 'chevron-right', size: 'sm', class: 'stroke-2 transform' -%}
+                  </button>
+                </quantity-input>
+              </div>
               <button
                 type="submit"
                 name="add"
@@ -342,6 +282,7 @@
               </button>
             </div>
           {%- endform -%}
+          </product-info>
 
           {% comment %} <a href="{{ product.url }}" class="ml-featured-product__view-product-link">View More {% render 'icon', icon: 'arrow-right', class: 'transform' %}</a> {% endcomment %}
 
@@ -379,8 +320,8 @@
             </div>
           </div>
           <div class="ml-featured-product__info">
-            <h2 class="ml-featured-product__title">{{ 'sections.featured_product.title' | t }}</h2>
-            <p>{{ 'sections.featured_product.no_product' | t }}</p>
+            <h2 class="ml-featured-product__title">Product</h2>
+            <p>No product selected</p>
           </div>
         </div>
       </div>
