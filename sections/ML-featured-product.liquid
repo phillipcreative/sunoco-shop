@@ -226,7 +226,8 @@
                   product_id: product.id,
                   section_id: section.id,
                   show_variant_labels: true,
-                  context: 'product'
+                  context: 'product',
+                  non_color_option_type: section.settings.non_color_option_type
                 -%}
               {%- endunless -%}
 
@@ -284,8 +285,6 @@
           {%- endform -%}
           </product-info>
 
-          {% comment %} <a href="{{ product.url }}" class="ml-featured-product__view-product-link">View More {% render 'icon', icon: 'arrow-right', class: 'transform' %}</a> {% endcomment %}
-
           </div>
         </div>
 
@@ -337,6 +336,22 @@
       "type": "product",
       "id": "product",
       "label": "Product"
+    },
+    {
+      "type": "select",
+      "id": "non_color_option_type",
+      "label": "Non-color option display",
+      "options": [
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        },
+        {
+          "value": "label",
+          "label": "Label swatches"
+        }
+      ],
+      "default": "dropdown"
     },
     {
       "type": "header",

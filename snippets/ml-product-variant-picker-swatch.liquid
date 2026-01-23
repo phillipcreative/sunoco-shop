@@ -8,6 +8,7 @@
   @param {object} [size_chart] - Shopify page object for size chart
   @param {string} [context] - Context identifier for ID generation
   @param {string} [shopify_attributes] - Shopify-specific attributes
+  @param {string} [non_color_option_type] - Display type for non-color options: 'dropdown' or 'label'
 
   @example
   {% render 'ml-product-variant-picker-swatch',
@@ -90,25 +91,36 @@
           </div>
         {%- endif -%}
       </div>
-      {%- capture swatchs_content -%}
-        {%- for value in option.values -%}
-          <li>
-            <magnet-element class="block" data-magnet="0">
-              <input
-                type="radio"
-                class="sr-only{% unless value.available %} disabled{% endunless %}"
-                id="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
-                name="{{ option.name }}-{{ section_id }}-{{ product_id }}"
-                value="{{ value | escape }}"
-                {% if option.selected_value == value %}checked{% endif %}
-                {% if value.product_url != blank and value.product_url != product.url %}data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}
-                data-option-value="{{ value | escape }}"
-                data-option-value-id="{{ value.id }}"
-                align-selected=".scroll-area"
-              />
-              {%- if is_color or value.swatch != blank -%}
-                {%- liquid
-                  if value.swatch == blank
+      {%- if is_color -%}
+        {%- capture swatchs_content -%}
+          {%- for value in option.values -%}
+            <li>
+              <magnet-element class="block" data-magnet="0">
+                <input
+                  type="radio"
+                  class="sr-only{% unless value.available %} disabled{% endunless %}"
+                  id="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
+                  name="{{ option.name }}-{{ section_id }}-{{ product_id }}"
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}checked{% endif %}
+                  {% if value.product_url != blank and value.product_url != product.url %}data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}
+                  data-option-value="{{ value | escape }}"
+                  data-option-value-id="{{ value.id }}"
+                  align-selected=".scroll-area"
+                />
+                {%- if value.swatch != blank -%}
+                  {%- liquid
+                    assign swatch_image = blank
+                    assign swatch_fallback = value | split: ' ' | last | handle
+                    if value.swatch.image
+                      assign swatch_image = value.swatch.image | image_url: width: 72
+                      assign swatch_fallback_override = false
+                    elsif value.swatch.color
+                      assign swatch_fallback = value.swatch.color
+                    endif
+                  -%}
+                {%- else -%}
+                  {%- liquid
                     assign file_extension = 'png'
                     assign file_name = value | handle | append: '.' | append: file_extension
                     assign swatch_fallback = value | split: ' ' | last | handle
@@ -140,17 +152,8 @@
                     elsif file_name contains '//cdn.shopify.com/'
                       assign swatch_image = file_name
                     endif
-                  else
-                    assign swatch_image = blank
-                    assign swatch_fallback = value | split: ' ' | last | handle
-                    if value.swatch.image
-                      assign swatch_image = value.swatch.image | image_url: width: 72
-                      assign swatch_fallback_override = false
-                    elsif value.swatch.color
-                      assign swatch_fallback = value.swatch.color
-                    endif
-                  endif
-                -%}
+                  -%}
+                {%- endif -%}
                 <label
                   for="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
                   class="color-swatch{% if swatch_image != blank %} with-image{% endif %} cursor-pointer block relative"
@@ -162,44 +165,107 @@
                     <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ value | escape }}</span>
                   {%- endunless -%}
                 </label>
-              {%- else -%}
-                <label
-                  for="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
-                  class="label-swatch text-sm font-medium leading-none cursor-pointer block relative"
-                  title="{{ value | escape }}"
-                >
-                  {{- value -}}
-                </label>
-              {%- endif -%}
-            </magnet-element>
-          </li>
-        {%- endfor -%}
-      {%- endcapture -%}
-      {%- if context == 'bundle' -%}
-        <scroll-shadow class="product-card__bottom grid overflow-hidden">
-          <ul class="scroll-area swatches swatches--{{ settings.rounded_swatch }} grid justify-start gap-4">
+              </magnet-element>
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if context == 'bundle' -%}
+          <scroll-shadow class="product-card__bottom grid overflow-hidden">
+            <ul class="scroll-area swatches swatches--{{ settings.rounded_swatch }} grid justify-start gap-4">
+              {{- swatchs_content -}}
+            </ul>
+            <template>
+              <slot></slot>
+              <s dir="{% render 'direction' %}" style="--t: 0;--b: 0;--l: 0;--r: 0;">
+                <span class="l"></span>
+                <span class="r"></span>
+              </s>
+              <style>
+                :host{display:inline-block;position:relative}:host([hidden]){display:none}
+                s{position:absolute;inset:0;pointer-events:none;{% if settings.card_style == 'card' %}--color-background:var(--color-placeholder){% endif %}}
+                s span{position:absolute;inset-block:0;width:var(--sp-12);opacity:0;transition:opacity var(--animation-short);}
+                s .l{inset-inline-start:0;opacity:var(--l);background:linear-gradient(90deg,rgb(var(--color-background)) 0%,transparent 100%);}
+                s .r{inset-inline-end:0;opacity:var(--r);background:linear-gradient(270deg,rgb(var(--color-background)) 0%,transparent 100%);}
+                s[dir=rtl] :is(.icon-chevron-left,.icon-chevron-right){transform:scaleX(-1);}
+              </style>
+            </template>
+          </scroll-shadow>
+        {%- else -%}
+          <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
             {{- swatchs_content -}}
           </ul>
-          <template>
-            <slot></slot>
-            <s dir="{% render 'direction' %}" style="--t: 0;--b: 0;--l: 0;--r: 0;">
-              <span class="l"></span>
-              <span class="r"></span>
-            </s>
-            <style>
-              :host{display:inline-block;position:relative}:host([hidden]){display:none}
-              s{position:absolute;inset:0;pointer-events:none;{% if settings.card_style == 'card' %}--color-background:var(--color-placeholder){% endif %}}
-              s span{position:absolute;inset-block:0;width:var(--sp-12);opacity:0;transition:opacity var(--animation-short);}
-              s .l{inset-inline-start:0;opacity:var(--l);background:linear-gradient(90deg,rgb(var(--color-background)) 0%,transparent 100%);}
-              s .r{inset-inline-end:0;opacity:var(--r);background:linear-gradient(270deg,rgb(var(--color-background)) 0%,transparent 100%);}
-              s[dir=rtl] :is(.icon-chevron-left,.icon-chevron-right){transform:scaleX(-1);}
-            </style>
-          </template>
-        </scroll-shadow>
+        {%- endif -%}
       {%- else -%}
-        <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
-          {{- swatchs_content -}}
-        </ul>
+        {%- if non_color_option_type == 'label' -%}
+          {%- capture swatchs_content -%}
+            {%- for value in option.values -%}
+              <li>
+                <magnet-element class="block" data-magnet="0">
+                  <input
+                    type="radio"
+                    class="sr-only{% unless value.available %} disabled{% endunless %}"
+                    id="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
+                    name="{{ option.name }}-{{ section_id }}-{{ product_id }}"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                    {% if value.product_url != blank and value.product_url != product.url %}data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}
+                    data-option-value="{{ value | escape }}"
+                    data-option-value-id="{{ value.id }}"
+                    align-selected=".scroll-area"
+                  />
+                  <label
+                    for="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
+                    class="label-swatch text-sm font-medium leading-none cursor-pointer block relative"
+                    title="{{ value | escape }}"
+                  >
+                    {{- value -}}
+                  </label>
+                </magnet-element>
+              </li>
+            {%- endfor -%}
+          {%- endcapture -%}
+          {%- if context == 'bundle' -%}
+            <scroll-shadow class="product-card__bottom grid overflow-hidden">
+              <ul class="scroll-area swatches swatches--{{ settings.rounded_swatch }} grid justify-start gap-4">
+                {{- swatchs_content -}}
+              </ul>
+              <template>
+                <slot></slot>
+                <s dir="{% render 'direction' %}" style="--t: 0;--b: 0;--l: 0;--r: 0;">
+                  <span class="l"></span>
+                  <span class="r"></span>
+                </s>
+                <style>
+                  :host{display:inline-block;position:relative}:host([hidden]){display:none}
+                  s{position:absolute;inset:0;pointer-events:none;{% if settings.card_style == 'card' %}--color-background:var(--color-placeholder){% endif %}}
+                  s span{position:absolute;inset-block:0;width:var(--sp-12);opacity:0;transition:opacity var(--animation-short);}
+                  s .l{inset-inline-start:0;opacity:var(--l);background:linear-gradient(90deg,rgb(var(--color-background)) 0%,transparent 100%);}
+                  s .r{inset-inline-end:0;opacity:var(--r);background:linear-gradient(270deg,rgb(var(--color-background)) 0%,transparent 100%);}
+                  s[dir=rtl] :is(.icon-chevron-left,.icon-chevron-right){transform:scaleX(-1);}
+                </style>
+              </template>
+            </scroll-shadow>
+          {%- else -%}
+            <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
+              {{- swatchs_content -}}
+            </ul>
+          {%- endif -%}
+        {%- else -%}
+          <div class="field">
+            <select id="Option-{{ section_id }}-{{ product_id }}-{{ forloop.index0 }}"
+              class="select"
+              name="options[{{ option.name | escape }}]"
+              is="custom-select"
+            >
+              {%- for value in option.values -%}
+                <option value="{{ value | escape }}" data-option-value-id="{{ value.id }}" {% if option.selected_value == value %}selected{% endif %}{% if value.product_url != blank and value.product_url != product.url %} data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}>
+                  {{ value }}
+                </option>
+              {%- endfor -%}
+            </select>
+            {%- render 'icon', icon: 'chevron-up', size: 'sm', class: 'absolute pointer-events-none' -%}
+          </div>
+        {%- endif -%}
       {%- endif -%}
     </fieldset>
   {%- endfor -%}
