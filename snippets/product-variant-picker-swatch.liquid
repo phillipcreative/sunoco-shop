@@ -96,11 +96,31 @@
       {%- liquid
         assign custom_swatch_collection = swatch_collection | default: blank
         assign is_jug_color_option = false
+        assign is_filler_hose_option = false
         assign option_name_downcase = option.name | downcase
         if option_name_downcase == 'jug color'
           assign is_jug_color_option = true
         endif
+        if option_name_downcase == 'filler hose option'
+          assign is_filler_hose_option = true
+        endif
       -%}
+      {%- if is_filler_hose_option -%}
+        <div class="field">
+          <select id="Option-{{ section_id }}-{{ product_id }}-{{ forloop.index0 }}"
+            class="select"
+            name="options[{{ option.name | escape }}]"
+            is="custom-select"
+          >
+            {%- for value in option.values -%}
+              <option value="{{ value | escape }}" data-option-value-id="{{ value.id }}" {% if option.selected_value == value %}selected{% endif %}{% if value.product_url != blank and value.product_url != product.url %} data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}>
+                {{ value }}
+              </option>
+            {%- endfor -%}
+          </select>
+          {%- render 'icon', icon: 'chevron-up', size: 'sm', class: 'absolute pointer-events-none' -%}
+        </div>
+      {%- else -%}
       {%- capture swatchs_content -%}
         {%- if custom_swatch_collection != blank and is_color and is_jug_color_option -%}
           {%- for all_product in custom_swatch_collection.products limit: 250 -%}
@@ -256,7 +276,7 @@
                 {%- endif -%}
                 <a
                   href="{{ related_product.url }}"
-                  class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative cursor-pointer {% if is_current_product and is_selected %}active{% endif %}"
+                  class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative cursor-pointer {% if is_current_product %}active{% endif %} {% if is_current_product and is_selected %}active{% endif %}"
                   title="{{ related_product_color_value | escape }}"
                   style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
                   data-jug-color="{{ related_product_color_value | escape }}"
@@ -381,6 +401,7 @@
         <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
           {{- swatchs_content -}}
         </ul>
+      {%- endif -%}
       {%- endif -%}
     </fieldset>
   {%- endfor -%}

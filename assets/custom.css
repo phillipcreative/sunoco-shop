@@ -2285,3 +2285,9 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 .variant-picker .color-swatch {
     --swatch-size: 27px;
 }
+
+.variant-picker select {
+    background-color: #ffffff;
+    border: 1px solid #CACACA;
+    color: #000000;
+}
