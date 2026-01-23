@@ -72,7 +72,7 @@
                                 if item.metafields.theme.icon.value != blank
                                   echo item.metafields.theme.icon.value | image_url: width: item.metafields.theme.icon.value.width | image_tag: loading: 'lazy', widths: '80,96,160,192', is: 'lazy-image'
                                 endif
-    
+
                                 echo item.title
                               -%}
                             </span>
@@ -90,7 +90,7 @@
                 if section.settings.show_free_shipping_bar and section.settings.free_shipping_minimum_amount != blank
                   assign minimum_amounts = section.settings.free_shipping_minimum_amount | remove: ' '
                   assign show_free_shipping_bar = false
-        
+
                   if minimum_amounts contains ':'
                     assign minimum_amounts = minimum_amounts | split: ','
                     for amount in minimum_amounts
@@ -106,7 +106,7 @@
                     assign minimum_amount = minimum_amounts
                     assign show_free_shipping_bar = true
                   endif
-                  
+
                   if show_free_shipping_bar
                     render 'free-shipping-bar', minimum_amount: minimum_amount
                   endif
@@ -116,7 +116,7 @@
               {%- liquid
                 if settings.gift_wrap_product != blank and settings.gift_wrap_product.available
                   assign enable_gift_wrapping = true
-                  
+
                   assign gift_wrap_product = settings.gift_wrap_product
                   assign gift_wrap_variant = gift_wrap_product.first_available_variant
                   assign gift_wrap_per_product = settings.gift_wrap_per_product
@@ -167,7 +167,7 @@
                                     </div>
                                   {%- endfor -%}
                                 {%- endunless -%}
-        
+
                                 {%- for property in item.properties -%}
                                   {%- assign property_first_char = property.first | slice: 0 -%}
                                   {%- if property.last != blank and property_first_char != '_' -%}
@@ -186,13 +186,13 @@
                                   {%- endif -%}
                                 {%- endfor -%}
                               </dl>
-        
+
                               {%- if item.selling_plan_allocation != null -%}
                                 <p class="text-xs text-opacity">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                               {%- endif -%}
                             {%- endif -%}
                           </div>
-                          
+
                           <div class="flex flex-col gap-3">
                             <div class="flex flex-col gap-1">
                               <div class="price{% if item.original_price != item.final_price %} price--on-sale{% endif %} text-sm flex flex-wrap gap-1d5">
@@ -268,7 +268,7 @@
                             if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
                               assign has_qty_rules = true
                             endif
-      
+
                             assign has_vol_pricing = false
                             if item.variant.quantity_price_breaks.size > 0
                               assign has_vol_pricing = true
@@ -434,7 +434,7 @@
                               <div id="Loader-{{ section.id }}-{{ item.key }}" class="loader absolute right-0" hidden>
                                 {%- render 'icon', icon: 'rotator', size: 'xs', class: 'animate-rotator' -%}
                               </div>
-                              <a class="link" href="{{ item.url_to_remove }}"{% unless is_gift_wrap_item %} is="cart-remove-button"{% else %} is="remove-gift-wrap"{% endunless %} data-index="{{ item.key }}" data-no-instant>{{ 'cart.general.remove' | t }}</a>
+                              <a class="link cart-remove-btn" href="{{ item.url_to_remove }}"{% unless is_gift_wrap_item %} is="cart-remove-button"{% else %} is="remove-gift-wrap"{% endunless %} data-index="{{ item.key }}" data-no-instant>{%- render 'icon', icon: 'trash', size: 'xs' -%}</a>
                             </div>
                           </div>
                         </div>
@@ -552,7 +552,7 @@
                       {%- endif -%}
                     </button>
                   {%- endif -%}
-  
+
                   {%- if section.settings.show_cart_note -%}
                     <modal-element id="CartNote-{{ section.id }}" class="modal invisible absolute bottom-0 left-0 w-full h-full" role="dialog" hidden>
                       <overlay-element class="fixed-modal opacity-0 z-1 absolute top-0 left-0 w-full h-full" aria-controls="CartNote-{{ section.id }}" aria-expanded="false"></overlay-element>
@@ -739,7 +739,7 @@
                     </div>
                   </div>
                 </div>
-  
+
                 {%- if section.settings.show_checkout_button or section.settings.show_view_cart_button -%}
                   <form action="{{ routes.cart_url }}" method="POST" novalidate class="drawer__footer-buttons grid grid-cols-12 gap-4">
                     {%- if section.settings.show_checkout_button -%}
@@ -753,7 +753,7 @@
                         </span>
                       </button>
                     {%- endif -%}
-                    
+
                     {%- if section.settings.show_view_cart_button -%}
                       <a href="{{ routes.cart_url }}" class="button button--secondary{% if section.settings.show_checkout_button %} col-span-6 md:col-span-5{% else %} col-span-full{% endif %}" is="hover-link" data-no-instant>
                         <span class="btn-fill" data-fill></span>

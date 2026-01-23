@@ -106,7 +106,6 @@
                   {% if value.product_url != blank and value.product_url != product.url %}data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}
                   data-option-value="{{ value | escape }}"
                   data-option-value-id="{{ value.id }}"
-                  align-selected=".scroll-area"
                 />
                 {%- if value.swatch != blank -%}
                   {%- liquid
@@ -211,7 +210,6 @@
                     {% if value.product_url != blank and value.product_url != product.url %}data-product-url="{{ value.variant.url | default: value.product_url }}"{% endif %}
                     data-option-value="{{ value | escape }}"
                     data-option-value-id="{{ value.id }}"
-                    align-selected=".scroll-area"
                   />
                   <label
                     for="{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
@@ -253,7 +251,7 @@
         {%- else -%}
           <div class="field">
             <select id="Option-{{ section_id }}-{{ product_id }}-{{ forloop.index0 }}"
-              class="select"
+              class="select variant-picker__select"
               name="options[{{ option.name | escape }}]"
               is="custom-select"
             >

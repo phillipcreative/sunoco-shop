@@ -745,6 +745,25 @@ a.product-card__title {
     overflow: hidden;
 }
 
+.ml-featured-product__gallery .product__media-container {
+    cursor: grab;
+}
+
+.ml-featured-product__gallery .product__media-container:active {
+    cursor: grabbing;
+}
+
+@media screen and (max-width: 1023px) {
+    .ml-featured-product__gallery slider-element {
+        touch-action: pan-x pan-y pinch-zoom;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ml-featured-product__gallery .product__media-container {
+        cursor: default;
+    }
+}
+
 .ml-featured-product__gallery .product__media {
     max-width: 100%;
     min-width: 0;
@@ -879,6 +898,10 @@ a.product-card__title {
     margin-block-start: 0;
     margin-inline: 0;
     margin-block-end: 1rem;
+}
+
+.ml-featured-product__form .field {
+    max-width: 400px;
 }
 
 
@@ -1536,7 +1559,20 @@ a.product-card__title {
   color: #000000 !important;
 }
 
+.variant-picker__select {
+    background-color: #ffffff;
+    border: 1px solid #CACACA;
+    color: #000000;
+    padding-inline: 1rem;
+}
 
+.ml-featured-product__form .select~.icon {
+    inset-inline-end: 1rem !important;
+}
+
+.product__thumbnail[aria-selected="true"] {
+    border: 1px solid #000000 !important;
+}
 
 @media screen and (min-width: 769px) {
   .ml-featured-product__content-wrapper {
@@ -1784,8 +1820,12 @@ a.product-card__title {
     }
 
     .ml-featured-product__form .product-form__input .form__label,
-    .ml-featured-product__form .product-form__input .form__label, .product-form__input .form__label span {
+    .ml-featured-product__form .product-form__input .form__label, .ml-featured-product__form .product-form__input .form__label span {
         font-size: 20px !important;
+    }
+
+    .ml-featured-product__form .product-form__input .form__label span {
+        font-weight: 600 !important;
     }
 
     .ml-featured-product__price {
@@ -2202,6 +2242,20 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     width: 40px;
     height: 40px;
   }
+
+/* ============================================
+   Side Cart Styles
+============================================ */
+
+.cart-remove-btn {
+    font-weight: 600 !important;
+    display: flex;
+    justify-content: end;
+}
+
+.cart-remove-btn:focus-visible {
+    outline: none !important;
+}
 
 /* ============================================
    Override Theme Styles

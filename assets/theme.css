@@ -4882,11 +4882,11 @@ input[type=checkbox].switch:is(:disabled, .disabled):not(:checked)::after {
 .reversed-link.icon-with-text .link-text,
 .link,
 .rte a:not(.button, .reversed-link) {
-  background: linear-gradient(currentColor, currentColor) 0 min(100%, 1.35em)/100% 1px no-repeat;
-  background-position-x: var(--transform-origin-start);
+  /* background: linear-gradient(currentColor, currentColor) 0 min(100%, 1.35em)/100% 1px no-repeat;
+  background-position-x: var(--transform-origin-start); */
   position: relative;
   text-decoration-line: none;
-  transition: background-size var(--animation-primary), color .3s var(--animation-primary)
+  transition: background-size var(--animation-primary), color .3s var(--animation-primary);
 }
 
 @media screen and (pointer: fine) {
