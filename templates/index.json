@@ -91,7 +91,7 @@
       "type": "product-list",
       "name": "Product list",
       "settings": {
-        "collection": "frontpage",
+        "collection": "fuel-jugs",
         "products": [],
         "product_limit": 8,
         "columns": 4,
@@ -133,6 +133,7 @@
       "name": "ML Featured Product",
       "settings": {
         "product": "multi-purpose-5-gallon-jug-all-colors-m7500",
+        "non_color_option_type": "dropdown",
         "featured_image": "shopify://shop_images/Screenshot_2025-12-09_at_10.21.46_AM.png",
         "featured_image_text": "SHOP FUEL JUGS",
         "featured_image_link": "shopify://collections/frontpage",
