@@ -10,8 +10,7 @@
   @param {object} [size_chart] - Shopify page object for size chart
   @param {string} [context] - Context identifier for ID generation
   @param {string} [shopify_attributes] - Shopify-specific attributes
-  @param {boolean} [has_jug_import_tag] - Whether product has jug-import tag
-  @param {object} [jug_import_collection] - Collection containing jug-import products
+  @param {object} [swatch_collection] - Collection containing products for custom swatches
 
   @example
   {% render 'product-variant-picker-swatch',
@@ -95,25 +94,7 @@
         {%- endif -%}
       </div>
       {%- liquid
-        if has_jug_import_tag == blank
-          assign has_jug_import_tag = false
-          for tag in product.tags
-            if tag == 'jug-import'
-              assign has_jug_import_tag = true
-              break
-            endif
-          endfor
-        endif
-
-        if jug_import_collection == blank and has_jug_import_tag
-          if collections.jug-import != blank
-            assign jug_import_collection = collections.jug-import
-          elsif collections.all != blank
-            assign jug_import_collection = collections.all
-          endif
-        endif
-      -%}
-      {%- liquid
+        assign custom_swatch_collection = swatch_collection | default: blank
         assign is_jug_color_option = false
         assign option_name_downcase = option.name | downcase
         if option_name_downcase == 'jug color'
@@ -121,42 +102,16 @@
         endif
       -%}
       {%- capture swatchs_content -%}
-        {%- if has_jug_import_tag and is_color and is_jug_color_option and jug_import_collection != blank -%}
-          {%- for all_product in jug_import_collection.products limit: 250 -%}
-            {%- liquid
-              assign product_has_tag = false
-              if jug_import_collection.handle == 'all'
-                for product_tag in all_product.tags
-                  if product_tag == 'jug-import'
-                    assign product_has_tag = true
-                    break
-                  endif
-                endfor
-              else
-                assign product_has_tag = true
-              endif
-            -%}
-            {%- if product_has_tag -%}
+        {%- if custom_swatch_collection != blank and is_color and is_jug_color_option -%}
+          {%- for all_product in custom_swatch_collection.products limit: 250 -%}
               {%- liquid
                 assign related_product = all_product
                 assign related_product_color_value = blank
                 assign related_product_variant = related_product.selected_or_first_available_variant
 
                 for related_option in related_product.options_with_values
-                  assign related_downcased_option = related_option.name | downcase
-                  assign related_option_is_color = false
-                  for trigger in swatch_trigger_list
-                    assign swatch_trigger = trigger | strip
-                    if related_downcased_option contains swatch_trigger
-                      assign related_option_is_color = true
-                      break
-                    elsif swatch_trigger == 'color' and related_downcased_option contains 'colour'
-                      assign related_option_is_color = true
-                      break
-                    endif
-                  endfor
-
-                  if related_option_is_color
+                  assign related_option_name_downcase = related_option.name | downcase
+                  if related_option_name_downcase == 'jug color'
                     assign related_product_color_value = related_option.selected_value
                     break
                   endif
@@ -165,20 +120,8 @@
                 if related_product_color_value == blank
                   for related_option in related_product.options_with_values
                     assign related_option_index_0 = forloop.index0
-                    assign related_option_is_color = false
-                    assign related_downcased_option = related_option.name | downcase
-                    for trigger in swatch_trigger_list
-                      assign swatch_trigger = trigger | strip
-                      if related_downcased_option contains swatch_trigger
-                        assign related_option_is_color = true
-                        break
-                      elsif swatch_trigger == 'color' and related_downcased_option contains 'colour'
-                        assign related_option_is_color = true
-                        break
-                      endif
-                    endfor
-
-                    if related_option_is_color
+                    assign related_option_name_downcase = related_option.name | downcase
+                    if related_option_name_downcase == 'jug color'
                       for related_variant in related_product.variants
                         assign related_variant_value = related_variant.options[related_option_index_0]
                         if related_variant_value != blank
@@ -238,20 +181,8 @@
                 assign matching_variant = blank
                 for variant_option in related_product.options_with_values
                   assign variant_option_index_0 = forloop.index0
-                  assign variant_option_is_color = false
-                  assign variant_option_downcase = variant_option.name | downcase
-                  for trigger in swatch_trigger_list
-                    assign swatch_trigger = trigger | strip
-                    if variant_option_downcase contains swatch_trigger
-                      assign variant_option_is_color = true
-                      break
-                    elsif swatch_trigger == 'color' and variant_option_downcase contains 'colour'
-                      assign variant_option_is_color = true
-                      break
-                    endif
-                  endfor
-
-                  if variant_option_is_color
+                  assign variant_option_name_downcase = variant_option.name | downcase
+                  if variant_option_name_downcase == 'jug color'
                     for variant_check in related_product.variants
                       assign variant_check_value = variant_check.options[variant_option_index_0]
                       if variant_check_value == related_product_color_value
@@ -299,6 +230,7 @@
                   class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if is_current_product %} cursor-pointer{% endif %}{% if is_current_product and is_selected %} active{% endif %}"
                   title="{{ related_product_color_value | escape }}"
                   style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
+                  data-jug-color="{{ related_product_color_value | escape }}"
                   {% if is_current_product %}onclick="event.preventDefault(); document.getElementById('{{ input_id }}').click();"{% endif %}
                 >
                   <span class="sr-only">{{ related_product_color_value | escape }}</span>
@@ -308,7 +240,6 @@
                 </a>
               </magnet-element>
             </li>
-            {%- endif -%}
           {%- endfor -%}
         {%- else -%}
           {%- for value in option.values -%}

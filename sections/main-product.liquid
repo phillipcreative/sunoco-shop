@@ -170,23 +170,23 @@
                     assign prev_block = section.blocks[prev_index]
                     assign next_index = forloop.index0 | plus: 1
                     assign next_block = section.blocks[next_index]
-  
+
                     if prev_block.type == 'sticky_buy_button'
                       assign prev_index = prev_index | minus: 1
                       assign prev_block = section.blocks[prev_index]
                     endif
-  
+
                     if next_block.type == 'sticky_buy_button'
                       assign next_index = next_index | plus: 1
                       assign next_block = section.blocks[next_index]
                     endif
-  
+
                     if prev_block.type != 'text'
                       assign block_index = 1
                     else
                       assign block_index = block_index | plus: 1
                     endif
-  
+
                     assign modulo = block_index | modulo: 2
                   -%}
                   <div class="product__text{% if modulo == 0 %} even{% endif %}{% if prev_block.type != 'text' %} first{% endif %}{% if next_block.type != 'text' %} last{% endif %}" {{ block.shopify_attributes }}>
@@ -239,7 +239,7 @@
               <div class="product__text rte {{ block.settings.text_size }}" {{ block.shopify_attributes }}>
                 {{- product.description -}}
               </div>
-            
+
             {%- when 'title' -%}
               {%- liquid
                 assign price_block = section.blocks | where: "type", "price" | first
@@ -253,7 +253,7 @@
                 {%- if price_block == blank and block.settings.show_price -%}
                   <div id="Price-{{ section.id }}-{{ product.id }}" class="product__price">
                     {%- render 'product-price', product: product, use_variant: true, class: 'flex flex-wrap items-baseline gap-2 lg:flex-col xl:items-end lg:gap-1d5' -%}
-                    
+
                     {%- if product.quantity_price_breaks_configured? -%}
                       <div class="text-opacity text-sm font-medium leading-tight" id="VolumeNote-{{ section.id }}-{{ product.id }}">
                         {{- 'products.volume_pricing.note' | t -}}
@@ -281,7 +281,7 @@
               <div class="product__price grid gap-3" {{ block.shopify_attributes }}>
                 <div class="no-js-hidden" id="Price-{{ section.id }}-{{ product.id }}">
                   {%- render 'product-price', product: product, use_variant: true, class: 'flex flex-wrap items-baseline gap-2 lg:gap-1d5' -%}
-                  
+
                   {%- if product.quantity_price_breaks_configured? -%}
                     <div class="text-opacity text-sm font-medium leading-tight" id="VolumeNote-{{ section.id }}-{{ product.id }}">
                       {{- 'products.volume_pricing.note' | t -}}
@@ -379,7 +379,7 @@
                           </span>
                           <span class="sr-only">{{ 'products.price.sale_price' | t }}</span>
                         {%- endif -%}
-                        
+
                         {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
                           {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
                             {%- liquid
@@ -509,9 +509,10 @@
                 product_form_id: product_form_id,
                 image_ratio: section.settings.image_ratio,
                 image_ratio_mobile: section.settings.image_ratio_mobile,
-                image_fill: settings.product_image_fill
+                image_fill: settings.product_image_fill,
+                swatch_collection: block.settings.swatch_collection
               -%}
-              
+
             {%- when 'product_variations' -%}
               {%- render 'product-variants',
                 block: block,
@@ -699,12 +700,12 @@
             {%- when 'product_bundle' -%}
               {%- liquid
                 assign products = block.settings.products
-                
+
                 if block.settings.metafield != blank
                   assign metafield_parts = block.settings.metafield | split: '.'
                   assign metafield_namespace = metafield_parts | first
                   assign metafield_key = metafield_parts | last
-                  
+
                   assign metafield = product.metafields[metafield_namespace][metafield_key]
                   if metafield.value != blank and metafield.list?
                     assign products = metafield.value
@@ -853,7 +854,7 @@
                       </ul>
                     {%- endif -%}
                   </div>
-  
+
                 {%- else -%}
                   {%- case block.settings.type -%}
                     {%- when 'text' -%}
@@ -867,7 +868,7 @@
                         {%- if block.settings.required %} required{% endif -%}
                       />
                       <label class="label is-floating" for="LineItemInput-{{ section.id }}-{{ product.id }}-{{ block.id }}">{{ block.settings.title | escape }}</label>
-  
+
                     {%- when 'textarea' -%}
                       <textarea
                         class="textarea is-floating"
@@ -879,7 +880,7 @@
                         {%- if block.settings.required %} required{% endif -%}
                       ></textarea>
                       <label class="label is-floating" for="LineItemInput-{{ section.id }}-{{ product.id }}-{{ block.id }}">{{ block.settings.title | escape }}</label>
-  
+
                     {%- when 'select' -%}
                       {%- assign options = block.settings.select_options | split: ',' -%}
                       {%- if options.size > 0 -%}
@@ -965,7 +966,7 @@
                       </span>
                       <span class="sr-only">{{ 'products.price.sale_price' | t }}</span>
                     {%- endif -%}
-                    
+
                     {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
                       {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
                         {%- liquid
@@ -1058,7 +1059,7 @@
       {{ product.media | where: 'media_type', 'model' | json }}
     </script>
   {%- endif -%}
-  
+
   <script type="application/ld+json">
     {{- product | structured_data -}}
   </script>
@@ -1902,6 +1903,16 @@
           "type": "page",
           "id": "size_chart",
           "label": "t:sections.main-product.blocks.variant_picker.settings.size_chart.label"
+        },
+        {
+          "type": "header",
+          "content": "Custom swatches collection"
+        },
+        {
+          "type": "collection",
+          "id": "swatch_collection",
+          "label": "Swatch collection",
+          "info": "Select a collection to display custom swatches from its products. Products in this collection will be mapped to variant options."
         }
       ]
     },
