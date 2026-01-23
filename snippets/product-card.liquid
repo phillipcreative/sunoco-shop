@@ -56,7 +56,7 @@
       assign lazyimage = null
     endunless
   -%}
-  <div class="card product-card alternate-product-card product-card--{{ settings.card_style }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative">
+  <div class="card product-card alternate-product-card product-card--{{ settings.card_style }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative" data-product-card-id="{{ product_id }}">
     {%- if featured_media -%}
       <div class="product-card__media relative h-auto test123">
         {%- if show_quick_view -%}
@@ -114,7 +114,7 @@
         {%- endif -%}
         {%- render 'product-badges', product: product, vertical_badges: vertical_badges, show_sold_out: show_sold_out, show_save_amount: show_save_amount, save_type: save_type, class: 'z-2 absolute grid gap-3 pointer-events-none' -%}
 
-        <a class="block relative media media--{{ image_ratio }}{% unless image_fill %} media--contain{% endunless %}{% unless show_secondary_image and media_count > 1 %} overflow-hidden{% endunless %}" href="{{ product_url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+        <a class="product-card__image-link block relative media media--{{ image_ratio }}{% unless image_fill %} media--contain{% endunless %}{% unless show_secondary_image and media_count > 1 %} overflow-hidden{% endunless %}" href="{{ product_url }}" aria-label="{{ product.title | escape }}" tabindex="-1" data-product-url="{{ product_url }}">
           {%- unless featured_media.media_type == 'video' or featured_media.media_type == 'external_video' -%}
             {%- if show_secondary_image and media_count > 1 -%}
               <template>
@@ -140,7 +140,7 @@
               <secondary-media class="product-card__carousel block absolute top-0 left-0 w-full h-full hidden md:block" selected-index="0"></secondary-media>
             {%- endif -%}
 
-            {{- featured_media | image_url: width: featured_media.width | image_tag: loading: loading, widths: '180,360,540,720,900,1080', is: lazyimage -}}
+            <img class="product-card__image" src="{{ featured_media | image_url: width: featured_media.width }}" srcset="{{ featured_media | image_url: width: 180 }} 180w, {{ featured_media | image_url: width: 360 }} 360w, {{ featured_media | image_url: width: 540 }} 540w, {{ featured_media | image_url: width: 720 }} 720w, {{ featured_media | image_url: width: 900 }} 900w, {{ featured_media | image_url: width: 1080 }} 1080w" sizes="(min-width: 1200px) 360px, (min-width: 750px) 300px, 180px" alt="{{ product.title | escape }}" loading="{{ loading }}" width="{{ featured_media.width }}" height="{{ featured_media.height }}" data-product-image="{{ featured_media | image_url: width: featured_media.width }}" data-product-image-srcset="{{ featured_media | image_url: width: 180 }} 180w, {{ featured_media | image_url: width: 360 }} 360w, {{ featured_media | image_url: width: 540 }} 540w, {{ featured_media | image_url: width: 720 }} 720w, {{ featured_media | image_url: width: 900 }} 900w, {{ featured_media | image_url: width: 1080 }} 1080w">
 
             {%- if show_on_model and product.metafields.theme.model_media.value != blank -%}
               {%- assign model_media = product.metafields.theme.model_media.value -%}
@@ -330,35 +330,75 @@
       <div class="product-card__details flex flex-col lg:flex-row items-baseline w-full">
         <div class="grow">
           <p>
-            <a class="product-card__title reversed-link text-base-xl font-medium leading-tight" href="{{ product_url }}">
+            <a class="product-card__title-link product-card__title reversed-link text-base-xl font-medium leading-tight" href="{{ product_url }}" data-product-url="{{ product_url }}">
               {{- product.title | escape -}}
             </a>
           </p>
           {%- if show_description and product.description != blank -%}
-            <p class="product-card__description text-sm text-opacity mt-1">
-              {{ product.description | strip_html | truncatewords: 30 }}
-            </p>
+            {%- liquid
+              assign description_text = product.description | strip_html | strip
+              assign sentence_endings = description_text | split: '.'
+              assign first_sentence = ''
+              assign second_sentence = ''
+
+              if sentence_endings.size > 0
+                assign first_sentence = sentence_endings[0] | strip
+                if first_sentence != blank
+                  assign first_sentence = first_sentence | append: '.'
+                endif
+              endif
+
+              if sentence_endings.size > 1
+                assign second_sentence = sentence_endings[1] | strip
+                if second_sentence != blank
+                  assign second_sentence = second_sentence | append: '.'
+                endif
+              endif
+
+              if first_sentence != blank and second_sentence != blank
+                assign two_sentences = first_sentence | append: ' ' | append: second_sentence
+                if sentence_endings.size > 2
+                  assign two_sentences = two_sentences | append: '...'
+                endif
+              elsif first_sentence != blank
+                assign two_sentences = first_sentence
+              else
+                assign two_sentences = description_text | truncatewords: 30
+              endif
+            -%}
+            {%- if two_sentences != blank -%}
+              <p class="product-card__description text-sm text-opacity mt-1">
+                {{ two_sentences | strip }}
+              </p>
+            {%- endif -%}
           {%- endif -%}
           {%- if show_variant_color_swatches and product.variants.size > 1 -%}
             {%- for option in product.options_with_values -%}
               {%- assign option_index = forloop.index0 -%}
               {% assign option_name_downcase = option.name | downcase %}
-              {% if option_name_downcase == 'color' or option_name_downcase == 'colour' %}
+              {% if option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'lid color' %}
                 <div class="product-card__variant-color-swatches ml-featured-product__variant-option mt-2">
-                  <div class="ml-featured-product__variant-values">
+                  <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
                     {%- for value in option.values -%}
                       {%- assign variant_available = false -%}
                       {%- assign variant_id = null -%}
                       {%- assign variant_url = product_url -%}
+                      {%- assign variant_image = featured_media -%}
                       {%- for variant in product.variants -%}
                         {%- if variant.options[option_index] == value -%}
                           {%- if variant.available -%}
                             {%- assign variant_available = true -%}
                             {%- assign variant_id = variant.id -%}
                             {%- assign variant_url = variant.url -%}
+                            {%- if variant.featured_media -%}
+                              {%- assign variant_image = variant.featured_media -%}
+                            {%- endif -%}
                             {%- break -%}
                           {%- elsif variant_id == null -%}
                             {%- assign variant_id = variant.id -%}
+                            {%- if variant.featured_media -%}
+                              {%- assign variant_image = variant.featured_media -%}
+                            {%- endif -%}
                           {%- endif -%}
                         {%- endif -%}
                       {%- endfor -%}
@@ -368,34 +408,77 @@
                         {%- assign is_selected = true -%}
                       {%- endif -%}
 
-                      {% assign swatch = value.swatch %}
-                      {% assign swatch_color = swatch.color %}
+                      {%- if value.swatch != blank -%}
+                        {%- liquid
+                          assign swatch_image = blank
+                          assign swatch_fallback = value | split: ' ' | last | handle
+                          if value.swatch.image
+                            assign swatch_image = value.swatch.image | image_url: width: 72
+                            assign swatch_fallback_override = false
+                          elsif value.swatch.color
+                            assign swatch_fallback = value.swatch.color
+                          endif
+                        -%}
+                      {%- else -%}
+                        {%- liquid
+                          assign file_extension = 'png'
+                          assign file_name = value | handle | append: '.' | append: file_extension
+                          assign swatch_fallback = value | split: ' ' | last | handle
+                          assign swatch_fallback_override = false
 
-                      <a href="{{ variant_url }}" class="ml-featured-product__variant-value{% if is_selected %} selected{% endif %}{% unless variant_available %} unavailable{% endunless %} is-color-swatch" data-variant-value="{{ value | escape }}"{% unless variant_available %} aria-disabled="true"{% endunless %} aria-label="{{ value | escape }}" style="background-color: {{ swatch_color }};">
-                        {% if swatch != blank %}
-                          {% if swatch.image != blank %}
-                            <img
-                              class="ml-featured-product__swatch-image"
-                              src="{{ swatch.image | image_url: width: 64 }}"
-                              alt="{{ value | escape }}"
-                              width="64"
-                              height="64"
-                              loading="lazy"
-                            >
-                          {% elsif swatch.color != blank %}
-                            <span
-                              class="ml-featured-product__swatch-color"
-                              style="background-color: {{ swatch.color }};"
-                            ></span>
-                          {% else %}
-                            {{ value }}
-                          {% endif %}
-                        {% else %}
-                          {{ value }}
-                        {% endif %}
-                      </a>
+                          if settings.swatch_config != blank
+                            assign value_downcase = value | downcase
+                            assign swatch_config = settings.swatch_config | newline_to_br | split: '<br />'
+                            for swatch in swatch_config
+                              assign swatch_parts = swatch | strip | split: ':'
+                              assign swatch_name = swatch_parts.first | downcase | strip
+
+                              if swatch_name == value_downcase
+                                assign swatch_value = swatch_parts.last | strip
+                                if swatch_value contains '#'
+                                  assign swatch_fallback = swatch_value
+                                  assign swatch_fallback_override = true
+                                else
+                                  assign file_name = swatch_value
+                                endif
+                                break
+                              endif
+                            endfor
+                          endif
+
+                          assign swatch_image = blank
+                          if images[file_name] != blank
+                            assign swatch_image = images[file_name] | image_url: width: 72
+                          elsif file_name contains '//cdn.shopify.com/'
+                            assign swatch_image = file_name
+                          endif
+                        -%}
+                      {%- endif -%}
+                      <li>
+                        <input
+                          type="radio"
+                          class="sr-only product-card-swatch-radio{% unless variant_available %} disabled{% endunless %}"
+                          id="ProductCard-{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
+                          name="ProductCard-{{ option.name }}-{{ section_id }}-{{ product_id }}"
+                          value="{{ value | escape }}"
+                          {% if is_selected %}checked{% endif %}
+                          data-variant-url="{{ variant_url }}"
+                          data-variant-id="{{ variant_id }}"
+                          data-variant-image="{{ variant_image | image_url: width: variant_image.width }}"
+                          data-variant-image-srcset="{{ variant_image | image_url: width: 180 }} 180w, {{ variant_image | image_url: width: 360 }} 360w, {{ variant_image | image_url: width: 540 }} 540w, {{ variant_image | image_url: width: 720 }} 720w, {{ variant_image | image_url: width: 900 }} 900w, {{ variant_image | image_url: width: 1080 }} 1080w"
+                          data-option-value="{{ value | escape }}"
+                        />
+                        <label
+                          for="ProductCard-{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
+                          class="color-swatch{% if swatch_image != blank %} with-image{% endif %} cursor-pointer block relative"
+                          title="{{ value | escape }}"
+                          style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
+                        >
+                          <span class="sr-only">{{ value | escape }}</span>
+                        </label>
+                      </li>
                     {%- endfor -%}
-                  </div>
+                  </ul>
                 </div>
               {%- endif -%}
             {%- endfor -%}
@@ -586,6 +669,63 @@
       </div>
     {%- endif -%}
   </div>
+  {%- if show_variant_color_swatches and product.variants.size > 1 -%}
+    <script>
+      (function() {
+        const productCardId = '{{ product_id }}';
+
+        function handleSwatchChange(e) {
+          const radio = e.target;
+          if (!radio.classList.contains('product-card-swatch-radio')) return;
+
+          const productCard = radio.closest('[data-product-card-id]');
+          if (!productCard || productCard.getAttribute('data-product-card-id') !== productCardId) return;
+
+          const variantUrl = radio.getAttribute('data-variant-url');
+          const variantImage = radio.getAttribute('data-variant-image');
+          const variantImageSrcset = radio.getAttribute('data-variant-image-srcset');
+
+          if (!variantUrl) return;
+
+          const imageLink = productCard.querySelector('.product-card__image-link');
+          const titleLink = productCard.querySelector('.product-card__title-link');
+          const productImage = productCard.querySelector('.product-card__image');
+
+          // Update image link URL
+          if (imageLink) {
+            imageLink.setAttribute('href', variantUrl);
+            imageLink.setAttribute('data-product-url', variantUrl);
+          }
+
+          // Update title link URL
+          if (titleLink) {
+            titleLink.setAttribute('href', variantUrl);
+            titleLink.setAttribute('data-product-url', variantUrl);
+          }
+
+          // Update product image
+          if (productImage && variantImage) {
+            productImage.setAttribute('src', variantImage);
+            if (variantImageSrcset) {
+              productImage.setAttribute('srcset', variantImageSrcset);
+            }
+          }
+        }
+
+        function initSwatchHandlers() {
+          // Use event delegation on document for change events
+          document.addEventListener('change', handleSwatchChange, true);
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initSwatchHandlers);
+        } else {
+          initSwatchHandlers();
+        }
+      })();
+    </script>
+  {%- endif -%}
 {%- else -%}
   {%- render 'product-card-placeholder', placeholder: 'product-1', image_ratio: image_ratio, show_vendor: show_vendor -%}
 {%- endif -%}

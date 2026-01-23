@@ -60,6 +60,15 @@ a.product-card__title {
     border: 1px solid #CACACA !important;
 }
 
+.alternate-product-card .price--on-sale .price__regular {
+    font-size: 35px !important;
+}
+
+.alternate-product-card .product-card__details .cost_row .gap-2 {
+    gap: 0px !important;
+    justify-content: center;
+}
+
 @media screen and (max-width: 1400px) {
     .ml-featured-collection .slider--desktop .product-card {
         min-width: 0 !important;
@@ -540,7 +549,8 @@ a.product-card__title {
 }
 
 .ml-featured-collection__product-wrapper .product-card {
-    height: 585px;
+    /* height: 585px; */
+    height: auto;
 }
 
 .ml-featured-collection__product-wrapper .product-card .product-card__bottom {
@@ -1291,45 +1301,20 @@ a.product-card__title {
     z-index: 2;
 }
 
-.ml-featured-product__variant-values {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+.product-card__variant-color-swatches .swatches {
   margin-top: 1rem;
 }
 
-.ml-featured-product__variant-value {
-  font-family: "Asap Condensed", Helvetica !important;
-  position: relative;
-  border-radius: 100%;
-  width: 27px;
-  height: 27px;
-  padding: 0;
-  border: 1px solid #000000;
-  background-color: transparent;
-  color: #000000;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.product-card__variant-color-swatches .color-swatch {
+  --swatch-size: 27px;
 }
 
-.ml-featured-product__variant-value:hover,
-.ml-featured-product__variant-value.selected {
-  background-color: #000000;
-  color: #ffffff;
+.product-card__variant-color-swatches .swatches {
+  margin-top: 1rem;
 }
 
-.ml-featured-product__variant-value.selected:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 38px;
-    height: 38px;
-    border: 2px solid #000000;
-    border-radius: 100%;
-    transform: translate(-50%, -50%);
+.product-card__variant-color-swatches .color-swatch {
+  --swatch-size: 27px;
 }
 
 .ml-featured-product__variant-value.unavailable {
@@ -1783,9 +1768,9 @@ a.product-card__title {
         margin: 0px !important;
     }
 
-    .ml-featured-collection__product-wrapper .product-card {
+    /* .ml-featured-collection__product-wrapper .product-card {
         height: 525px !important;
-    }
+    } */
 }
 
 @media only screen and (max-width: 767px) {
@@ -2008,7 +1993,7 @@ a.product-card__title {
     }
 
     .ml-featured-collection__product-wrapper .ml-featured-product__variant-values {
-        justify-content: flex-start !important;
+        /* justify-content: flex-start !important; */
         gap: 6px !important;
         margin: 0px !important;
     }
@@ -2047,9 +2032,9 @@ a.product-card__title {
 }
 
 @media only screen and (max-width: 480px) {
-    .ml-featured-collection__product-wrapper .product-card {
+    /* .ml-featured-collection__product-wrapper .product-card {
         height: 545px;
-    }
+    } */
 }
 
 
@@ -2252,7 +2237,7 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     pointer-events: none;
   }
 
-  .color-swatch.with-image::after {
+  .collection__content .color-swatch.with-image::after {
     border-radius: 5px;
   }
 
@@ -2261,16 +2246,18 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
   }
 
   .color-pattern.is-selected::after,
-  .color-swatch.with-image.is-selected::after {
+  .collection__content .color-swatch.with-image.is-selected::after {
     opacity: 1;
   }
 
-  .color-swatch.with-image.active:after {
+  .collection__content .color-swatch.with-image.active:after {
     opacity: 1;
     border-radius: var(--swatch-radius);
     width: 40px;
     height: 40px;
   }
+
+
 
 /* ============================================
    Side Cart Styles
