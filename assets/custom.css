@@ -680,8 +680,10 @@ a.product-card__title {
    ML FEATURED PRODUCT SECTION
    ============================================ */
 
-.ml-featured-product {
-    padding-right:  0px !important;
+@media screen and (min-width: 1200px) {
+    .ml-featured-product {
+        padding-right:  0px !important;
+    }
 }
 
 .ml-featured-product:before {
@@ -697,19 +699,24 @@ a.product-card__title {
     border: 1px solid #CACACA !important;
     background-color: #FFFFFF !important;
     min-height: max-content;
-    contain: layout style paint;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
+
 
 .ml-featured-product__gallery .product__media-container {
     min-height: 400px;
 }
-
+/*
 .ml-featured-product__gallery .product__gallery {
     will-change: contents;
-}
+} */
 
 .ml-featured-product__gallery .product__media-list {
     min-height: 350px;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .ml-featured-product__price {
@@ -720,6 +727,27 @@ a.product-card__title {
 .ml-featured-product__gallery .product__media-container,
 .ml-featured-product__gallery .product__media-list {
     scroll-behavior: smooth;
+}
+
+.ml-featured-product__gallery .product__media-container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ml-featured-product__gallery .product__gallery {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ml-featured-product__gallery slider-element,
+.ml-featured-product__gallery .slider {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ml-featured-product__gallery .product__media {
+    max-width: 100%;
+    min-width: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -741,6 +769,10 @@ a.product-card__title {
     font-weight: 700 !important;
     font-size: 44px !important;
     line-height: 50px !important;
+}
+
+.ml-featured-product__form .product-form__input .form__label {
+    letter-spacing: 0px !important;
 }
 
 .ml-featured-product__price {
@@ -844,7 +876,9 @@ a.product-card__title {
 }
 
 .ml-featured-product__form .product-form__input .form__label {
-    margin: 0px;
+    margin-block-start: 0;
+    margin-inline: 0;
+    margin-block-end: 1rem;
 }
 
 
@@ -994,6 +1028,7 @@ a.product-card__title {
   overflow-y: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
 }
 
 .ml-featured-product__media-list {
@@ -1501,7 +1536,9 @@ a.product-card__title {
   color: #000000 !important;
 }
 
-@media screen and (min-width: 706px) {
+
+
+@media screen and (min-width: 769px) {
   .ml-featured-product__content-wrapper {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 30px;
@@ -1509,8 +1546,8 @@ a.product-card__title {
   }
 
   .ml-featured-product__gallery {
-    position: sticky;
-    top: 20px;
+    position: sticky !important;
+    top: 4rem !important;
     align-self: start;
   }
 }
@@ -1573,7 +1610,7 @@ a.product-card__title {
   .ml-featured-product__info,
   .ml-featured-product__gallery {
     max-width: 550px;
-    margin: auto;
+    /* margin: auto; */
   }
 }
 
@@ -1629,7 +1666,7 @@ a.product-card__title {
     .ml-featured-product__quantity-cart {
         margin-top: 16px !important;
         gap: 16px !important;
-        justify-content: center !important;
+        justify-content: space-between !important;
         /* flex-direction: column !important; */
     }
 
@@ -1746,6 +1783,11 @@ a.product-card__title {
         margin-bottom: 0px !important;
     }
 
+    .ml-featured-product__form .product-form__input .form__label,
+    .ml-featured-product__form .product-form__input .form__label, .product-form__input .form__label span {
+        font-size: 20px !important;
+    }
+
     .ml-featured-product__price {
         font-size: 28px !important;
         margin-bottom: 0px !important;
@@ -1780,7 +1822,8 @@ a.product-card__title {
     .ml-featured-product__quantity-cart {
         margin-top: 16px !important;
         gap: 16px !important;
-        flex-direction: column !important;
+        /* flex-direction: column !important; */
+        justify-content: center !important;
     }
 
     .ml-featured-product__quantity {
@@ -1862,10 +1905,15 @@ a.product-card__title {
     }
 }
 
-@media only screen and (max-width: 705px) {
+@media only screen and (max-width: 768px) {
     .ml-featured-product__content-wrapper,
     .ml-featured-product__container {
       grid-template-columns: 1fr;
+    }
+
+    .ml-featured-product__info,
+    .ml-featured-product__gallery {
+      margin: auto;
     }
 }
 
@@ -1922,6 +1970,10 @@ a.product-card__title {
 
     .image-with-text .rich-text>*+*:not(.spacing-section) {
         margin-top: 10px !important;
+    }
+
+    .ml-featured-product__quantity-cart {
+        flex-direction: column !important;
     }
 }
 

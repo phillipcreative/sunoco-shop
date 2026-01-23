@@ -52,7 +52,7 @@
       <legend class="sr-only">{{ option.name }}</legend>
       <div class="form__label flex items-center justify-between gap-2 w-full">
         {%- if show_variant_labels -%}
-          <div class="flex gap-2">
+          <div class="flex gap-2 flex-wrap leading-normal">
             {{- option.name -}}:
             <span class="font-medium" id="{{ section_id }}-{{ product_id }}-option{{ option.position }}">{{ option.selected_value }}</span>
           </div>
