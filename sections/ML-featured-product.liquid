@@ -192,14 +192,40 @@
           <div class="ml-featured-product__info">
           <h2 class="ml-featured-product__title">{{ product.title }}</h2>
 
-          <div id="Price-{{ section.id }}-{{ product.id }}" class="ml-featured-product__price">
+          <div id="Price-{{ section.id }}-{{ product.id }}" class="ml-featured-product__price{% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} price--on-sale{% endif %}">
             {%- liquid
-              if settings.currency_code_enabled
-                echo product.selected_or_first_available_variant.price | money_with_currency
-              else
-                echo product.selected_or_first_available_variant.price | money
+              assign variant = product.selected_or_first_available_variant
+              assign compare_at_price = variant.compare_at_price
+              assign price = variant.price
+              assign on_sale = false
+              if compare_at_price > price
+                assign on_sale = true
               endif
             -%}
+            {%- if on_sale -%}
+              <span class="sr-only">{{ 'products.price.sale_price' | t }}</span>
+            {%- endif -%}
+            <span class="price__regular whitespace-nowrap">
+              {%- liquid
+                if settings.currency_code_enabled
+                  echo price | money_with_currency
+                else
+                  echo price | money
+                endif
+              -%}
+            </span>
+            {%- if on_sale -%}
+              <span class="sr-only">{{ 'products.price.regular_price' | t }}</span>
+              <span class="price__sale inline-flex items-center h-auto relative">
+                {%- liquid
+                  if settings.currency_code_enabled
+                    echo compare_at_price | money_with_currency
+                  else
+                    echo compare_at_price | money
+                  endif
+                -%}
+              </span>
+            {%- endif -%}
           </div>
 
           {%- if product.description != blank -%}
