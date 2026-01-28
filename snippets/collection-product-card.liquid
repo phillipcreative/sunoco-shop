@@ -347,6 +347,10 @@
             {%- liquid
               assign is_color = false
               assign option_name = option.name | downcase
+              assign exclude_jug_color = false
+              if option_name contains 'jug color' or option_name == 'jugcolor'
+                assign exclude_jug_color = true
+              endif
               for trigger in swatch_trigger_list
                 assign swatch_trigger = trigger | strip
                 if option_name contains swatch_trigger
@@ -360,14 +364,13 @@
                 endif
               endfor
             -%}
-            {%- if is_color -%}
+            {%- if is_color and exclude_jug_color == false -%}
               {%- liquid
                 assign option_index = forloop.index0
                 assign values = ''
                 assign max_color_count = settings.product_max_color_swatches
               -%}
               <div class="product-card__bottom flex items-center gap-2">
-                <script>console.log('product patterns?', {{ product.metafields.shopify.color-pattern.value | json }})</script>
                 <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start gap-2">
                   {%- for variant in product.variants -%}
                     {%- assign value = variant.options[option_index] %}
@@ -392,7 +395,13 @@
                       -%}
                       {%- if color_count <= max_color_count -%}
                         <li>
-                          {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, dynamic_swatches: dynamic_swatches -%}
+                          {%- liquid
+                            assign swatch_class = ''
+                            if color_count == 1
+                              assign swatch_class = 'is-selected'
+                            endif
+                          -%}
+                          {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, dynamic_swatches: dynamic_swatches, class: swatch_class -%}
                         </li>
                       {%- endif -%}
                     {%- endunless -%}

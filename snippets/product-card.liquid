@@ -377,8 +377,9 @@
               {%- assign option_index = forloop.index0 -%}
               {% assign option_name_downcase = option.name | downcase %}
               {% if option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'lid color' %}
+                {% unless option_name_downcase == 'jug color' or option_name_downcase == 'jugcolor' %}
                 <div class="product-card__variant-color-swatches ml-featured-product__variant-option mt-2">
-                  <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-4">
+                  <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-2">
                     {%- for value in option.values -%}
                       {%- assign variant_available = false -%}
                       {%- assign variant_id = null -%}
@@ -470,7 +471,7 @@
                         />
                         <label
                           for="ProductCard-{{ section_id }}-{{ product_id }}-{{ option.name | handle }}-{{ forloop.index0 }}"
-                          class="color-swatch{% if swatch_image != blank %} with-image{% endif %} cursor-pointer block relative"
+                          class="color-swatch{% if swatch_image != blank %} with-image{% endif %} cursor-pointer block relative test123"
                           title="{{ value | escape }}"
                           style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
                         >
@@ -480,6 +481,7 @@
                     {%- endfor -%}
                   </ul>
                 </div>
+                {%- endunless -%}
               {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
@@ -507,6 +509,10 @@
           {%- liquid
             assign is_color = false
             assign option_name = option.name | downcase
+            assign exclude_jug_color = false
+            if option_name contains 'jug color' or option_name == 'jugcolor'
+              assign exclude_jug_color = true
+            endif
             for trigger in swatch_trigger_list
               assign swatch_trigger = trigger | strip
               if option_name contains swatch_trigger
@@ -520,7 +526,7 @@
               endif
             endfor
           -%}
-          {%- if is_color -%}
+          {%- if is_color and exclude_jug_color == false -%}
             {%- liquid
               assign option_index = forloop.index0
               assign values = ''
@@ -551,7 +557,13 @@
                     -%}
                     {%- if color_count <= max_color_count -%}
                       <li>
-                        {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product -%}
+                        {%- liquid
+                          assign swatch_class = ''
+                          if color_count == 1
+                            assign swatch_class = 'is-selected'
+                          endif
+                        -%}
+                        {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, class: swatch_class -%}
                       </li>
                     {%- endif -%}
                   {%- endunless -%}

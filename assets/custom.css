@@ -2258,6 +2258,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     height: 40px;
   }
 
+  .collection__content a.product-card__title:hover {
+    text-decoration: underline !important;
+  }
+
 /* ============================================
    Side Cart Styles
 ============================================ */
