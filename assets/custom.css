@@ -963,10 +963,6 @@ a.product-card__title {
     color: #004785 !important;
 }
 
-.reversed-link:not([aria-disabled]):hover, .rte a:hover {
-    background-size: 0px !important;
-}
-
 .credits .reversed-link {
     font-size: 15px;
     text-decoration: none;
@@ -2164,8 +2160,12 @@ a.product-card__title {
         Header - Non-Homepage Styles
 ============================================ */
 
-body:not(.template-index) .header-transparent .header {
-    position: static !important;
+body:not(.template-index) .header-transparent:not(.header-scrolled) .header {
+    position: relative !important;
+}
+
+body:not(.template-index) .header-transparent:not(.header-scrolled) .header::before {
+    position: absolute !important;
 }
 
 .header__logo .has-white-logo .logo {
@@ -2173,7 +2173,7 @@ body:not(.template-index) .header-transparent .header {
 }
 
 body:not(.template-index) .header-transparent.header-scrolled .header {
-    position: static !important;
+    position: fixed !important;
 }
 
 body:not(.template-index) .header__icons .icon svg,

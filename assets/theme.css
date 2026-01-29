@@ -4866,15 +4866,15 @@ input[type=checkbox].switch:is(:disabled, .disabled):not(:checked)::after {
 .rte a {
   --reversed-link-gap: min(100%, 1.35em);
   background: linear-gradient(to var(--transform-origin-end), currentColor, currentColor) 0 var(--reversed-link-gap)/0 1px no-repeat;
-  background-position-x: var(--transform-origin-end);
-  transition: background-size var(--animation-primary)
+  background-position: var(--transform-origin-end) calc(100% - 0.1em);
+  transition: background-size var(--animation-primary), background-position var(--animation-primary)
 }
 
 @media screen and (pointer: fine) {
   .link.icon-with-text:not([aria-disabled]):hover .link-text,
   .reversed-link:not([aria-disabled]):hover,
   .rte a:hover {
-    background-position-x: var(--transform-origin-start);
+    background-position: var(--transform-origin-start) calc(100% - 0.1em);
     background-size: 100% 1px
   }
 }
