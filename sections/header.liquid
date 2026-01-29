@@ -6,9 +6,6 @@
     --color-foreground: {{ section.settings.color_text.rgb }};
     --color-transparent: {{ section.settings.transparent_color_text.rgb }};
     --color-localization: {{ section.settings.color_localization.rgb }};
-    {%- if section.settings.enable_transparent_header -%}
-    --color-scroll-background: {{ section.settings.scroll_background_color.rgb }};
-    {%- endif -%}
   }
 </style>
 
@@ -38,12 +35,12 @@
   render 'header-drawer', section: section
 -%}
 
-<header data-section-id="{{ section.id }}" class="header header--{{ header_layout }} mobile:header--{{ section.settings.logo_position_mobile }} page-width{% if section.settings.full_width %} page-width--full{% endif %} section{% if section.settings.rounded %} section--rounded{% endif %} section--padding grid items-center z-20 relative w-full"{% if section.settings.sticky_header_type != 'none' %} is="sticky-header" data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %} is="custom-header"{% endif %}{% if section.settings.enable_transparent_header %} data-enable-transparent="true"{% endif %}>
+<header data-section-id="{{ section.id }}" class="header {% if request.page_type == 'index' %}homepage-template{% endif %} header--{{ header_layout }} mobile:header--{{ section.settings.logo_position_mobile }} page-width{% if section.settings.full_width %} page-width--full{% endif %} section{% if section.settings.rounded %} section--rounded{% endif %} section--padding grid items-center z-20 relative w-full"{% if section.settings.sticky_header_type != 'none' %} is="sticky-header" data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %} is="custom-header"{% endif %}>
   {%- liquid
     render 'header-icons', section: section, show_search: true, show_hamburger: true, show_toggle: show_toggle, context: 'start'
 
     if header_layout != 'center-left' and header_layout != 'center-split'
-      render 'header-logo', logo_h1: section.settings.logo_h1, normal_logo: section.settings.normal_logo, normal_logo_mobile: section.settings.normal_logo_mobile
+      render 'header-logo', logo_h1: section.settings.logo_h1
     endif
 
     if header_layout == 'center'
@@ -59,7 +56,7 @@
 
   {%- liquid
     if header_layout == 'center-left' or header_layout == 'center-split'
-      render 'header-logo', logo_h1: section.settings.logo_h1, normal_logo: section.settings.normal_logo, normal_logo_mobile: section.settings.normal_logo_mobile
+      render 'header-logo', logo_h1: section.settings.logo_h1
     endif
   -%}
 
@@ -325,45 +322,14 @@
       "info": "t:sections.header.settings.header__transparent.info"
     },
     {
-      "type": "header",
-      "content": "Logo for non-homepage pages"
-    },
-    {
-      "type": "image_picker",
-      "id": "normal_logo",
-      "label": "Normal logo",
-      "info": "For non-homepage pages"
-    },
-    {
-      "type": "image_picker",
-      "id": "normal_logo_mobile",
-      "label": "Normal logo (mobile)",
-      "info": "For non-homepage pages"
-    },
-    {
       "type": "paragraph",
       "content": "t:sections.header.settings.paragraph__logo_help.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_transparent_header",
-      "label": "Enable transparent header",
-      "default": false,
-      "info": "Make the header transparent on page load, then transition to solid color when scrolling"
     },
     {
       "type": "color",
       "id": "transparent_color_text",
       "label": "t:sections.header.settings.transparent_color_text.label",
       "default": "#ffffff"
-    },
-    {
-      "visible_if": "{{ section.settings.enable_transparent_header == true }}",
-      "type": "color",
-      "id": "scroll_background_color",
-      "label": "Scroll background color",
-      "default": "#ffffff",
-      "info": "Background color when scrolling (after transparent state)"
     },
     {
       "type": "header",

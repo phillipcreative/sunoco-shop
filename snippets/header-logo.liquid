@@ -4,30 +4,17 @@
   Displays site logo with mobile/desktop versions, overlay support, and text fallback.
 
   @param {boolean} [logo_h1] - Wrap logo in H1 tag for homepage SEO
-  @param {image} [normal_logo] - Logo for non-homepage pages
-  @param {image} [normal_logo_mobile] - Mobile logo for non-homepage pages
 
   @example
   {% render 'header-logo', logo_h1: true %}
 {%- enddoc -%}
 
 {%- liquid
-  if request.page_type == 'index'
-    assign logo = settings.logo
-    assign logo_mobile = settings.logo_mobile | default: logo
-    assign white_logo = settings.white_logo
-    assign white_logo_mobile = settings.white_logo_mobile | default: white_logo
-  else
-    if normal_logo != blank
-      assign logo = normal_logo
-      assign logo_mobile = normal_logo_mobile | default: normal_logo
-    else
-      assign logo = settings.logo
-      assign logo_mobile = settings.logo_mobile | default: logo
-    endif
-    assign white_logo = blank
-    assign white_logo_mobile = blank
-  endif
+  assign logo = settings.logo
+  assign logo_mobile = settings.logo_mobile | default: logo
+
+  assign white_logo = settings.white_logo
+  assign white_logo_mobile = settings.white_logo_mobile | default: white_logo
 -%}
 
 {%- capture logo_content -%}
@@ -54,26 +41,21 @@
         echo logo_mobile | image_url: width: logo_mobile.width | image_tag: loading: 'lazy', widths: mobile_widths, sizes: mobile_sizes, style: mobile_style, preload: true, itemprop: 'logo', is: 'lazy-image', class: 'logo md:hidden'
       -%}
 
-      {%- if request.page_type == 'index' and white_logo != blank -%}
+      {%- if white_logo -%}
         {%- comment -%} Desktop logo {%- endcomment -%}
         {%- capture sizes -%}{{ settings.logo_width }}px{%- endcapture -%}
         {%- capture widths -%}{{ settings.logo_width }}, {{ settings.logo_width | times: 2 | at_most: white_logo.width }}{%- endcapture -%}
         {%- capture style -%}max-height: {{ settings.logo_width | divided_by: white_logo.aspect_ratio }}px;max-width: {{ settings.logo_width }}px;{%- endcapture -%}
 
+        {%- comment -%} Mobile logo {%- endcomment -%}
+        {%- capture mobile_sizes -%}{{ settings.logo_width_mobile }}px{%- endcapture -%}
+        {%- capture mobile_widths -%}{{ settings.logo_width_mobile }}, {{ settings.logo_width_mobile | times: 2 | at_most: white_logo_mobile.width }}{%- endcapture -%}
+        {%- capture mobile_style -%}max-height: {{ settings.logo_width_mobile | divided_by: white_logo_mobile.aspect_ratio }}px;max-width: {{ settings.logo_width_mobile }}px;{%- endcapture -%}
+
         {%- liquid
           echo white_logo | image_url: width: white_logo.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, style: style, preload: true, itemprop: 'logo', is: 'lazy-image', class: 'white-logo hidden md:block absolute'
+          echo white_logo_mobile | image_url: width: white_logo_mobile.width | image_tag: loading: 'lazy', widths: mobile_widths, sizes: mobile_sizes, style: mobile_style, preload: true, itemprop: 'logo', is: 'lazy-image', class: 'white-logo md:hidden absolute'
         -%}
-
-        {%- if white_logo_mobile != blank and white_logo_mobile != null -%}
-          {%- comment -%} Mobile logo {%- endcomment -%}
-          {%- capture mobile_sizes -%}{{ settings.logo_width_mobile }}px{%- endcapture -%}
-          {%- capture mobile_widths -%}{{ settings.logo_width_mobile }}, {{ settings.logo_width_mobile | times: 2 | at_most: white_logo_mobile.width }}{%- endcapture -%}
-          {%- capture mobile_style -%}max-height: {{ settings.logo_width_mobile | divided_by: white_logo_mobile.aspect_ratio }}px;max-width: {{ settings.logo_width_mobile }}px;{%- endcapture -%}
-
-          {%- liquid
-            echo white_logo_mobile | image_url: width: white_logo_mobile.width | image_tag: loading: 'lazy', widths: mobile_widths, sizes: mobile_sizes, style: mobile_style, preload: true, itemprop: 'logo', is: 'lazy-image', class: 'white-logo md:hidden absolute'
-          -%}
-        {%- endif -%}
       {%- endif -%}
     </a>
   {%- else -%}
