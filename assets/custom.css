@@ -2032,7 +2032,7 @@ a.product-card__title {
     } */
 
     .cost_row .gap-2 {
-        gap: 0px !important;
+        /* gap: 0px !important; */
         justify-content: center !important;
     }
 
