@@ -73,7 +73,7 @@
         "menu": "main-menu-testing-duplicate",
         "menu_mobile": "",
         "menu_active": "block",
-        "hover_menu": false,
+        "hover_menu": true,
         "header_layout": "left",
         "sticky_header_type": "none",
         "icons_size": "lg",
