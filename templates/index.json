@@ -57,7 +57,7 @@
       ],
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
-        "transparent_header": false,
+        "transparent_header": true,
         "image": "shopify://shop_images/99b6b47e4b5155668f0aa27c2192422d06038e9d.jpg",
         "image_position": "center top",
         "image_height": "800px",

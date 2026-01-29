@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "main-product": {
       "type": "main-product",
@@ -501,7 +501,7 @@
       "type": "ML-featured-collection",
       "name": "ML Featured Collection",
       "settings": {
-        "collection": "frontpage",
+        "collection": "race-jugs-4-packs",
         "products": [],
         "product_limit": 6,
         "columns": 4,
@@ -566,7 +566,8 @@
         "padding_bottom": 72,
         "divider": false,
         "full_width": false,
-        "rounded": false
+        "rounded": false,
+        "dynamic_swatches": true
       }
     }
   },
