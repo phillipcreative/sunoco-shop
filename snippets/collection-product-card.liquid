@@ -58,7 +58,7 @@
 
     assign card_style_value = card_style | default: settings.card_style
   -%}
-  <div class="card product-card product-card--{{ card_style_value }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative">
+  <div class="card product-card collection-product-card product-card--{{ card_style_value }}{% if settings.card_border_thickness > 0 %} product-card--thickness{% endif %}{% unless featured_media %} no-media{% endunless %}{% if product.available and show_quick_add and mobile_quick_add %} mobile:with-quick-add{% endif %} flex flex-col leading-none relative">
     {%- if featured_media -%}
       <div class="product-card__media relative h-auto">
         {%- if show_quick_view -%}
@@ -330,7 +330,7 @@
         </div>
       {%- endif -%}
 
-      <div class="product-card__details flex flex-col lg:flex-row items-baseline gap-2 w-full">
+      <div class="product-card__details flex flex-col lg:flex-row items-center md:items-baseline justify-center md:justify-start gap-2 w-full">
         <a class="product-card__title reversed-link text-base-xl font-medium leading-tight" href="{{ product_url }}">
           {{- product.title | escape -}}
         </a>
@@ -370,8 +370,8 @@
                 assign values = ''
                 assign max_color_count = settings.product_max_color_swatches
               -%}
-              <div class="product-card__bottom flex items-center gap-2">
-                <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start gap-2">
+              <div class="product-card__bottom w-full flex items-baseline gap-2">
+                <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start justify-center md:justify-start gap-2">
                   {%- for variant in product.variants -%}
                     {%- assign value = variant.options[option_index] %}
                     {%- unless values contains value -%}
@@ -423,11 +423,17 @@
         {% comment %} DIGMO: END COLOR CUSTOM SWATCHES {% endcomment %}
 
 
-        <div class="flex flex-col gap-2">
+        <div class="cost_row">
+        <div class="flex flex-col gap-2 items-center md:justify-center">
           {%- render 'product-price', product: product, class: 'flex flex-wrap lg:flex-col lg:items-end gap-2 md:gap-1d5' -%}
           {%- if product.quantity_price_breaks_configured? -%}
             <div class="text-sm font-medium leading-tight">{{ 'products.volume_pricing.note' | t }}</div>
           {%- endif -%}
+        </div>
+        <a href="{{ product_url }}" class="button button--primary button--lg button--fixed icon-with-text" is="hover-link" aria-label="Buy now">
+          <span class="btn-fill" data-fill></span>
+          <span class="btn-text">buy now</span>
+        </a>
         </div>
       </div>
     </div>
