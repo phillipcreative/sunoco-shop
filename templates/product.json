@@ -51,7 +51,7 @@
           "type": "product_variations",
           "settings": {
             "option_name": "Jug Color!",
-            "option_value_metafield": "",
+            "option_value_metafield": "sibling.color",
             "products": [
               "3-gallon-jug-vented-4-pack-blue",
               "3-gallon-jug-vented-4-pack-clear",
