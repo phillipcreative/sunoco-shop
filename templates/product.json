@@ -47,6 +47,22 @@
             "gradient_background": ""
           }
         },
+        "product_variations_fx7KJt": {
+          "type": "product_variations",
+          "settings": {
+            "option_name": "Jug Color!",
+            "option_value_metafield": "",
+            "products": [
+              "3-gallon-jug-vented-4-pack-blue",
+              "3-gallon-jug-vented-4-pack-clear",
+              "3-gallon-jug-vented-4-pack-red",
+              "3-gallon-jug-vented-4-pack-yellow"
+            ],
+            "enable_color_swatches": true,
+            "color_swatch_type": "color",
+            "size_chart": ""
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -144,6 +160,7 @@
         "title",
         "description",
         "countdown",
+        "product_variations_fx7KJt",
         "variant_picker",
         "buy_buttons",
         "pickup_availability",
