@@ -12,6 +12,7 @@
   @param {string} [image_ratio_mobile] - Mobile swatch aspect ratio
   @param {boolean} [image_fill] - Fill vs contain swatch images
   @param {object} [swatch_collection] - Collection containing products for custom swatches
+  @param {boolean} [async_color_swatches] - Enable asynchronous color swatches loading
 
   @example
   {% render 'product-variant-picker',
@@ -25,16 +26,67 @@
 
 {%- liquid
   assign swatch_collection = swatch_collection | default: blank
+  assign async_color_swatches = async_color_swatches | default: false
 -%}
+{%- if swatch_collection != blank and async_color_swatches -%}
+  <script type="application/json" data-swatch-collection="{{ section_id }}-{{ product_id }}">
+    {
+      "current_product": {{ product | json }},
+      "products": [
+        {%- for swatch_product in swatch_collection.products limit: 250 -%}
+          {
+            "id": {{ swatch_product.id | json }},
+            "handle": {{ swatch_product.handle | json }},
+            "url": {{ swatch_product.url | json }},
+            "variants": [
+              {%- for variant in swatch_product.variants -%}
+                {
+                  "id": {{ variant.id | json }},
+                  "price": {{ variant.price | json }},
+                  "compareAtPrice": {{ variant.compare_at_price | json }},
+                  "available": {{ variant.available | json }},
+                  "option1": {{ variant.option1 | json }},
+                  "option2": {{ variant.option2 | json }},
+                  "option3": {{ variant.option3 | json }},
+                  "featuredMediaId": {% if variant.featured_media %}{{ variant.featured_media.id | json }}{% else %}null{% endif %},
+                  "url": {{ variant.url | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ],
+            "options": [
+              {%- for option in swatch_product.options_with_values -%}
+                {
+                  "name": {{ option.name | json }},
+                  "position": {{ option.position | json }},
+                  "values": {{ option.values | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ],
+            "featuredMediaId": {% if swatch_product.featured_media %}{{ swatch_product.featured_media.id | json }}{% else %}null{% endif %},
+            "media": [
+              {%- for media in swatch_product.media -%}
+                {
+                  "id": {{ media.id | json }},
+                  "type": {{ media.media_type | json }},
+                  "src": {% if media.media_type == 'image' %}{{ media | image_url: width: 800 | json }}{% else %}{{ media | image_url | json }}{% endif %}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ]
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
 {%- unless product.has_only_default_variant -%}
   {%- liquid
     case block.settings.picker_type
       when 'button'
         if block.settings.enable_color_swatches
           if block.settings.color_swatch_type == 'variant'
-            render 'product-variant-picker-variant', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', image_ratio: image_ratio, image_ratio_mobile: image_ratio_mobile, image_fill: image_fill, swatch_collection: swatch_collection
+            render 'product-variant-picker-variant', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', image_ratio: image_ratio, image_ratio_mobile: image_ratio_mobile, image_fill: image_fill, swatch_collection: swatch_collection, async_color_swatches: async_color_swatches
           else
-            render 'product-variant-picker-swatch', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', swatch_collection: swatch_collection
+            render 'product-variant-picker-swatch', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product', swatch_collection: swatch_collection, async_color_swatches: async_color_swatches
           endif
         else
           render 'product-variant-picker-button', product: product, product_id: product_id, section_id: section_id, show_variant_labels: block.settings.show_variant_labels, size_chart: block.settings.size_chart, shopify_attributes: block.shopify_attributes, context: 'product'
@@ -66,3 +118,24 @@
     </div>
   </div>
 </noscript>
+
+{%- if swatch_collection != blank and async_color_swatches -%}
+  <script src="{{ 'digmo-async-swatch.js' | asset_url }}" defer></script>
+  <script>
+    (function() {
+      function init() {
+        if (typeof window.initAsyncSwatch === 'function') {
+          window.initAsyncSwatch('{{ section_id }}', '{{ product_id }}');
+        } else {
+          setTimeout(init, 50);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+{%- endif -%}

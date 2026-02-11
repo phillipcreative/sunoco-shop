@@ -372,12 +372,12 @@
               </p>
             {%- endif -%}
           {%- endif -%}
+
           {%- if show_variant_color_swatches and product.variants.size > 1 -%}
             {%- for option in product.options_with_values -%}
               {%- assign option_index = forloop.index0 -%}
               {% assign option_name_downcase = option.name | downcase %}
-              {% if option_name_downcase == 'color' or option_name_downcase == 'colour' or option_name_downcase == 'lid color' %}
-                {% unless option_name_downcase == 'jug color' or option_name_downcase == 'jugcolor' %}
+                {% unless option_name_downcase == 'jug color' or option_name_downcase == 'jugcolor' or option_name_downcase == 'filler hose option'%}
                 <div class="product-card__variant-color-swatches ml-featured-product__variant-option mt-2">
                   <ul class="swatches swatches--{{ settings.rounded_swatch }} flex items-start flex-wrap gap-2">
                     {%- for value in option.values -%}
@@ -482,7 +482,6 @@
                   </ul>
                 </div>
                 {%- endunless -%}
-              {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
         </div>
