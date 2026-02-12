@@ -47,14 +47,13 @@
             "gradient_background": ""
           }
         },
-        "variant_picker": {
-          "type": "variant_picker",
+        "async_variant_picker_ffPVC8": {
+          "type": "async_variant_picker",
           "settings": {
             "show_variant_labels": true,
             "picker_type": "button",
             "enable_color_swatches": true,
             "color_swatch_type": "color",
-            "async_color_swatches": true,
             "size_chart": "",
             "swatch_collection": "fuel-jugs"
           }
@@ -145,7 +144,7 @@
         "title",
         "description",
         "countdown",
-        "variant_picker",
+        "async_variant_picker_ffPVC8",
         "buy_buttons",
         "pickup_availability",
         "share",
