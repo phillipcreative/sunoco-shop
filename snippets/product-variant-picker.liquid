@@ -68,7 +68,9 @@
                 {
                   "id": {{ media.id | json }},
                   "type": {{ media.media_type | json }},
-                  "src": {% if media.media_type == 'image' %}{{ media | image_url: width: 800 | json }}{% else %}{{ media | image_url | json }}{% endif %}
+                  "src": {% if media.media_type == 'image' %}{{ media | image_url: width: 800 | json }}{% else %}{{ media | image_url | json }}{% endif %},
+                  "width": {% if media.preview_image %}{{ media.preview_image.width | json }}{% else %}800{% endif %},
+                  "height": {% if media.preview_image %}{{ media.preview_image.height | json }}{% else %}800{% endif %}
                 }{% unless forloop.last %},{% endunless %}
               {%- endfor -%}
             ]
