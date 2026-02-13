@@ -514,7 +514,7 @@
               -%}
 
             {%- when 'async_variant_picker' -%}
-              {%- render 'product-variant-picker',
+              {%- render 'product-async-variant-picker',
               block: block,
               product: product,
               product_id: product.id,
@@ -524,6 +524,7 @@
               image_ratio_mobile: section.settings.image_ratio_mobile,
               image_fill: settings.product_image_fill,
               swatch_collection: block.settings.swatch_collection,
+              async_color_swatches: true
             -%}
 
             {%- when 'product_variations' -%}
