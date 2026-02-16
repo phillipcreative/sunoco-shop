@@ -37,6 +37,7 @@
           {
             "id": {{ swatch_product.id | json }},
             "handle": {{ swatch_product.handle | json }},
+            "title": {{ swatch_product.title | json }},
             "url": {{ swatch_product.url | json }},
             "variants": [
               {%- for variant in swatch_product.variants -%}
@@ -121,7 +122,7 @@
   </div>
 </noscript>
 
-{%- if swatch_collection != blank and async_color_swatches -%}
+{%- if swatch_collection != blank -%}
   <script src="{{ 'digmo-async-swatch.js' | asset_url }}" defer></script>
   <script>
     (function() {

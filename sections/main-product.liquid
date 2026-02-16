@@ -510,8 +510,22 @@
                 image_ratio: section.settings.image_ratio,
                 image_ratio_mobile: section.settings.image_ratio_mobile,
                 image_fill: settings.product_image_fill,
-                swatch_collection: block.settings.swatch_collection
+                swatch_collection: block.settings.swatch_collection,
               -%}
+
+            {%- when 'async_variant_picker' -%}
+              {%- render 'product-async-variant-picker',
+              block: block,
+              product: product,
+              product_id: product.id,
+              section_id: section.id,
+              product_form_id: product_form_id,
+              image_ratio: section.settings.image_ratio,
+              image_ratio_mobile: section.settings.image_ratio_mobile,
+              image_fill: settings.product_image_fill,
+              swatch_collection: block.settings.swatch_collection,
+              async_color_swatches: true
+            -%}
 
             {%- when 'product_variations' -%}
               {%- render 'product-variants',
@@ -1832,6 +1846,89 @@
       "type": "volume_pricing",
       "name": "t:sections.main-product.blocks.volume_pricing.name",
       "limit": 1
+    },
+    {
+      "type": "async_variant_picker",
+      "name": "Async Variant Picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_variant_labels",
+          "default": true,
+          "label": "t:sections.main-product.blocks.variant_picker.settings.show_variant_labels.label"
+        },
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__1.label"
+            },
+            {
+              "value": "button",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__2.label"
+            }
+          ],
+          "default": "button",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.label"
+        },
+        {
+          "visible_if": "{{ block.settings.picker_type == 'button' }}",
+          "type": "header",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.header__color.content"
+        },
+        {
+          "visible_if": "{{ block.settings.picker_type == 'button' }}",
+          "type": "checkbox",
+          "id": "enable_color_swatches",
+          "default": true,
+          "label": "t:sections.main-product.blocks.variant_picker.settings.enable_color_swatches.label",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.enable_color_swatches.info"
+        },
+        {
+          "visible_if": "{{ block.settings.picker_type == 'button' and block.settings.enable_color_swatches == true }}",
+          "type": "select",
+          "id": "color_swatch_type",
+          "options": [
+            {
+              "value": "color",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.color_swatch_type.options__1.label"
+            },
+            {
+              "value": "variant",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.color_swatch_type.options__2.label"
+            }
+          ],
+          "default": "color",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.color_swatch_type.label",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.color_swatch_type.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.header__size.content"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.paragraph__size.content"
+        },
+        {
+          "type": "page",
+          "id": "size_chart",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.size_chart.label"
+        },
+        {
+          "type": "header",
+          "content": "Custom swatches collection"
+        },
+        {
+          "type": "collection",
+          "id": "swatch_collection",
+          "label": "Swatch collection",
+          "info": "Select a collection to display custom swatches from its products. Products in this collection will be mapped to variant options."
+        }
+      ]
     },
     {
       "type": "variant_picker",

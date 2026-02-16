@@ -821,6 +821,12 @@ a.product-card__title {
     padding: 1rem;
 }
 
+/* Smooth gallery transition when variant changes */
+.product__gallery--updating {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
 .ml-featured-product__title {
     font-family: "Asap Condensed", Helvetica !important;
     font-weight: 700 !important;
@@ -2060,7 +2066,8 @@ a.product-card__title {
     color: #000000 !important;
 }
 
-.product-form__submit {
+.product-form__submit,
+.product-form__alert {
     font-family: "Asap Condensed", Helvetica !important;
     font-weight: 900 !important;
     font-size: 25px !important;
@@ -2243,7 +2250,8 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 
   /* Outer ring (hover/selected) */
   .color-swatch.with-image::after,
-  .color-pattern::after {
+  .color-pattern::after,
+  .swatches input:is([type=checkbox],[type=radio]):is(:disabled,.disabled):not(:checked)+.color-swatch:after {
     content: "";
     position: absolute;
     top: 50%;

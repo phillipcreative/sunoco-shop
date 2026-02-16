@@ -14,6 +14,7 @@
   @param {string} [context] - Context identifier for ID generation
   @param {string} [shopify_attributes] - Shopify-specific attributes
   @param {object} [swatch_collection] - Collection containing products for custom swatches
+  @param {boolean} [async_color_swatches] - Enable asynchronous color swatches loading
 
   @example
   {% render 'product-variant-picker-variant',
@@ -100,6 +101,7 @@
       </div>
       {%- liquid
         assign custom_swatch_collection = swatch_collection | default: blank
+        assign async_color_swatches = async_color_swatches | default: false
         assign is_jug_color_option = false
         assign is_filler_hose_option = false
         assign option_name_downcase = option.name | downcase
@@ -256,7 +258,7 @@
                   title="{{ related_product_color_value | escape }}"
                   style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
                   data-jug-color="{{ related_product_color_value | escape }}"
-                  {% if is_current_product %}onclick="event.preventDefault(); document.getElementById('{{ input_id }}').click();"{% endif %}
+                  {% if is_current_product and async_color_swatches == false %}onclick="event.preventDefault(); document.getElementById('{{ input_id }}').click();"{% endif %}
                 >
                   <span class="sr-only">{{ related_product_color_value | escape }}</span>
                   {%- unless context == 'bundle' -%}

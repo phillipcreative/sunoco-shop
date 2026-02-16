@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
     "main-product": {
       "type": "main-product",
@@ -47,15 +47,15 @@
             "gradient_background": ""
           }
         },
-        "variant_picker": {
-          "type": "variant_picker",
+        "async_variant_picker_ffPVC8": {
+          "type": "async_variant_picker",
           "settings": {
             "show_variant_labels": true,
             "picker_type": "button",
             "enable_color_swatches": true,
             "color_swatch_type": "color",
             "size_chart": "",
-            "swatch_collection": "fuel-jugs"
+            "swatch_collection": "{{ product.metafields.custom.swatch_collection.value }}"
           }
         },
         "buy_buttons": {
@@ -144,7 +144,7 @@
         "title",
         "description",
         "countdown",
-        "variant_picker",
+        "async_variant_picker_ffPVC8",
         "buy_buttons",
         "pickup_availability",
         "share",
