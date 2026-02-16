@@ -1,5 +1,5 @@
 (function() {
-  console.log('Async Color Swatches Loaded');
+
   // Build gallery HTML from product media
   function buildGalleryHTML(matchingProduct, matchingVariant, sectionId, productId, imageZoom) {
     const featuredMediaId = matchingVariant.featuredMediaId || matchingProduct.featuredMediaId;
@@ -110,12 +110,12 @@
 
     const galleryContainer = document.getElementById(`ProductGallery-${sectionId}-${productId}`);
     if (!galleryContainer) {
-      console.warn('❌ Gallery container not found:', `ProductGallery-${sectionId}-${productId}`);
+      // console.warn('❌ Gallery container not found:', `ProductGallery-${sectionId}-${productId}`);
       return;
     }
 
     if (!product.media || product.media.length === 0) {
-      console.warn('❌ No media found for product:', product.handle);
+      // console.warn('❌ No media found for product:', product.handle);
       return;
     }
 
@@ -128,7 +128,7 @@
       }
     }
 
-    console.log('🔧 Building gallery HTML with zoom type:', imageZoom);
+    // console.log('🔧 Building gallery HTML with zoom type:', imageZoom);
     const newGalleryHTML = buildGalleryHTML(product, variant, sectionId, productId, imageZoom);
 
     const scrollShadow = galleryContainer.querySelector('scroll-shadow');
@@ -152,30 +152,37 @@
 
     const sliderContainer = galleryContainer.querySelector('.relative.w-full.h-full');
     if (sliderContainer) {
-      console.log('✅ Replacing slider HTML');
+      // console.log('✅ Replacing slider HTML');
+
+      // Hide gallery during transition to prevent flicker
+      galleryContainer.style.opacity = '0';
+
       sliderContainer.outerHTML = newGalleryHTML;
 
       const sliderElement = galleryContainer.querySelector('slider-element');
       if (sliderElement) {
-        console.log('🎯 Initializing new slider element');
+        // console.log('🎯 Initializing new slider element');
         sliderElement.init?.();
 
         const featuredMediaId = variant.featuredMediaId || product.featuredMediaId;
         if (featuredMediaId) {
           const mediaIndex = product.media.findIndex(m => m.id === featuredMediaId);
-          console.log('📍 Selecting media at index:', mediaIndex + 1, 'of', product.media.length);
+          // console.log('📍 Selecting media at index:', mediaIndex + 1, 'of', product.media.length);
           if (mediaIndex >= 0) {
-            setTimeout(() => {
-              sliderElement.select(mediaIndex + 1, true);
-            }, 100);
+            sliderElement.select(mediaIndex + 1, true);
           }
         }
       }
+
+      // Show gallery after update is complete
+      requestAnimationFrame(() => {
+        galleryContainer.style.opacity = '';
+      });
     } else {
-      console.warn('❌ Slider container not found');
+      // console.warn('❌ Slider container not found');
     }
 
-    console.log('✨ Gallery update complete');
+    // console.log('✨ Gallery update complete');
   }
 
   // Format money using theme's formatter
@@ -210,7 +217,7 @@
     const compareAtPriceEl = priceElement.querySelector('.product__price :is(.price__sale,.unit-price)');
 
     if (variant.compareAtPrice && variant.compareAtPrice > variant.price) {
-      console.log('✨ Variant is on sale:', variant.compareAtPrice, variant.price);
+      // console.log('✨ Variant is on sale:', variant.compareAtPrice, variant.price);
       priceElement.classList.add('price--on-sale');
       if (salePriceEl) salePriceEl.textContent = formatMoney(variant.price);
       if (compareAtPriceEl) compareAtPriceEl.textContent = formatMoney(variant.compareAtPrice);
@@ -271,6 +278,44 @@
     }
   }
 
+  // Update form controls to match the selected variant
+  function updateFormControls(product, variant, sectionId, productId) {
+    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+
+    if (!variantPicker) return;
+
+    // Update radio buttons and selects for each option
+    product.options.forEach((option, index) => {
+      const optionValue = variant[`option${index + 1}`];
+      if (!optionValue) return;
+
+      // Update radio buttons
+      const radios = variantPicker.querySelectorAll(`input[type="radio"][name*="${option.name}"]`);
+      radios.forEach(radio => {
+        if (radio.value.toLowerCase() === optionValue.toLowerCase()) {
+          radio.checked = true;
+        }
+      });
+
+      // Update select dropdowns
+      const selects = variantPicker.querySelectorAll('select');
+      selects.forEach(select => {
+        const label = select.previousElementSibling?.textContent?.trim() ||
+                     select.closest('label')?.textContent?.trim();
+        if (label && label.toLowerCase().includes(option.name.toLowerCase())) {
+          const matchingOption = Array.from(select.options).find(opt =>
+            opt.value.toLowerCase() === optionValue.toLowerCase()
+          );
+          if (matchingOption) {
+            select.value = matchingOption.value;
+          }
+        }
+      });
+    });
+  }
+
   // Get currently selected options from all variant selectors
   function getCurrentlySelectedOptions(sectionId, productId, event) {
     const options = {};
@@ -279,6 +324,8 @@
                          document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
     if (!variantPicker) return options;
+
+    console.log('🎭 Variant picker:', variantPicker);
 
     // Check jug color swatches (data-jug-color)
     const jugColorSwatches = variantPicker.querySelectorAll('[data-jug-color]');
@@ -324,16 +371,85 @@
       }
     }
 
+    // Check if current event is a dropdown change
+    const eventSelect = event.target.closest('select');
+    if (eventSelect && eventSelect.value) {
+      let optionName = null;
+
+      // Try to get option name from the event select
+      optionName = eventSelect.getAttribute('data-option-name');
+
+      if (!optionName && eventSelect.name) {
+        const nameMatch = eventSelect.name.match(/options\[(.+?)\]/);
+        if (nameMatch) {
+          optionName = nameMatch[1];
+        }
+      }
+
+      if (!optionName) {
+        const labelElement = eventSelect.closest('label') ||
+                            document.querySelector(`label[for="${eventSelect.id}"]`);
+        if (labelElement) {
+          const labelClone = labelElement.cloneNode(true);
+          const selectInLabel = labelClone.querySelector('select');
+          if (selectInLabel) selectInLabel.remove();
+          optionName = labelClone.textContent?.trim();
+        }
+      }
+
+      if (optionName) {
+        console.log('🎯 Event select changed:', optionName, '=', eventSelect.value);
+        options[optionName] = eventSelect.value;
+      }
+    }
+
     // Check dropdowns
     const selects = variantPicker.querySelectorAll('select');
     selects.forEach(select => {
-      const label = select.previousElementSibling?.textContent?.trim() ||
-                   select.closest('label')?.textContent?.trim();
-      if (label && select.value) {
-        options[label] = select.value;
+      if (!select.value) return;
+
+      // Try multiple ways to get the option name
+      let optionName = null;
+
+      // Method 1: Check for data-option-name attribute
+      optionName = select.getAttribute('data-option-name');
+
+      // Method 2: Check name attribute (e.g., name="options[Lid Color]")
+      if (!optionName && select.name) {
+        const nameMatch = select.name.match(/options\[(.+?)\]/);
+        if (nameMatch) {
+          optionName = nameMatch[1];
+        }
+      }
+
+      // Method 3: Look for label element
+      if (!optionName) {
+        const labelElement = select.closest('label') ||
+                            document.querySelector(`label[for="${select.id}"]`);
+        if (labelElement) {
+          // Get the label text, excluding any nested elements like the select itself
+          const labelClone = labelElement.cloneNode(true);
+          const selectInLabel = labelClone.querySelector('select');
+          if (selectInLabel) selectInLabel.remove();
+          optionName = labelClone.textContent?.trim();
+        }
+      }
+
+      // Method 4: Check previous sibling for label text
+      if (!optionName && select.previousElementSibling) {
+        const prevText = select.previousElementSibling.textContent?.trim();
+        if (prevText) {
+          optionName = prevText;
+        }
+      }
+
+      if (optionName && select.value) {
+        console.log('📦 Found dropdown option:', optionName, '=', select.value);
+        options[optionName] = select.value;
       }
     });
 
+    console.log('🎯 All selected options:', options);
     return options;
   }
 
@@ -387,7 +503,7 @@
 
   // Universal variant change handler
   function handleVariantChange(event, swatchData, sectionId, productId) {
-    console.log('🔄 Variant change detected');
+    // console.log('🔄 Variant change detected', event.target);
 
     // Check if this is a JUG COLOR swatch click
     const jugColorSwatch = event.target.closest('[data-jug-color]');
@@ -403,7 +519,8 @@
     if (jugColorSwatch) {
       // HANDLE JUG COLOR SELECTION
       const jugColor = jugColorSwatch.getAttribute('data-jug-color');
-      console.log('🎨 Jug Color clicked:', jugColor);
+      // console.log('🎨 Jug Color clicked:', jugColor);
+      // console.log('📊 Swatch data has', swatchData.products?.length, 'products');
 
       // Update active state
       const allJugSwatches = document.querySelectorAll('[data-jug-color]');
@@ -418,23 +535,51 @@
       });
 
       if (!matchingProduct) {
-        console.warn('❌ No product found with jug color:', jugColor);
+        // console.warn('❌ No product found with jug color:', jugColor);
         return;
       }
 
-      console.log('📦 Found matching product:', matchingProduct.handle, 'with', matchingProduct.media?.length || 0, 'media items');
+      // console.log('📦 Found matching product:', matchingProduct.handle, 'with', matchingProduct.media?.length || 0, 'media items');
 
-      // Find the variant with this jug color
-      const matchingVariant = matchingProduct.variants.find(variant => {
-        return variant.option1?.toLowerCase() === jugColor.toLowerCase();
+      // Get ALL currently selected options (including other variants)
+      const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
+
+      console.log('🎭 Selected options from JUG COLOR selection:', selectedOptions);
+
+      // Find the variant that matches ALL selected options
+      let matchingVariant = matchingProduct.variants.find(variant => {
+        return Object.entries(selectedOptions).every(([optionName, optionValue]) => {
+          const optionIndex = matchingProduct.options.findIndex(opt =>
+            opt.name.toLowerCase() === optionName.toLowerCase()
+          );
+
+          if (optionIndex === -1) return false;
+
+          const variantOptionValue = variant[`option${optionIndex + 1}`];
+          return variantOptionValue?.toLowerCase() === optionValue.toLowerCase();
+        });
       });
 
+      // Fallback: if no exact match, find first available variant with this jug color
       if (!matchingVariant) {
-        console.warn('❌ No variant found with jug color:', jugColor);
+        matchingVariant = matchingProduct.variants.find(variant => {
+          return variant.option1?.toLowerCase() === jugColor.toLowerCase() && variant.available;
+        });
+      }
+
+      // Last resort: just get first variant with this jug color
+      if (!matchingVariant) {
+        matchingVariant = matchingProduct.variants.find(variant => {
+          return variant.option1?.toLowerCase() === jugColor.toLowerCase();
+        });
+      }
+
+      if (!matchingVariant) {
+        // console.warn('❌ No variant found with jug color:', jugColor);
         return;
       }
 
-      console.log('✨ Found matching variant:', matchingVariant);
+      // console.log('✨ Found matching variant:', matchingVariant);
 
       // Update everything with the new product/variant
       updateGallery(matchingProduct, matchingVariant, sectionId, productId);
@@ -443,69 +588,113 @@
       updateURL(matchingVariant.url);
       updateAddToCart(matchingVariant, sectionId, productId);
       updateVariantInput(matchingVariant.id, sectionId, productId);
+      updateFormControls(matchingProduct, matchingVariant, sectionId, productId);
 
-      console.log('✅ Jug color update complete!');
+      // console.log('✅ Jug color update complete!');
       return;
     }
 
-    // HANDLE OTHER VARIANT SELECTIONS (Size, etc.)
-    console.log('📝 Other variant selection detected');
+    // HANDLE OTHER VARIANT SELECTIONS (Lid Color, Size, etc.)
+    // console.log('📝 Other variant selection detected');
     const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
-    console.log('🎭 Selected options:', selectedOptions);
+    // console.log('🎭 Selected options:', selectedOptions);
 
-    const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
+    // Try to find exact match with all selected options
+    let match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
+
+    // Fallback: if no exact match, try finding best available match
+    if (!match && Object.keys(selectedOptions).length > 0) {
+      // Try progressively removing options to find a match
+      // Priority: keep the most recently selected option (from event)
+      const optionKeys = Object.keys(selectedOptions);
+
+      // Try with available variants only
+      for (const product of swatchData.products) {
+        const availableVariant = product.variants.find(variant => {
+          if (!variant.available) return false;
+
+          return Object.entries(selectedOptions).every(([optionName, optionValue]) => {
+            const optionIndex = product.options.findIndex(opt =>
+              opt.name.toLowerCase() === optionName.toLowerCase()
+            );
+
+            if (optionIndex === -1) return false;
+
+            const variantOptionValue = variant[`option${optionIndex + 1}`];
+            return variantOptionValue?.toLowerCase() === optionValue.toLowerCase();
+          });
+        });
+
+        if (availableVariant) {
+          match = { product, variant: availableVariant };
+          break;
+        }
+      }
+    }
 
     if (!match) {
-      console.warn('No matching product/variant found for:', selectedOptions);
+      // console.warn('No matching product/variant found for:', selectedOptions);
       return;
     }
 
     const { product, variant } = match;
 
-    console.log('📦 Matched product:', product.handle, 'variant:', variant.id);
+    // console.log('📦 Matched product:', product.handle, 'variant:', variant.id);
 
     updateActiveStates(event, selectedOptions);
+    updateGallery(product, variant, sectionId, productId);
     updatePrice(variant, sectionId, productId);
+    updateTitle(product, sectionId, productId);
     updateURL(variant.url);
     updateAddToCart(variant, sectionId, productId);
     updateVariantInput(variant.id, sectionId, productId);
+    updateFormControls(product, variant, sectionId, productId);
 
-    console.log('✅ Variant update complete!');
+    // console.log('✅ Variant update complete!');
   }
 
   // Main initialization function
   function initAsyncVariants(sectionId, productId) {
     const dataScript = document.querySelector(`[data-swatch-collection="${sectionId}-${productId}"]`);
     if (!dataScript) {
-      console.warn('No swatch collection data found for:', sectionId, productId);
+      // console.warn('No swatch collection data found for:', sectionId, productId);
       return;
     }
 
     const swatchData = JSON.parse(dataScript.textContent);
-    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
-    if (!variantPicker) {
-      console.warn('Variant picker not found for:', sectionId, productId);
-      return;
-    }
+    // Find the product-info container (this shouldn't get replaced)
+    const productInfo = document.querySelector(`[data-section="${sectionId}"]`) ||
+                       document.querySelector('.product-info') ||
+                       document.body;
 
-    console.log('Initializing async variants for:', sectionId, productId);
+    // console.log('Initializing async variants for:', sectionId, productId);
 
-    // Main click handler
-    variantPicker.addEventListener('click', (event) => {
-      handleVariantChange(event, swatchData, sectionId, productId);
-    });
+    // Use event delegation on parent element so listeners persist even if variant picker is replaced
+    productInfo.addEventListener('click', (event) => {
+      // Check if click is within our variant picker
+      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
-    // Handle select dropdowns
-    variantPicker.addEventListener('change', (event) => {
-      if (event.target.tagName === 'SELECT') {
+      if (variantPicker && variantPicker.contains(event.target)) {
+        // console.log('Click detected inside variant picker');
         handleVariantChange(event, swatchData, sectionId, productId);
       }
     });
 
-    console.log('Async variant listeners attached');
+    // Handle select dropdowns with event delegation
+    productInfo.addEventListener('change', (event) => {
+      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+
+      if (variantPicker && variantPicker.contains(event.target) && event.target.tagName === 'SELECT') {
+        handleVariantChange(event, swatchData, sectionId, productId);
+      }
+    });
+
+    // console.log('Async variant listeners attached with event delegation');
   }
 
   // Expose to window for backwards compatibility
