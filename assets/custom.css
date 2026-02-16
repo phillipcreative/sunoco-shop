@@ -2250,7 +2250,8 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 
   /* Outer ring (hover/selected) */
   .color-swatch.with-image::after,
-  .color-pattern::after {
+  .color-pattern::after,
+  .swatches input:is([type=checkbox],[type=radio]):is(:disabled,.disabled):not(:checked)+.color-swatch:after {
     content: "";
     position: absolute;
     top: 50%;

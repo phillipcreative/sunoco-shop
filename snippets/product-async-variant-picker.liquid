@@ -128,7 +128,6 @@
     (function() {
       function init() {
         if (typeof window.initAsyncSwatch === 'function') {
-          console.log('Initializing async swatches for:', '{{ section_id }}', '{{ product_id }}');
           window.initAsyncSwatch('{{ section_id }}', '{{ product_id }}');
         } else {
           setTimeout(init, 50);
