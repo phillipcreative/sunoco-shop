@@ -1,5 +1,5 @@
 (function() {
-
+  console.log('Async Color Swatches Loaded');
   // Build gallery HTML from product media
   function buildGalleryHTML(matchingProduct, matchingVariant, sectionId, productId, imageZoom) {
     const featuredMediaId = matchingVariant.featuredMediaId || matchingProduct.featuredMediaId;
@@ -104,17 +104,18 @@
     return thumbnailsHTML;
   }
 
-  // Update gallery with new product media
-  function updateGallery(product, variant, sectionId, productId) {
+  const GALLERY_TRANSITION_MS = 200;
 
+  // Update gallery with new product media, using fade transition to avoid flicker
+  function updateGallery(product, variant, sectionId, productId) {
     const galleryContainer = document.getElementById(`ProductGallery-${sectionId}-${productId}`);
     if (!galleryContainer) {
-      // console.warn('❌ Gallery container not found:', `ProductGallery-${sectionId}-${productId}`);
+      console.warn('❌ Gallery container not found:', `ProductGallery-${sectionId}-${productId}`);
       return;
     }
 
     if (!product.media || product.media.length === 0) {
-      // console.warn('❌ No media found for product:', product.handle);
+      console.warn('❌ No media found for product:', product.handle);
       return;
     }
 
@@ -127,61 +128,53 @@
       }
     }
 
-    // console.log('🔧 Building gallery HTML with zoom type:', imageZoom);
     const newGalleryHTML = buildGalleryHTML(product, variant, sectionId, productId, imageZoom);
 
-    const scrollShadow = galleryContainer.querySelector('scroll-shadow');
-
-    if (scrollShadow && product.media.length > 1) {
-      const thumbnailsList = scrollShadow.querySelector('media-dots.product__thumbnails-list');
-
-      if (thumbnailsList) {
-        const newThumbnailsHTML = buildThumbnailsHTML(product, variant, sectionId, productId);
-        thumbnailsList.innerHTML = newThumbnailsHTML;
-
-        if (typeof thumbnailsList.init === 'function') {
-          thumbnailsList.initialized = false;
-          if (thumbnailsList.reset && typeof thumbnailsList.reset === 'function') {
-            thumbnailsList.reset();
+    function performSwap() {
+      const scrollShadow = galleryContainer.querySelector('scroll-shadow');
+      if (scrollShadow && product.media.length > 1) {
+        const thumbnailsList = scrollShadow.querySelector('media-dots.product__thumbnails-list');
+        if (thumbnailsList) {
+          const newThumbnailsHTML = buildThumbnailsHTML(product, variant, sectionId, productId);
+          thumbnailsList.innerHTML = newThumbnailsHTML;
+          if (typeof thumbnailsList.init === 'function') {
+            thumbnailsList.initialized = false;
+            if (thumbnailsList.reset && typeof thumbnailsList.reset === 'function') {
+              thumbnailsList.reset();
+            }
+            thumbnailsList.init();
           }
-          thumbnailsList.init();
+        }
+      }
+
+      const sliderContainer = galleryContainer.querySelector('.relative.w-full.h-full');
+      if (sliderContainer) {
+        sliderContainer.outerHTML = newGalleryHTML;
+
+        const sliderElement = galleryContainer.querySelector('slider-element');
+        if (sliderElement) {
+          sliderElement.init?.();
+          const featuredMediaId = variant.featuredMediaId || product.featuredMediaId;
+          if (featuredMediaId) {
+            const mediaIndex = product.media.findIndex(m => m.id === featuredMediaId);
+            if (mediaIndex >= 0) {
+              setTimeout(() => sliderElement.select(mediaIndex + 1, true), 50);
+            }
+          }
         }
       }
     }
 
-    const sliderContainer = galleryContainer.querySelector('.relative.w-full.h-full');
-    if (sliderContainer) {
-      // console.log('✅ Replacing slider HTML');
+    galleryContainer.classList.add('product__gallery--updating');
 
-      // Hide gallery during transition to prevent flicker
-      galleryContainer.style.opacity = '0';
-
-      sliderContainer.outerHTML = newGalleryHTML;
-
-      const sliderElement = galleryContainer.querySelector('slider-element');
-      if (sliderElement) {
-        // console.log('🎯 Initializing new slider element');
-        sliderElement.init?.();
-
-        const featuredMediaId = variant.featuredMediaId || product.featuredMediaId;
-        if (featuredMediaId) {
-          const mediaIndex = product.media.findIndex(m => m.id === featuredMediaId);
-          // console.log('📍 Selecting media at index:', mediaIndex + 1, 'of', product.media.length);
-          if (mediaIndex >= 0) {
-            sliderElement.select(mediaIndex + 1, true);
-          }
-        }
-      }
-
-      // Show gallery after update is complete
+    setTimeout(() => {
+      performSwap();
       requestAnimationFrame(() => {
-        galleryContainer.style.opacity = '';
+        requestAnimationFrame(() => {
+          galleryContainer.classList.remove('product__gallery--updating');
+        });
       });
-    } else {
-      // console.warn('❌ Slider container not found');
-    }
-
-    // console.log('✨ Gallery update complete');
+    }, GALLERY_TRANSITION_MS);
   }
 
   // Format money using theme's formatter
@@ -243,44 +236,16 @@
     }
   }
 
-  const SELECTION_INCOMPLETE_MESSAGE = 'Make Selections To Continue';
-
-  // Update add to cart button; pass selectionIncomplete: true when not all options selected
-  function updateAddToCart(variant, sectionId, productId, options) {
+  // Update add to cart button
+  function updateAddToCart(variant, sectionId, productId) {
     const form = document.getElementById(`ProductForm-${sectionId}-${productId}`);
     if (!form) return;
 
     const button = form.querySelector('[name="add"]');
     const buttonText = button?.querySelector('.btn-text span:not(.icon)') ||
-                      button?.querySelector('.btn-text span') ||
                       button?.querySelector('.btn-text');
 
     if (!button) return;
-
-    if (options?.selectionIncomplete) {
-      button.setAttribute('disabled', 'disabled');
-      if (buttonText) {
-        buttonText.textContent = SELECTION_INCOMPLETE_MESSAGE;
-      }
-      const alertButton = form.querySelector('.product-form__alert');
-      if (alertButton) {
-        const alertText = alertButton.querySelector('.btn-text span') || alertButton.querySelector('.btn-text');
-        if (alertText) {
-          if (!alertButton.dataset.originalAlertText) alertButton.dataset.originalAlertText = alertText.textContent;
-          alertText.textContent = SELECTION_INCOMPLETE_MESSAGE;
-        }
-      }
-      return;
-    }
-
-    const alertButton = form.querySelector('.product-form__alert');
-    if (alertButton?.dataset.originalAlertText) {
-      const alertText = alertButton.querySelector('.btn-text span') || alertButton.querySelector('.btn-text');
-      if (alertText) {
-        alertText.textContent = alertButton.dataset.originalAlertText;
-        delete alertButton.dataset.originalAlertText;
-      }
-    }
 
     if (variant.available) {
       button.removeAttribute('disabled');
@@ -305,158 +270,6 @@
     }
   }
 
-  // Compute availability for each option value based on partial selection (e.g. Jug Color only)
-  function getOptionAvailability(product, selectedOptions) {
-    const availability = {};
-    for (const option of product.options) {
-      if (selectedOptions[option.name]) continue;
-      availability[option.name] = {};
-      for (const value of option.values) {
-        const testOpts = { ...selectedOptions, [option.name]: value };
-        const variant = product.variants.find(v =>
-          Object.entries(testOpts).every(([optName, optVal]) => {
-            const idx = product.options.findIndex(o => o.name.toLowerCase() === optName.toLowerCase());
-            if (idx === -1) return false;
-            return (v[`option${idx + 1}`] || '').toLowerCase() === (optVal || '').toLowerCase();
-          })
-        );
-        availability[option.name][value] = !variant ? 'unavailable' : (variant.available ? 'available' : 'sold_out');
-      }
-    }
-    return availability;
-  }
-
-  // Update option availability in DOM (available vs sold out); clear other selections when clearing
-  function updateOptionAvailability(product, selectedOptions, sectionId, productId, clearOtherSelections) {
-    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-    if (!variantPicker) return;
-
-    const availability = getOptionAvailability(product, selectedOptions);
-
-    variantPicker.querySelectorAll('fieldset[data-option-index]').forEach(fieldset => {
-      const legend = fieldset.querySelector('legend');
-      const optionName = legend?.textContent?.trim();
-      if (!optionName || optionName.toLowerCase() === 'jug color') return;
-
-      if (clearOtherSelections) {
-        fieldset.querySelectorAll('input[type="radio"]').forEach(radio => {
-          radio.checked = false;
-        });
-        const select = fieldset.querySelector('select');
-        if (select) {
-          const opts = availability[optionName];
-          if (opts) {
-            const hasPlaceholder = select.querySelector('option[value=""]');
-            if (!hasPlaceholder) {
-              const placeholder = document.createElement('option');
-              placeholder.value = '';
-              placeholder.textContent = SELECTION_INCOMPLETE_MESSAGE;
-              placeholder.dataset.placeholder = 'true';
-              select.insertBefore(placeholder, select.firstChild);
-            }
-            select.value = '';
-          }
-        }
-      }
-
-      const opts = availability[optionName];
-      if (!opts) return;
-
-      fieldset.querySelectorAll('select option').forEach(opt => {
-        if (opt.dataset.placeholder) return;
-        const baseText = opt.dataset.originalText || opt.textContent.replace(/\s*[-–]\s*(Sold out|Unavailable)$/i, '').trim();
-        if (!opt.dataset.originalText) opt.dataset.originalText = baseText;
-        const status = opts[opt.value] ?? 'unavailable';
-        opt.disabled = status !== 'available';
-        opt.textContent = baseText + (status === 'sold_out' ? ' - Sold out' : status === 'unavailable' ? ' - Unavailable' : '');
-      });
-
-      fieldset.querySelectorAll('input[type="radio"]').forEach(radio => {
-        const status = opts[radio.value] ?? 'unavailable';
-        radio.disabled = status !== 'available';
-        const label = fieldset.querySelector(`label[for="${radio.id}"]`) || radio.closest('li')?.querySelector('label');
-        const container = label?.closest('.label-swatch, .color-swatch') || radio.closest('li');
-        if (container) {
-          container.classList.toggle('sold-out', status === 'sold_out');
-          container.classList.toggle('unavailable', status === 'unavailable');
-        }
-      });
-    });
-  }
-
-  // Clear selections for all options except Jug Color
-  function clearNonJugColorSelections(sectionId, productId) {
-    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-    if (!variantPicker) return;
-
-    variantPicker.querySelectorAll('fieldset[data-option-index]').forEach(fieldset => {
-      const legend = fieldset.querySelector('legend');
-      if (legend?.textContent?.toLowerCase().includes('jug color')) return;
-      fieldset.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = false; });
-      const select = fieldset.querySelector('select');
-      if (select) {
-        const placeholder = select.querySelector('option[value=""]');
-        if (!placeholder) {
-          const opt = document.createElement('option');
-          opt.value = '';
-          opt.textContent = SELECTION_INCOMPLETE_MESSAGE;
-          opt.dataset.placeholder = 'true';
-          select.insertBefore(opt, select.firstChild);
-        }
-        select.value = '';
-      }
-    });
-  }
-
-  // Check if all required product options are selected
-  function areAllOptionsSelected(product, selectedOptions) {
-    return product.options.every(opt =>
-      selectedOptions[opt.name] && String(selectedOptions[opt.name]).trim() !== ''
-    );
-  }
-
-  // Update form controls to match the selected variant
-  function updateFormControls(product, variant, sectionId, productId) {
-    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-
-    if (!variantPicker) return;
-
-    // Update radio buttons and selects for each option
-    product.options.forEach((option, index) => {
-      const optionValue = variant[`option${index + 1}`];
-      if (!optionValue) return;
-
-      // Update radio buttons
-      const radios = variantPicker.querySelectorAll(`input[type="radio"][name*="${option.name}"]`);
-      radios.forEach(radio => {
-        if (radio.value.toLowerCase() === optionValue.toLowerCase()) {
-          radio.checked = true;
-        }
-      });
-
-      // Update select dropdowns
-      const selects = variantPicker.querySelectorAll('select');
-      selects.forEach(select => {
-        const label = select.previousElementSibling?.textContent?.trim() ||
-                     select.closest('label')?.textContent?.trim();
-        if (label && label.toLowerCase().includes(option.name.toLowerCase())) {
-          const matchingOption = Array.from(select.options).find(opt =>
-            opt.value.toLowerCase() === optionValue.toLowerCase()
-          );
-          if (matchingOption) {
-            select.value = matchingOption.value;
-          }
-        }
-      });
-    });
-  }
-
   // Get currently selected options from all variant selectors
   function getCurrentlySelectedOptions(sectionId, productId, event) {
     const options = {};
@@ -465,14 +278,6 @@
                          document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
     if (!variantPicker) return options;
-
-    // Check jug color swatches (data-jug-color)
-    const jugColorSwatches = variantPicker.querySelectorAll('[data-jug-color]');
-    jugColorSwatches.forEach(swatch => {
-      if (swatch.classList.contains('active') || swatch === event.target.closest('[data-jug-color]')) {
-        options['Jug Color'] = swatch.getAttribute('data-jug-color');
-      }
-    });
 
     // Check radio buttons
     const radios = variantPicker.querySelectorAll('input[type="radio"]:checked');
@@ -483,6 +288,28 @@
         options[legend] = radio.value;
       }
     });
+
+    // Check dropdowns (select elements, including custom-select)
+    const selects = variantPicker.querySelectorAll('select');
+    selects.forEach(select => {
+      const label = select.closest('fieldset')?.querySelector('legend')?.textContent?.trim() ||
+                   select.name?.match(/options\[([^\]]+)\]/)?.[1] ||
+                   select.previousElementSibling?.textContent?.trim() ||
+                   select.closest('label')?.textContent?.trim();
+      if (label && select.value) {
+        options[label] = select.value;
+      }
+    });
+
+    // Check if current event is changing a select (ensure we use the changed value)
+    const eventSelect = event.target.closest('select');
+    if (eventSelect) {
+      const label = eventSelect.closest('fieldset')?.querySelector('legend')?.textContent?.trim() ||
+                   eventSelect.name?.match(/options\[([^\]]+)\]/)?.[1];
+      if (label) {
+        options[label] = eventSelect.value;
+      }
+    }
 
     // Check if current event is changing a radio button
     const eventRadio = event.target.closest('input[type="radio"]');
@@ -504,87 +331,20 @@
         const legend = fieldset?.querySelector('legend')?.textContent?.trim();
         if (legend) {
           options[legend] = associatedRadio.value;
-          // Mark the radio as checked for the next iteration
           associatedRadio.checked = true;
         }
       }
     }
 
-    // Check if current event is a dropdown change
-    const eventSelect = event.target.closest('select');
-    if (eventSelect && eventSelect.value) {
-      let optionName = null;
-
-      // Try to get option name from the event select
-      optionName = eventSelect.getAttribute('data-option-name');
-
-      if (!optionName && eventSelect.name) {
-        const nameMatch = eventSelect.name.match(/options\[(.+?)\]/);
-        if (nameMatch) {
-          optionName = nameMatch[1];
-        }
-      }
-
-      if (!optionName) {
-        const labelElement = eventSelect.closest('label') ||
-                            document.querySelector(`label[for="${eventSelect.id}"]`);
-        if (labelElement) {
-          const labelClone = labelElement.cloneNode(true);
-          const selectInLabel = labelClone.querySelector('select');
-          if (selectInLabel) selectInLabel.remove();
-          optionName = labelClone.textContent?.trim();
-        }
-      }
-
-      if (optionName) {
-        options[optionName] = eventSelect.value;
+    // Check jug color swatches last - takes precedence over radios so clicked swatch wins
+    const jugColorSwatches = variantPicker.querySelectorAll('[data-jug-color]');
+    const clickedJugSwatch = event.target?.closest('[data-jug-color]');
+    for (const swatch of jugColorSwatches) {
+      if (swatch.classList.contains('active') || swatch === clickedJugSwatch) {
+        options['Jug Color'] = swatch.getAttribute('data-jug-color');
+        break;
       }
     }
-
-    // Check dropdowns
-    const selects = variantPicker.querySelectorAll('select');
-    selects.forEach(select => {
-      if (!select.value) return;
-
-      // Try multiple ways to get the option name
-      let optionName = null;
-
-      // Method 1: Check for data-option-name attribute
-      optionName = select.getAttribute('data-option-name');
-
-      // Method 2: Check name attribute (e.g., name="options[Lid Color]")
-      if (!optionName && select.name) {
-        const nameMatch = select.name.match(/options\[(.+?)\]/);
-        if (nameMatch) {
-          optionName = nameMatch[1];
-        }
-      }
-
-      // Method 3: Look for label element
-      if (!optionName) {
-        const labelElement = select.closest('label') ||
-                            document.querySelector(`label[for="${select.id}"]`);
-        if (labelElement) {
-          // Get the label text, excluding any nested elements like the select itself
-          const labelClone = labelElement.cloneNode(true);
-          const selectInLabel = labelClone.querySelector('select');
-          if (selectInLabel) selectInLabel.remove();
-          optionName = labelClone.textContent?.trim();
-        }
-      }
-
-      // Method 4: Check previous sibling for label text
-      if (!optionName && select.previousElementSibling) {
-        const prevText = select.previousElementSibling.textContent?.trim();
-        if (prevText) {
-          optionName = prevText;
-        }
-      }
-
-      if (optionName && select.value) {
-        options[optionName] = select.value;
-      }
-    });
 
     return options;
   }
@@ -639,10 +399,7 @@
 
   // Universal variant change handler
   function handleVariantChange(event, swatchData, sectionId, productId) {
-    // console.log('🔄 Variant change detected', event.target);
-
-    // Check if this is a JUG COLOR swatch click
-    const jugColorSwatch = event.target.closest('[data-jug-color]');
+    console.log('🔄 Variant change detected');
 
     // CRITICAL: Prevent default for any link navigation
     const clickedLink = event.target.closest('a[href]');
@@ -652,133 +409,107 @@
       event.stopImmediatePropagation();
     }
 
+    // Check if this is a JUG COLOR swatch click
+    const jugColorSwatch = event.target.closest('[data-jug-color]');
+
+    // HANDLE JUG COLOR SELECTION
     if (jugColorSwatch) {
-      // HANDLE JUG COLOR SELECTION: update option availability only, do not pre-select variants
-      const jugColor = jugColorSwatch.getAttribute('data-jug-color');
-      if (!jugColor) return;
-
-      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-      if (variantPicker) variantPicker.dataset.asyncJugColorSelected = 'true';
-
-      const allJugSwatches = document.querySelectorAll('[data-jug-color]');
-      allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
-      jugColorSwatch.classList.add('active');
-
-      const matchingProduct = swatchData.products.find(product => {
-        const jugColorOption = product.options.find(opt => opt.name.toLowerCase() === 'jug color');
-        if (!jugColorOption) return false;
-        return jugColorOption.values.some(value => value.toLowerCase() === jugColor.toLowerCase());
-      });
-
-      if (!matchingProduct) return;
-
-      const jugColorOptionIndex = matchingProduct.options.findIndex(o =>
-        o.name.toLowerCase() === 'jug color'
-      );
-      const firstVariantWithJugColor = jugColorOptionIndex >= 0
-        ? matchingProduct.variants.find(v =>
-            (v[`option${jugColorOptionIndex + 1}`] || '').toLowerCase() === jugColor.toLowerCase()
-          )
-        : null;
-      const variantForGallery = firstVariantWithJugColor || {
-        featuredMediaId: matchingProduct.media?.[0]?.id || matchingProduct.featuredMediaId
-      };
-
-
-
-      clearNonJugColorSelections(sectionId, productId);
-      updateOptionAvailability(matchingProduct, { 'Jug Color': jugColor }, sectionId, productId, true);
-      updateAddToCart(null, sectionId, productId, { selectionIncomplete: true });
-      updateGallery(matchingProduct, variantForGallery, sectionId, productId);
+      handleJugColorChange(event, swatchData, sectionId, productId);
       return;
-    }
+    } else {
+      const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
+      // console.log('🎭 Selected options:', selectedOptions);
 
-    // HANDLE OTHER VARIANT SELECTIONS (Lid Color, Filler Hose, etc.)
-    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-    const userHasSelectedJugColor = variantPicker?.dataset.asyncJugColorSelected === 'true';
+      const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
 
-    const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
-    const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
-    const productForAvailability = match?.product || swatchData.products.find(p =>
-      selectedOptions['Jug Color'] && p.options.some(o =>
-        o.name.toLowerCase() === 'jug color' &&
-        o.values.some(v => v.toLowerCase() === (selectedOptions['Jug Color'] || '').toLowerCase())
-      )
-    );
+      if (!match) {
+        console.warn('No matching product/variant found for:', selectedOptions);
+        return;
+      }
 
-    if (match && areAllOptionsSelected(match.product, selectedOptions)) {
+      console.log('✨ Found matching variant when regular variant clicked:', match);
+
       const { product, variant } = match;
+
       updateActiveStates(event, selectedOptions);
       updateGallery(product, variant, sectionId, productId);
       updatePrice(variant, sectionId, productId);
-      updateTitle(product, sectionId, productId);
       updateURL(variant.url);
       updateAddToCart(variant, sectionId, productId);
       updateVariantInput(variant.id, sectionId, productId);
-      updateFormControls(product, variant, sectionId, productId);
-    } else if (productForAvailability && userHasSelectedJugColor) {
-      updateOptionAvailability(productForAvailability, selectedOptions, sectionId, productId, false);
-      updateAddToCart(null, sectionId, productId, { selectionIncomplete: true });
     }
+  }
+
+  function handleJugColorChange(event, swatchData, sectionId, productId) {
+
+    // Check if this is a JUG COLOR swatch click
+    const jugColorSwatch = event.target.closest('[data-jug-color]');
+
+    // HANDLE JUG COLOR SELECTION
+    const jugColor = jugColorSwatch.getAttribute('data-jug-color');
+    console.log('🎨 Jug Color clicked:', jugColor);
+
+    // Update active state
+    const allJugSwatches = document.querySelectorAll('[data-jug-color]');
+    allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
+    jugColorSwatch.classList.add('active');
+
+    const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
+    console.log('SELECTED OPTIONS:', selectedOptions);
+    const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
+
+    if (!match) {
+      console.warn('❌ No product/variant found with jug color:', jugColor);
+      return;
+    }
+
+    const { product: matchingProduct, variant: matchingVariant } = match;
+    console.log('✨ Found matching variant after Jug Variant Was Clicked:', matchingVariant);
+
+    updateGallery(matchingProduct, matchingVariant, sectionId, productId);
+    updatePrice(matchingVariant, sectionId, productId);
+    updateTitle(matchingProduct, sectionId, productId);
+    updateURL(matchingVariant.url);
+    updateAddToCart(matchingVariant, sectionId, productId);
+    updateVariantInput(matchingVariant.id, sectionId, productId);
+
+    // console.log('✅ Jug color update complete!');
+    return;
   }
 
   // Main initialization function
   function initAsyncVariants(sectionId, productId) {
     const dataScript = document.querySelector(`[data-swatch-collection="${sectionId}-${productId}"]`);
     if (!dataScript) {
-      // console.warn('No swatch collection data found for:', sectionId, productId);
+      console.warn('No swatch collection data found for:', sectionId, productId);
       return;
     }
 
     const swatchData = JSON.parse(dataScript.textContent);
+    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
-    // Find the product-info container (this shouldn't get replaced)
-    const productInfo = document.querySelector(`[data-section="${sectionId}"]`) ||
-                       document.querySelector('.product-info') ||
-                       document.body;
+    if (!variantPicker) {
+      console.warn('Variant picker not found for:', sectionId, productId);
+      return;
+    }
 
     // console.log('Initializing async variants for:', sectionId, productId);
 
-    const form = document.getElementById(`ProductForm-${sectionId}-${productId}`);
-    if (form) {
-      form.addEventListener('submit', (event) => {
-        const button = form.querySelector('[name="add"]');
-        if (button?.disabled && button?.textContent?.includes(SELECTION_INCOMPLETE_MESSAGE)) {
-          event.preventDefault();
-        }
-      });
-    }
+    // Main click handler
+    variantPicker.addEventListener('click', (event) => {
+      handleVariantChange(event, swatchData, sectionId, productId);
+    });
 
-    // Use event delegation on parent element so listeners persist even if variant picker is replaced
-    productInfo.addEventListener('click', (event) => {
-      // Check if click is within our variant picker
-      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-
-      if (variantPicker && variantPicker.contains(event.target)) {
-        // console.log('Click detected inside variant picker');
+    // Handle select dropdowns
+    variantPicker.addEventListener('change', (event) => {
+      if (event.target.tagName === 'SELECT') {
         handleVariantChange(event, swatchData, sectionId, productId);
       }
     });
 
-    // Handle select and radio changes with event delegation
-    productInfo.addEventListener('change', (event) => {
-      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
-                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
-      const target = event.target;
-      const isVariantControl = target && variantPicker?.contains(target) &&
-        (target.tagName === 'SELECT' || target.type === 'radio');
-
-      if (isVariantControl) {
-        handleVariantChange(event, swatchData, sectionId, productId);
-      }
-    });
+    // console.log('Async variant listeners attached');
   }
 
   // Expose to window for backwards compatibility

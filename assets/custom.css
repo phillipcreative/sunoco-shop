@@ -821,6 +821,12 @@ a.product-card__title {
     padding: 1rem;
 }
 
+/* Smooth gallery transition when variant changes */
+.product__gallery--updating {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
 .ml-featured-product__title {
     font-family: "Asap Condensed", Helvetica !important;
     font-weight: 700 !important;
