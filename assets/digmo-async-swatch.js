@@ -379,7 +379,7 @@
       }
     });
 
-    const eventSelect = event.target.closest('select');
+    const eventSelect = event?.target?.closest?.('select');
     if (eventSelect) {
       const label = eventSelect.closest('fieldset')?.querySelector('legend')?.textContent?.trim() ||
                    eventSelect.name?.match(/options\[([^\]]+)\]/)?.[1];
@@ -388,7 +388,7 @@
       }
     }
 
-    const eventRadio = event.target.closest('input[type="radio"]');
+    const eventRadio = event?.target?.closest?.('input[type="radio"]');
     if (eventRadio) {
       const fieldset = eventRadio.closest('fieldset');
       const legend = fieldset?.querySelector('legend')?.textContent?.trim();
@@ -397,7 +397,7 @@
       }
     }
 
-    const eventLabel = event.target.closest('label[for]');
+    const eventLabel = event?.target?.closest?.('label[for]');
     if (eventLabel) {
       const forId = eventLabel.getAttribute('for');
       const associatedRadio = document.getElementById(forId);
@@ -518,6 +518,7 @@
     updateURL(variant.url);
     updateAddToCart(variant, sectionId, productId);
     updateVariantInput(variant.id, sectionId, productId);
+    // updateOptionsAvailability(product, sectionId, productId, event);
 
 
     if (window.theme && theme.pubsub) {
@@ -575,6 +576,7 @@
       matchingProduct.variants?.[0] ||
       matchingVariant;
 
+    const { product } = match;
     updateDropdownOptionsForProduct(matchingProduct, variantToUse, sectionId, productId);
     syncVariantPickerToVariant(matchingProduct, variantToUse, sectionId, productId);
     updateGallery(matchingProduct, variantToUse, sectionId, productId);
@@ -583,7 +585,55 @@
     updateURL(variantToUse.url);
     updateAddToCart(variantToUse, sectionId, productId);
     updateVariantInput(variantToUse.id, sectionId, productId);
+    // updateOptionsAvailability(product, sectionId, productId, event);
   }
+
+  // function updateOptionsAvailability(product, sectionId, productId, event) {
+  //   const variantPicker = getVariantPicker(sectionId, productId);
+  //   if (!variantPicker || !product) return;
+
+  //   const currentOptions = getCurrentlySelectedOptions(sectionId, productId, event);
+
+  //   const fieldsets = Array.from(variantPicker.querySelectorAll('fieldset'));
+
+  //   fieldsets.forEach((fieldset) => {
+  //     const optionName = fieldset.querySelector('legend')?.textContent?.trim();
+  //     if (!optionName) return;
+
+  //     // --- ADD THIS GUARD CLAUSE ---
+  //     // If this is the Jug Color section, skip the disabling logic
+  //     if (optionName.toLowerCase() === 'jug color') return;
+  //     // -----------------------------
+
+  //     const inputs = Array.from(fieldset.querySelectorAll('input[type="radio"], option'));
+
+  //     inputs.forEach((input) => {
+  //       const value = input.value || input.getAttribute('value');
+  //       const hypotheticalOptions = { ...currentOptions, [optionName]: value };
+
+  //       const isPossible = product.variants.some((variant) => {
+  //         return Object.entries(hypotheticalOptions).every(([name, val]) => {
+  //           const optIndex = product.options.findIndex(opt => opt.name === name);
+  //           return optIndex === -1 || variant[`option${optIndex + 1}`] === val;
+  //         });
+  //       });
+
+  //       if (input.tagName === 'INPUT') {
+  //         const label = variantPicker.querySelector(`label[for="${input.id}"]`);
+  //         if (isPossible) {
+  //           input.classList.remove('disabled');
+  //           input.disabled = false;
+  //           label?.classList.remove('opacity-50', 'pointer-events-none');
+  //         } else {
+  //           input.classList.add('disabled');
+  //           label?.classList.add('opacity-50', 'pointer-events-none');
+  //         }
+  //       } else if (input.tagName === 'OPTION') {
+  //         input.disabled = !isPossible;
+  //       }
+  //     });
+  //   });
+  // }
 
   // ---------------------------------------------------------------------------
   // Init
