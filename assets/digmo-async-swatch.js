@@ -657,6 +657,11 @@
       const jugColor = jugColorSwatch.getAttribute('data-jug-color');
       if (!jugColor) return;
 
+      const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                           document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+      if (variantPicker) variantPicker.dataset.asyncJugColorSelected = 'true';
+
       const allJugSwatches = document.querySelectorAll('[data-jug-color]');
       allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
       jugColorSwatch.classList.add('active');
@@ -691,6 +696,11 @@
     }
 
     // HANDLE OTHER VARIANT SELECTIONS (Lid Color, Filler Hose, etc.)
+    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+    const userHasSelectedJugColor = variantPicker?.dataset.asyncJugColorSelected === 'true';
+
     const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
     const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
     const productForAvailability = match?.product || swatchData.products.find(p =>
@@ -710,7 +720,7 @@
       updateAddToCart(variant, sectionId, productId);
       updateVariantInput(variant.id, sectionId, productId);
       updateFormControls(product, variant, sectionId, productId);
-    } else if (productForAvailability) {
+    } else if (productForAvailability && userHasSelectedJugColor) {
       updateOptionAvailability(productForAvailability, selectedOptions, sectionId, productId, false);
       updateAddToCart(null, sectionId, productId, { selectionIncomplete: true });
     }
@@ -756,13 +766,16 @@
       }
     });
 
-    // Handle select dropdowns with event delegation
+    // Handle select and radio changes with event delegation
     productInfo.addEventListener('change', (event) => {
       const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
                            document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
                            document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+      const target = event.target;
+      const isVariantControl = target && variantPicker?.contains(target) &&
+        (target.tagName === 'SELECT' || target.type === 'radio');
 
-      if (variantPicker && variantPicker.contains(event.target) && event.target.tagName === 'SELECT') {
+      if (isVariantControl) {
         handleVariantChange(event, swatchData, sectionId, productId);
       }
     });
