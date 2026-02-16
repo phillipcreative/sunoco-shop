@@ -106,7 +106,6 @@
 
   // Update gallery with new product media
   function updateGallery(product, variant, sectionId, productId) {
-    console.log('🖼️ Updating gallery for product:', product.handle, 'with', product.media?.length, 'media items');
 
     const galleryContainer = document.getElementById(`ProductGallery-${sectionId}-${productId}`);
     if (!galleryContainer) {
@@ -244,16 +243,44 @@
     }
   }
 
-  // Update add to cart button
-  function updateAddToCart(variant, sectionId, productId) {
+  const SELECTION_INCOMPLETE_MESSAGE = 'Make Selections To Continue';
+
+  // Update add to cart button; pass selectionIncomplete: true when not all options selected
+  function updateAddToCart(variant, sectionId, productId, options) {
     const form = document.getElementById(`ProductForm-${sectionId}-${productId}`);
     if (!form) return;
 
     const button = form.querySelector('[name="add"]');
     const buttonText = button?.querySelector('.btn-text span:not(.icon)') ||
+                      button?.querySelector('.btn-text span') ||
                       button?.querySelector('.btn-text');
 
     if (!button) return;
+
+    if (options?.selectionIncomplete) {
+      button.setAttribute('disabled', 'disabled');
+      if (buttonText) {
+        buttonText.textContent = SELECTION_INCOMPLETE_MESSAGE;
+      }
+      const alertButton = form.querySelector('.product-form__alert');
+      if (alertButton) {
+        const alertText = alertButton.querySelector('.btn-text span') || alertButton.querySelector('.btn-text');
+        if (alertText) {
+          if (!alertButton.dataset.originalAlertText) alertButton.dataset.originalAlertText = alertText.textContent;
+          alertText.textContent = SELECTION_INCOMPLETE_MESSAGE;
+        }
+      }
+      return;
+    }
+
+    const alertButton = form.querySelector('.product-form__alert');
+    if (alertButton?.dataset.originalAlertText) {
+      const alertText = alertButton.querySelector('.btn-text span') || alertButton.querySelector('.btn-text');
+      if (alertText) {
+        alertText.textContent = alertButton.dataset.originalAlertText;
+        delete alertButton.dataset.originalAlertText;
+      }
+    }
 
     if (variant.available) {
       button.removeAttribute('disabled');
@@ -276,6 +303,120 @@
       input.value = variantId;
       input.dispatchEvent(new Event('change', { bubbles: true }));
     }
+  }
+
+  // Compute availability for each option value based on partial selection (e.g. Jug Color only)
+  function getOptionAvailability(product, selectedOptions) {
+    const availability = {};
+    for (const option of product.options) {
+      if (selectedOptions[option.name]) continue;
+      availability[option.name] = {};
+      for (const value of option.values) {
+        const testOpts = { ...selectedOptions, [option.name]: value };
+        const variant = product.variants.find(v =>
+          Object.entries(testOpts).every(([optName, optVal]) => {
+            const idx = product.options.findIndex(o => o.name.toLowerCase() === optName.toLowerCase());
+            if (idx === -1) return false;
+            return (v[`option${idx + 1}`] || '').toLowerCase() === (optVal || '').toLowerCase();
+          })
+        );
+        availability[option.name][value] = !variant ? 'unavailable' : (variant.available ? 'available' : 'sold_out');
+      }
+    }
+    return availability;
+  }
+
+  // Update option availability in DOM (available vs sold out); clear other selections when clearing
+  function updateOptionAvailability(product, selectedOptions, sectionId, productId, clearOtherSelections) {
+    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+    if (!variantPicker) return;
+
+    const availability = getOptionAvailability(product, selectedOptions);
+
+    variantPicker.querySelectorAll('fieldset[data-option-index]').forEach(fieldset => {
+      const legend = fieldset.querySelector('legend');
+      const optionName = legend?.textContent?.trim();
+      if (!optionName || optionName.toLowerCase() === 'jug color') return;
+
+      if (clearOtherSelections) {
+        fieldset.querySelectorAll('input[type="radio"]').forEach(radio => {
+          radio.checked = false;
+        });
+        const select = fieldset.querySelector('select');
+        if (select) {
+          const opts = availability[optionName];
+          if (opts) {
+            const hasPlaceholder = select.querySelector('option[value=""]');
+            if (!hasPlaceholder) {
+              const placeholder = document.createElement('option');
+              placeholder.value = '';
+              placeholder.textContent = SELECTION_INCOMPLETE_MESSAGE;
+              placeholder.dataset.placeholder = 'true';
+              select.insertBefore(placeholder, select.firstChild);
+            }
+            select.value = '';
+          }
+        }
+      }
+
+      const opts = availability[optionName];
+      if (!opts) return;
+
+      fieldset.querySelectorAll('select option').forEach(opt => {
+        if (opt.dataset.placeholder) return;
+        const baseText = opt.dataset.originalText || opt.textContent.replace(/\s*[-–]\s*(Sold out|Unavailable)$/i, '').trim();
+        if (!opt.dataset.originalText) opt.dataset.originalText = baseText;
+        const status = opts[opt.value] ?? 'unavailable';
+        opt.disabled = status !== 'available';
+        opt.textContent = baseText + (status === 'sold_out' ? ' - Sold out' : status === 'unavailable' ? ' - Unavailable' : '');
+      });
+
+      fieldset.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const status = opts[radio.value] ?? 'unavailable';
+        radio.disabled = status !== 'available';
+        const label = fieldset.querySelector(`label[for="${radio.id}"]`) || radio.closest('li')?.querySelector('label');
+        const container = label?.closest('.label-swatch, .color-swatch') || radio.closest('li');
+        if (container) {
+          container.classList.toggle('sold-out', status === 'sold_out');
+          container.classList.toggle('unavailable', status === 'unavailable');
+        }
+      });
+    });
+  }
+
+  // Clear selections for all options except Jug Color
+  function clearNonJugColorSelections(sectionId, productId) {
+    const variantPicker = document.getElementById(`VariantPicker-${sectionId}-${productId}`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-swatch`) ||
+                         document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
+    if (!variantPicker) return;
+
+    variantPicker.querySelectorAll('fieldset[data-option-index]').forEach(fieldset => {
+      const legend = fieldset.querySelector('legend');
+      if (legend?.textContent?.toLowerCase().includes('jug color')) return;
+      fieldset.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = false; });
+      const select = fieldset.querySelector('select');
+      if (select) {
+        const placeholder = select.querySelector('option[value=""]');
+        if (!placeholder) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = SELECTION_INCOMPLETE_MESSAGE;
+          opt.dataset.placeholder = 'true';
+          select.insertBefore(opt, select.firstChild);
+        }
+        select.value = '';
+      }
+    });
+  }
+
+  // Check if all required product options are selected
+  function areAllOptionsSelected(product, selectedOptions) {
+    return product.options.every(opt =>
+      selectedOptions[opt.name] && String(selectedOptions[opt.name]).trim() !== ''
+    );
   }
 
   // Update form controls to match the selected variant
@@ -324,8 +465,6 @@
                          document.getElementById(`VariantPicker-${sectionId}-${productId}-variant`);
 
     if (!variantPicker) return options;
-
-    console.log('🎭 Variant picker:', variantPicker);
 
     // Check jug color swatches (data-jug-color)
     const jugColorSwatches = variantPicker.querySelectorAll('[data-jug-color]');
@@ -398,7 +537,6 @@
       }
 
       if (optionName) {
-        console.log('🎯 Event select changed:', optionName, '=', eventSelect.value);
         options[optionName] = eventSelect.value;
       }
     }
@@ -444,12 +582,10 @@
       }
 
       if (optionName && select.value) {
-        console.log('📦 Found dropdown option:', optionName, '=', select.value);
         options[optionName] = select.value;
       }
     });
 
-    console.log('🎯 All selected options:', options);
     return options;
   }
 
@@ -517,140 +653,67 @@
     }
 
     if (jugColorSwatch) {
-      // HANDLE JUG COLOR SELECTION
+      // HANDLE JUG COLOR SELECTION: update option availability only, do not pre-select variants
       const jugColor = jugColorSwatch.getAttribute('data-jug-color');
-      // console.log('🎨 Jug Color clicked:', jugColor);
-      // console.log('📊 Swatch data has', swatchData.products?.length, 'products');
+      if (!jugColor) return;
 
-      // Update active state
       const allJugSwatches = document.querySelectorAll('[data-jug-color]');
       allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
       jugColorSwatch.classList.add('active');
 
-      // Find the product that has this jug color
       const matchingProduct = swatchData.products.find(product => {
         const jugColorOption = product.options.find(opt => opt.name.toLowerCase() === 'jug color');
         if (!jugColorOption) return false;
         return jugColorOption.values.some(value => value.toLowerCase() === jugColor.toLowerCase());
       });
 
-      if (!matchingProduct) {
-        // console.warn('❌ No product found with jug color:', jugColor);
-        return;
-      }
+      if (!matchingProduct) return;
 
-      // console.log('📦 Found matching product:', matchingProduct.handle, 'with', matchingProduct.media?.length || 0, 'media items');
+      const jugColorOptionIndex = matchingProduct.options.findIndex(o =>
+        o.name.toLowerCase() === 'jug color'
+      );
+      const firstVariantWithJugColor = jugColorOptionIndex >= 0
+        ? matchingProduct.variants.find(v =>
+            (v[`option${jugColorOptionIndex + 1}`] || '').toLowerCase() === jugColor.toLowerCase()
+          )
+        : null;
+      const variantForGallery = firstVariantWithJugColor || {
+        featuredMediaId: matchingProduct.media?.[0]?.id || matchingProduct.featuredMediaId
+      };
 
-      // Get ALL currently selected options (including other variants)
-      const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
 
-      console.log('🎭 Selected options from JUG COLOR selection:', selectedOptions);
 
-      // Find the variant that matches ALL selected options
-      let matchingVariant = matchingProduct.variants.find(variant => {
-        return Object.entries(selectedOptions).every(([optionName, optionValue]) => {
-          const optionIndex = matchingProduct.options.findIndex(opt =>
-            opt.name.toLowerCase() === optionName.toLowerCase()
-          );
-
-          if (optionIndex === -1) return false;
-
-          const variantOptionValue = variant[`option${optionIndex + 1}`];
-          return variantOptionValue?.toLowerCase() === optionValue.toLowerCase();
-        });
-      });
-
-      // Fallback: if no exact match, find first available variant with this jug color
-      if (!matchingVariant) {
-        matchingVariant = matchingProduct.variants.find(variant => {
-          return variant.option1?.toLowerCase() === jugColor.toLowerCase() && variant.available;
-        });
-      }
-
-      // Last resort: just get first variant with this jug color
-      if (!matchingVariant) {
-        matchingVariant = matchingProduct.variants.find(variant => {
-          return variant.option1?.toLowerCase() === jugColor.toLowerCase();
-        });
-      }
-
-      if (!matchingVariant) {
-        // console.warn('❌ No variant found with jug color:', jugColor);
-        return;
-      }
-
-      // console.log('✨ Found matching variant:', matchingVariant);
-
-      // Update everything with the new product/variant
-      updateGallery(matchingProduct, matchingVariant, sectionId, productId);
-      updatePrice(matchingVariant, sectionId, productId);
-      updateTitle(matchingProduct, sectionId, productId);
-      updateURL(matchingVariant.url);
-      updateAddToCart(matchingVariant, sectionId, productId);
-      updateVariantInput(matchingVariant.id, sectionId, productId);
-      updateFormControls(matchingProduct, matchingVariant, sectionId, productId);
-
-      // console.log('✅ Jug color update complete!');
+      clearNonJugColorSelections(sectionId, productId);
+      updateOptionAvailability(matchingProduct, { 'Jug Color': jugColor }, sectionId, productId, true);
+      updateAddToCart(null, sectionId, productId, { selectionIncomplete: true });
+      updateGallery(matchingProduct, variantForGallery, sectionId, productId);
       return;
     }
 
-    // HANDLE OTHER VARIANT SELECTIONS (Lid Color, Size, etc.)
-    // console.log('📝 Other variant selection detected');
+    // HANDLE OTHER VARIANT SELECTIONS (Lid Color, Filler Hose, etc.)
     const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
-    // console.log('🎭 Selected options:', selectedOptions);
+    const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
+    const productForAvailability = match?.product || swatchData.products.find(p =>
+      selectedOptions['Jug Color'] && p.options.some(o =>
+        o.name.toLowerCase() === 'jug color' &&
+        o.values.some(v => v.toLowerCase() === (selectedOptions['Jug Color'] || '').toLowerCase())
+      )
+    );
 
-    // Try to find exact match with all selected options
-    let match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
-
-    // Fallback: if no exact match, try finding best available match
-    if (!match && Object.keys(selectedOptions).length > 0) {
-      // Try progressively removing options to find a match
-      // Priority: keep the most recently selected option (from event)
-      const optionKeys = Object.keys(selectedOptions);
-
-      // Try with available variants only
-      for (const product of swatchData.products) {
-        const availableVariant = product.variants.find(variant => {
-          if (!variant.available) return false;
-
-          return Object.entries(selectedOptions).every(([optionName, optionValue]) => {
-            const optionIndex = product.options.findIndex(opt =>
-              opt.name.toLowerCase() === optionName.toLowerCase()
-            );
-
-            if (optionIndex === -1) return false;
-
-            const variantOptionValue = variant[`option${optionIndex + 1}`];
-            return variantOptionValue?.toLowerCase() === optionValue.toLowerCase();
-          });
-        });
-
-        if (availableVariant) {
-          match = { product, variant: availableVariant };
-          break;
-        }
-      }
+    if (match && areAllOptionsSelected(match.product, selectedOptions)) {
+      const { product, variant } = match;
+      updateActiveStates(event, selectedOptions);
+      updateGallery(product, variant, sectionId, productId);
+      updatePrice(variant, sectionId, productId);
+      updateTitle(product, sectionId, productId);
+      updateURL(variant.url);
+      updateAddToCart(variant, sectionId, productId);
+      updateVariantInput(variant.id, sectionId, productId);
+      updateFormControls(product, variant, sectionId, productId);
+    } else if (productForAvailability) {
+      updateOptionAvailability(productForAvailability, selectedOptions, sectionId, productId, false);
+      updateAddToCart(null, sectionId, productId, { selectionIncomplete: true });
     }
-
-    if (!match) {
-      // console.warn('No matching product/variant found for:', selectedOptions);
-      return;
-    }
-
-    const { product, variant } = match;
-
-    // console.log('📦 Matched product:', product.handle, 'variant:', variant.id);
-
-    updateActiveStates(event, selectedOptions);
-    updateGallery(product, variant, sectionId, productId);
-    updatePrice(variant, sectionId, productId);
-    updateTitle(product, sectionId, productId);
-    updateURL(variant.url);
-    updateAddToCart(variant, sectionId, productId);
-    updateVariantInput(variant.id, sectionId, productId);
-    updateFormControls(product, variant, sectionId, productId);
-
-    // console.log('✅ Variant update complete!');
   }
 
   // Main initialization function
@@ -669,6 +732,16 @@
                        document.body;
 
     // console.log('Initializing async variants for:', sectionId, productId);
+
+    const form = document.getElementById(`ProductForm-${sectionId}-${productId}`);
+    if (form) {
+      form.addEventListener('submit', (event) => {
+        const button = form.querySelector('[name="add"]');
+        if (button?.disabled && button?.textContent?.includes(SELECTION_INCOMPLETE_MESSAGE)) {
+          event.preventDefault();
+        }
+      });
+    }
 
     // Use event delegation on parent element so listeners persist even if variant picker is replaced
     productInfo.addEventListener('click', (event) => {
@@ -693,8 +766,6 @@
         handleVariantChange(event, swatchData, sectionId, productId);
       }
     });
-
-    // console.log('Async variant listeners attached with event delegation');
   }
 
   // Expose to window for backwards compatibility
