@@ -130,6 +130,32 @@
   // DOM updates
   // ---------------------------------------------------------------------------
 
+  /**
+   * Slides gallery to the variant's featured image without rebuilding. Used when
+   * only non-Jug-Color options change (same product, same media set).
+   */
+  function slideToVariantImage(product, variant, sectionId, productId) {
+    const galleryContainer = document.getElementById(`ProductGallery-${sectionId}-${productId}`);
+    if (!galleryContainer) return;
+    const sliderElement = galleryContainer.querySelector('slider-element');
+    if (!sliderElement) return;
+
+    const featuredMediaId = variant.featuredMediaId || product.featuredMediaId;
+    if (!featuredMediaId || !product.media) return;
+
+    const mediaIndex = product.media.findIndex(m => m.id === featuredMediaId);
+    if (mediaIndex < 0) return;
+
+    sliderElement.select(mediaIndex + 1, true);
+
+    const thumbnailsList = galleryContainer.querySelector('.product__thumbnails-list');
+    if (thumbnailsList) {
+      thumbnailsList.querySelectorAll('.product__thumbnail[data-media-id]').forEach(thumb => {
+        thumb.setAttribute('aria-current', thumb.getAttribute('data-media-id') === String(featuredMediaId) ? 'true' : 'false');
+      });
+    }
+  }
+
   function updateGallery(product, variant, sectionId, productId) {
     const galleryContainer = document.getElementById(`ProductGallery-${sectionId}-${productId}`);
     if (!galleryContainer) {
@@ -197,6 +223,8 @@
         });
       });
     }, GALLERY_TRANSITION_MS);
+
+    console.log('Updated Gallery For Product');
   }
 
   function updateActiveStates(event, selectedOptions) {
@@ -509,24 +537,22 @@
       console.warn('No matching product/variant found for:', selectedOptions);
       updateAddToCart(null, sectionId, productId);
       return;
-    }
+    } else {
+      const { product, variant } = match;
+      updateActiveStates(event, selectedOptions);
+      slideToVariantImage(product, variant, sectionId, productId);
+      updatePrice(variant, sectionId, productId);
+      updateURL(variant.url);
+      updateAddToCart(variant, sectionId, productId);
+      updateVariantInput(variant.id, sectionId, productId);
 
-    const { product, variant } = match;
-    updateActiveStates(event, selectedOptions);
-    updateGallery(product, variant, sectionId, productId);
-    updatePrice(variant, sectionId, productId);
-    updateURL(variant.url);
-    updateAddToCart(variant, sectionId, productId);
-    updateVariantInput(variant.id, sectionId, productId);
-    // updateOptionsAvailability(product, sectionId, productId, event);
-
-
-    if (window.theme && theme.pubsub) {
-      theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.variantChange, {
-        variant: variant,
-        product: product,
-        sectionId: sectionId
+      if (window.theme && theme.pubsub) {
+        theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.variantChange, {
+          variant: variant,
+          product: product,
+          sectionId: sectionId
       });
+    }
     }
   }
 
