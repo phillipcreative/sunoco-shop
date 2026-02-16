@@ -188,9 +188,9 @@
 
   // Update active states for swatches
   function updateActiveStates(event, selectedOptions) {
-    const jugColorSwatch = event.target.closest('a[data-jug-color]');
+    const jugColorSwatch = event.target.closest('[data-jug-color]');
     if (jugColorSwatch) {
-      const allJugSwatches = document.querySelectorAll('a[data-jug-color]');
+      const allJugSwatches = document.querySelectorAll('[data-jug-color]');
       allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
       jugColorSwatch.classList.add('active');
     }
@@ -281,9 +281,9 @@
     if (!variantPicker) return options;
 
     // Check jug color swatches (data-jug-color)
-    const jugColorSwatches = variantPicker.querySelectorAll('a[data-jug-color]');
+    const jugColorSwatches = variantPicker.querySelectorAll('[data-jug-color]');
     jugColorSwatches.forEach(swatch => {
-      if (swatch.classList.contains('active') || swatch === event.target.closest('a[data-jug-color]')) {
+      if (swatch.classList.contains('active') || swatch === event.target.closest('[data-jug-color]')) {
         options['Jug Color'] = swatch.getAttribute('data-jug-color');
       }
     });
@@ -389,32 +389,16 @@
   function handleVariantChange(event, swatchData, sectionId, productId) {
     console.log('🔄 Variant change detected');
 
-    // CRITICAL: Prevent default FIRST, before any other logic
-    const clickedLink = event.target.closest('a[href]');
-    const clickedInput = event.target.closest('input[type="radio"]');
-    const clickedSelect = event.target.closest('select');
-    const clickedLabel = event.target.closest('label[for]');
+    // Check if this is a JUG COLOR swatch click
+    const jugColorSwatch = event.target.closest('[data-jug-color]');
 
-    // Prevent navigation for any variant interaction
+    // CRITICAL: Prevent default for any link navigation
+    const clickedLink = event.target.closest('a[href]');
     if (clickedLink) {
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
     }
-
-    // Prevent default for radio inputs and selects too
-    if (clickedInput || clickedSelect) {
-      event.stopPropagation();
-    }
-
-    // Prevent label clicks that trigger radios
-    if (clickedLabel) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    // Check if this is a JUG COLOR swatch click
-    const jugColorSwatch = event.target.closest('a[data-jug-color]');
 
     if (jugColorSwatch) {
       // HANDLE JUG COLOR SELECTION
@@ -422,7 +406,7 @@
       console.log('🎨 Jug Color clicked:', jugColor);
 
       // Update active state
-      const allJugSwatches = document.querySelectorAll('a[data-jug-color]');
+      const allJugSwatches = document.querySelectorAll('[data-jug-color]');
       allJugSwatches.forEach(swatch => swatch.classList.remove('active'));
       jugColorSwatch.classList.add('active');
 
@@ -509,29 +493,12 @@
 
     console.log('Initializing async variants for:', sectionId, productId);
 
-    // Use capture phase (true) to intercept events BEFORE they bubble
-    // This ensures we prevent default before any other handlers
+    // Main click handler
     variantPicker.addEventListener('click', (event) => {
       handleVariantChange(event, swatchData, sectionId, productId);
-    }, true);
+    });
 
-    // Also catch mousedown to prevent navigation even earlier
-    variantPicker.addEventListener('mousedown', (event) => {
-      const clickedLink = event.target.closest('a[href]');
-      if (clickedLink) {
-        event.preventDefault();
-      }
-    }, true);
-
-    // Prevent any link navigation within the variant picker
-    variantPicker.addEventListener('click', (event) => {
-      const link = event.target.closest('a');
-      if (link) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    }, false);
-
+    // Handle select dropdowns
     variantPicker.addEventListener('change', (event) => {
       if (event.target.tagName === 'SELECT') {
         handleVariantChange(event, swatchData, sectionId, productId);

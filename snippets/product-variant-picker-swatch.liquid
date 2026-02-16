@@ -274,9 +274,23 @@
                     align-selected=".scroll-area"
                   />
                 {%- endif -%}
-                <a
+              {% if async_color_swatches %}
+                  <button
+                  type="button"
+                  class="color-swatch{% if swatch_image != blank %} with-image test123{% endif %} block relative cursor-pointer {% if is_current_product %}active{% endif %} {% if is_current_product and is_selected %}active{% endif %}"
+                  title="{{ related_product_color_value | escape }}"
+                  style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
+                  data-jug-color="{{ related_product_color_value | escape }}"
+                >
+                  <span class="sr-only">{{ related_product_color_value | escape }}</span>
+                  {%- unless context == 'bundle' -%}
+                    <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ related_product_color_value | escape }}</span>
+                  {%- endunless -%}
+                </button>
+              {% else %}
+                  <a
                   href="{{ related_product.url }}"
-                  class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative cursor-pointer {% if is_current_product %}active{% endif %} {% if is_current_product and is_selected %}active{% endif %}"
+                  class="color-swatch{% if swatch_image != blank %} with-image test123{% endif %} block relative cursor-pointer {% if is_current_product %}active{% endif %} {% if is_current_product and is_selected %}active{% endif %}"
                   title="{{ related_product_color_value | escape }}"
                   style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %}--swatch-background-image: url({{ swatch_image }});{% endif %}"
                   data-jug-color="{{ related_product_color_value | escape }}"
@@ -287,6 +301,7 @@
                     <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ related_product_color_value | escape }}</span>
                   {%- endunless -%}
                 </a>
+                  {% endif %}
               </magnet-element>
             </li>
           {%- endfor -%}
