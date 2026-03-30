@@ -32,7 +32,7 @@
       "settings": {
         "transparent_header": true,
         "show_image": true,
-        "image_height": "450px",
+        "image_height": "550px",
         "content_position": "md:items-center md:justify-start",
         "text_alignment": "left",
         "image_height_mobile": "250px",
