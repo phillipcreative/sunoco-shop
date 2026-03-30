@@ -100,7 +100,7 @@
         "show_featured_image": true,
         "featured_image": "shopify://shop_images/Frame_2.png",
         "featured_heading": "NEW PRODUCTS",
-        "featured_link": "shopify://collections/frontpage",
+        "featured_link": "shopify://collections/internal-single-jug-imports-copy",
         "button_background_color": "",
         "button_padding": 12,
         "columns_mobile": "1",
