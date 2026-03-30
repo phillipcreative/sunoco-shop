@@ -91,7 +91,7 @@
       "type": "product-list",
       "name": "Product list",
       "settings": {
-        "collection": "internal-single-jug-imports-copy",
+        "collection": "race-jugs-all",
         "products": [],
         "product_limit": 8,
         "columns": 4,
@@ -100,7 +100,7 @@
         "show_featured_image": true,
         "featured_image": "shopify://shop_images/Frame_2.png",
         "featured_heading": "NEW PRODUCTS",
-        "featured_link": "shopify://collections/internal-single-jug-imports-copy",
+        "featured_link": "shopify://collections/race-jugs-all",
         "button_background_color": "",
         "button_padding": 12,
         "columns_mobile": "1",
