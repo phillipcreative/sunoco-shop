@@ -91,7 +91,7 @@
       "type": "product-list",
       "name": "Product list",
       "settings": {
-        "collection": "fuel-jugs",
+        "collection": "internal-single-jug-imports-copy",
         "products": [],
         "product_limit": 8,
         "columns": 4,
