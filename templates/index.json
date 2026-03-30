@@ -164,7 +164,7 @@
         "show_product_variants": false,
         "show_product_description": true,
         "custom_button_label": "SHOP ALL",
-        "custom_button_link": "",
+        "custom_button_link": "shopify://collections/apparel",
         "custom_button_external": false,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
