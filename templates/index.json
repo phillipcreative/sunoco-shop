@@ -282,6 +282,7 @@
         },
         "collection_mMG7f4": {
           "type": "collection",
+          "disabled": true,
           "settings": {
             "collection": "frontpage",
             "image": "shopify://shop_images/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
@@ -305,7 +306,7 @@
         "image_ratio": "square",
         "show_products_count": false,
         "show_view_all": false,
-        "columns": 4,
+        "columns": 1,
         "carousel_on_desktop": true,
         "center_content": true,
         "columns_mobile": "1",
