@@ -112,7 +112,7 @@
     "product_disable_collection_portion": true,
     "cart_type": "drawer",
     "cart_icon": "cart",
-    "enable_search": true,
+    "enable_search": false,
     "predictive_search_enabled": true,
     "predictive_search_limit": 3,
     "predictive_search_recommendation": "",

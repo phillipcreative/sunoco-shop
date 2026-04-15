@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -31,10 +40,13 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>We'd love to hear from you. Our team is here to help. <br\/>Let your customers get in touch with you by filling out the email form below.<\/p>",
+            "text": "<p>We'd love to hear from you. Our team is here to help. <br/>Let your customers get in touch with you by filling out the email form below.</p>",
+            "text_font": "body",
             "text_size": "subtext-lg",
             "text_max_size": 32,
-            "text_font": "body",
+            "text_line_height": 1.6,
+            "text_letter_spacing": 0,
+            "text_capitalize": false,
             "secondary_color": false,
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
@@ -92,21 +104,23 @@
           "type": "contact",
           "settings": {
             "heading": "Address",
-            "text": "<p>620 King St W, Toronto, ON M5V 1M7, Canada<\/p>"
+            "text": "<p>PO Box 1226<br/>Linwood, PA 19061<br/><br/>P: 1-800-RACE GAS (1-800-722-3427)<br/>F: 877-304-0375</p>"
           }
         },
         "contact-2": {
           "type": "contact",
+          "disabled": true,
           "settings": {
             "heading": "Email",
-            "text": "<p><a href=\"#\" title=\"mailto:contact@yourstore.com\">contact@yourstore.com<\/a><br\/><a href=\"#\" title=\"mailto:sales@yourstore.com\">sales@yourstore.com<\/a><\/p>"
+            "text": "<p><a href=\"#\" title=\"mailto:contact@yourstore.com\">contact@yourstore.com</a><br/><a href=\"#\" title=\"mailto:sales@yourstore.com\">sales@yourstore.com</a></p>"
           }
         },
         "contact-3": {
           "type": "contact",
+          "disabled": true,
           "settings": {
             "heading": "Phone",
-            "text": "<p><a href=\"#\" title=\"tel:+33 (0) 31-305-210\">+33 (0) 31-305-210<br\/><\/a>mo – fri: 09:00 – 17:00<\/p>"
+            "text": "<p><a href=\"#\" title=\"tel:+33 (0) 31-305-210\">+33 (0) 31-305-210<br/></a>mo – fri: 09:00 – 17:00</p>"
           }
         },
         "media": {

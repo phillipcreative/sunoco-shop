@@ -234,6 +234,7 @@
         "timer_HJiPRB",
         "button_DzkfCt"
       ],
+      "disabled": true,
       "name": "t:sections.countdown-timer.name",
       "settings": {
         "transparent_header": false,
@@ -282,7 +283,6 @@
         },
         "collection_mMG7f4": {
           "type": "collection",
-          "disabled": true,
           "settings": {
             "collection": "frontpage",
             "image": "shopify://shop_images/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
@@ -327,7 +327,7 @@
         "color_button_text": "",
         "color_button_background": "",
         "color_button_gradient": "",
-        "padding_top": 72,
+        "padding_top": 0,
         "padding_bottom": 72,
         "divider": false,
         "full_width": false,
