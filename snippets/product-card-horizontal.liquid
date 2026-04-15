@@ -44,10 +44,10 @@
         {%- if show_vendor -%}
           <p class="text-xs text-opacity">{{ product.vendor }}</p>
         {%- endif -%}
-        <a href="{{ product.url }}" class="horizontal-product__title reversed-link font-medium text-base leading-tight"{% unless accessibility %} tabindex="-1"{% endunless %}>{{ product.title | escape }}</a>
+        <a href="{{ product.url }}" class="horizontal-product__title reversed-link font-bold text-base leading-tight"{% unless accessibility %} tabindex="-1"{% endunless %}>{{ product.title | escape }}</a>
       </div>
     </div>
-    
+
     <div class="flex flex-col gap-1">
       {%- liquid
         if show_price

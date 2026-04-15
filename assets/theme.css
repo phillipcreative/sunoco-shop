@@ -4862,14 +4862,14 @@ input[type=checkbox].switch:is(:disabled, .disabled):not(:checked)::after {
   background: none;
 }
 
-.link.icon-with-text .link-text,
+/* .link.icon-with-text .link-text,
 .reversed-link,
 .rte a {
   --reversed-link-gap: min(100%, 1.35em);
   background: linear-gradient(to var(--transform-origin-end), currentColor, currentColor) 0 var(--reversed-link-gap)/0 1px no-repeat;
   background-position: var(--transform-origin-end) calc(100% - 0.1em);
   transition: background-size var(--animation-primary), background-position var(--animation-primary)
-}
+} */
 
 @media screen and (pointer: fine) {
   .link.icon-with-text:not([aria-disabled]):hover .link-text,
@@ -8469,10 +8469,12 @@ details.active .drawer__promotions .mega-menu__item,
     padding-inline: 0
   }
 
+  .dropdown__nav a,
   .footer__accordions .reversed-link {
     position: relative;
   }
 
+  .dropdown__nav a:after,
   .footer__accordions .reversed-link:after {
     position: absolute;
     top: 110%;
@@ -8490,7 +8492,9 @@ details.active .drawer__promotions .mega-menu__item,
     transform: translateY(12px);
   }
 
-  .footer__accordions .reversed-link:hover:after, .footer__accordions .reversed-link:focus:after {
+  .footer__accordions .reversed-link:hover:after,
+  .footer__accordions .reversed-link:focus:after,
+  .dropdown__nav a:hover:after {
     opacity: 1;
     -webkit-transform: translateY(0px);
     -moz-transform: translateY(0px);

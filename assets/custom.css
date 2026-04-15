@@ -2304,6 +2304,47 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     outline: none !important;
 }
 
+.horizontal-product__details :is(.price__sale,.price__regular) {
+    font-size: inherit !important;
+}
+
+.drawer__empty-text,
+.drawer__empty-message,
+.drawer__empty-collections {
+    font-family: var(--font-body-family) !important;
+}
+
+[data-rounded-block=round] .drawer__empty-collections a {
+    border-radius: 0px;
+}
+
+.drawer__empty-collections a {
+    background-color: rgb(var(--color-button-background));
+}
+
+.drawer__empty-collections .ml-featured-collection-button {
+    font-size: 18px;
+    gap: 5px;
+    min-width: auto !important;
+}
+
+.drawer__empty-collections .ml-featured-collection-button:hover {
+    background-color: #000 !important;
+    color: #ffffff !important;
+}
+
+.drawer__header {
+    color: rgb(var(--color-foreground));
+}
+
+.drawer__close {
+    color: rgb(var(--color-foreground));
+}
+
+.drawer__scrollable .horizontal-product__title {
+    font-weight: 700 !important;
+}
+
 /* ============================================
    Override Theme Styles
 ============================================ */
@@ -2322,4 +2363,14 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     background-color: #ffffff;
     border: 1px solid #CACACA;
     color: #000000;
+}
+
+
+/* ============================================
+   Product Page Styles
+============================================ */
+
+.drawer__inner,
+.drawer__title.heading {
+    font-family: var(--font-body-family) !important;
 }
