@@ -1,0 +1,22 @@
+{
+  "name": "sunoco_theme",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/phillipcreative/sunoco-shop#readme",
+  "bugs": {
+    "url": "https://github.com/phillipcreative/sunoco-shop/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phillipcreative/sunoco-shop.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "shopify theme dev --store=\"shop-sunocoracefuels.myshopify.com\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
