@@ -29,9 +29,12 @@
   assign async_color_swatches = async_color_swatches | default: false
 -%}
 {%- if swatch_collection != blank and async_color_swatches -%}
-  <script type="application/json" data-swatch-collection="{{ section_id }}-{{ product_id }}">
+  <script type="application/json"
+    data-swatch-collection="{{ section_id }}-{{ product_id }}"
+    data-section-id="{{ section_id }}"
+    data-product-id="{{ product_id }}">
     {
-      "current_product": {{ product | json }},
+      "current_product": { "handle": {{ product.handle | json }} },
       "products": [
         {%- for swatch_product in swatch_collection.products limit: 250 -%}
           {
@@ -43,6 +46,7 @@
               {%- for variant in swatch_product.variants -%}
                 {
                   "id": {{ variant.id | json }},
+                  "title": {{ variant.title | json }},
                   "price": {{ variant.price | json }},
                   "compareAtPrice": {{ variant.compare_at_price | json }},
                   "available": {{ variant.available | json }},
@@ -125,20 +129,6 @@
 {%- if swatch_collection != blank -%}
   <script src="{{ 'digmo-async-swatch.js' | asset_url }}" defer></script>
   <script>
-    (function() {
-      function init() {
-        if (typeof window.initAsyncSwatch === 'function') {
-          window.initAsyncSwatch('{{ section_id }}', '{{ product_id }}');
-        } else {
-          setTimeout(init, 50);
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
+    window.initAsyncSwatch && window.initAsyncSwatch('{{ section_id }}', '{{ product_id }}');
   </script>
 {%- endif -%}

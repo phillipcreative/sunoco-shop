@@ -257,6 +257,29 @@
     }
   }
 
+  /**
+   * Updates the per-option selected-value spans inside each .form__label
+   * (desktop picker) and the sticky/mobile form's variant title line.
+   */
+  function updateFormLabels(product, variant, sectionId, productId) {
+    if (!product || !variant) return;
+
+    product.options.forEach((opt) => {
+      const position = opt.position;
+      const span = document.getElementById(`${sectionId}-${productId}-option${position}`);
+      if (span) {
+        const value = variant[`option${position}`];
+        if (value != null) span.textContent = value;
+      }
+    });
+
+    const stickyForm = document.getElementById(`ProductStickyForm-${sectionId}-${productId}`);
+    const stickyOptions = stickyForm?.querySelector('[data-sticky-product-options]');
+    if (stickyOptions && variant.title) {
+      stickyOptions.textContent = variant.title;
+    }
+  }
+
   function updateTitle(product, sectionId, productId) {
     const titleElement = document.querySelector(`#ProductInfo-${sectionId}-${productId} .product__title`);
     if (titleElement) {
@@ -499,60 +522,63 @@
   // Event handlers
   // ---------------------------------------------------------------------------
 
-  function handleVariantChange(event, swatchData, sectionId, productId) {
-    const jugColorSwatch = event.target.closest('[data-jug-color]');
-    const clickedRadio = event.target.closest('input[type="radio"]');
-    const clickedLabel = event.target.closest('label[for]');
+  function getActiveProduct(variantPicker, swatchData) {
+    const activeHandle = variantPicker?.dataset?.activeProductHandle;
+    return swatchData.products.find((p) => p.handle === activeHandle) || swatchData.current_product;
+  }
 
+  function findVariantInProduct(product, selectedOptions) {
+    if (!product) return null;
+    return product.variants.find((variant) => {
+      return Object.entries(selectedOptions).every(([optionName, optionValue]) => {
+        const optionIndex = product.options.findIndex((opt) => opt.name.toLowerCase() === optionName.toLowerCase());
+        if (optionIndex === -1) return true;
+        const variantOptionValue = variant[`option${optionIndex + 1}`];
+        return String(variantOptionValue ?? '').toLowerCase() === String(optionValue ?? '').toLowerCase();
+      });
+    }) || null;
+  }
+
+  function handleVariantChange(event, swatchData, sectionId, productId) {
+    const jugColorSwatch = event.target.closest?.('[data-jug-color]');
     if (jugColorSwatch) {
       if (jugColorSwatch.classList.contains('active')) return;
-      const clickedLink = event.target.closest('a[href]');
-      if (clickedLink) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-      }
       handleJugColorChange(event, swatchData, sectionId, productId);
       return;
     }
 
-    if (clickedRadio && clickedRadio.checked) return;
-    if (clickedLabel) {
-      const forId = clickedLabel.getAttribute('for');
-      const associatedRadio = document.getElementById(forId);
-      if (associatedRadio?.type === 'radio' && associatedRadio.checked) return;
-    }
-
-    const clickedLink = event.target.closest('a[href]');
-    if (clickedLink) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
+    const variantPicker = getVariantPicker(sectionId, productId);
+    const activeProduct = getActiveProduct(variantPicker, swatchData);
+    if (!activeProduct) {
+      console.warn('No active product found in swatchData for:', sectionId, productId);
+      return;
     }
 
     const selectedOptions = getCurrentlySelectedOptions(sectionId, productId, event);
-    const match = findMatchingProductAndVariant(swatchData.products, selectedOptions);
+    const variant = findVariantInProduct(activeProduct, selectedOptions);
 
-    if (!match) {
-      console.warn('No matching product/variant found for:', selectedOptions);
+    if (!variant) {
+      console.warn('No matching variant found for active product:', activeProduct.handle, selectedOptions);
       updateAddToCart(null, sectionId, productId);
+      updateOptionsAvailability(activeProduct, sectionId, productId);
       return;
-    } else {
-      const { product, variant } = match;
-      updateActiveStates(event, selectedOptions);
-      slideToVariantImage(product, variant, sectionId, productId);
-      updatePrice(variant, sectionId, productId);
-      updateURL(variant.url);
-      updateAddToCart(variant, sectionId, productId);
-      updateVariantInput(variant.id, sectionId, productId);
-
-      if (window.theme && theme.pubsub) {
-        theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.variantChange, {
-          variant: variant,
-          product: product,
-          sectionId: sectionId
-      });
     }
+
+    updateActiveStates(event, selectedOptions);
+    slideToVariantImage(activeProduct, variant, sectionId, productId);
+    updatePrice(variant, sectionId, productId);
+    updateURL(variant.url);
+    updateAddToCart(variant, sectionId, productId);
+    updateVariantInput(variant.id, sectionId, productId);
+    updateFormLabels(activeProduct, variant, sectionId, productId);
+    updateOptionsAvailability(activeProduct, sectionId, productId);
+
+    if (window.theme && theme.pubsub) {
+      theme.pubsub.publish(theme.pubsub.PUB_SUB_EVENTS.variantChange, {
+        variant: variant,
+        product: activeProduct,
+        sectionId: sectionId
+      });
     }
   }
 
@@ -602,7 +628,12 @@
       matchingProduct.variants?.[0] ||
       matchingVariant;
 
-    const { product } = match;
+    const variantPicker = getVariantPicker(sectionId, productId);
+    if (variantPicker) variantPicker.dataset.activeProductHandle = matchingProduct.handle;
+
+    const productInfo = document.getElementById(`ProductInfo-${sectionId}-${productId}`);
+    if (productInfo && matchingProduct.url) productInfo.setAttribute('data-product-url', matchingProduct.url);
+
     updateDropdownOptionsForProduct(matchingProduct, variantToUse, sectionId, productId);
     syncVariantPickerToVariant(matchingProduct, variantToUse, sectionId, productId);
     updateGallery(matchingProduct, variantToUse, sectionId, productId);
@@ -611,55 +642,51 @@
     updateURL(variantToUse.url);
     updateAddToCart(variantToUse, sectionId, productId);
     updateVariantInput(variantToUse.id, sectionId, productId);
-    // updateOptionsAvailability(product, sectionId, productId, event);
+    updateFormLabels(matchingProduct, variantToUse, sectionId, productId);
+    updateOptionsAvailability(matchingProduct, sectionId, productId);
   }
 
-  // function updateOptionsAvailability(product, sectionId, productId, event) {
-  //   const variantPicker = getVariantPicker(sectionId, productId);
-  //   if (!variantPicker || !product) return;
+  /**
+   * Applies the theme's standard sold-out styling (`disabled` class on radios,
+   * `disabled` attribute on <option>s) to option values that have no available
+   * variant combination within the currently-active product.
+   */
+  function updateOptionsAvailability(product, sectionId, productId) {
+    const variantPicker = getVariantPicker(sectionId, productId);
+    if (!variantPicker || !product) return;
 
-  //   const currentOptions = getCurrentlySelectedOptions(sectionId, productId, event);
+    const currentOptions = getCurrentlySelectedOptions(sectionId, productId, { target: variantPicker });
 
-  //   const fieldsets = Array.from(variantPicker.querySelectorAll('fieldset'));
+    variantPicker.querySelectorAll('fieldset').forEach((fieldset) => {
+      const optionName = fieldset.querySelector('legend')?.textContent?.trim();
+      if (!optionName || optionName.toLowerCase() === 'jug color') return;
 
-  //   fieldsets.forEach((fieldset) => {
-  //     const optionName = fieldset.querySelector('legend')?.textContent?.trim();
-  //     if (!optionName) return;
+      const optionIndex = product.options.findIndex((opt) => opt.name.toLowerCase() === optionName.toLowerCase());
+      if (optionIndex === -1) return;
 
-  //     // --- ADD THIS GUARD CLAUSE ---
-  //     // If this is the Jug Color section, skip the disabling logic
-  //     if (optionName.toLowerCase() === 'jug color') return;
-  //     // -----------------------------
+      const inputs = fieldset.querySelectorAll('input[type="radio"], select option');
+      inputs.forEach((input) => {
+        const value = input.value || input.getAttribute('value');
+        if (value == null) return;
 
-  //     const inputs = Array.from(fieldset.querySelectorAll('input[type="radio"], option'));
+        const hypothetical = { ...currentOptions, [optionName]: value };
+        const available = product.variants.some((variant) => {
+          if (!variant.available) return false;
+          return Object.entries(hypothetical).every(([name, val]) => {
+            const idx = product.options.findIndex((o) => o.name.toLowerCase() === name.toLowerCase());
+            if (idx === -1) return true;
+            return String(variant[`option${idx + 1}`] ?? '').toLowerCase() === String(val ?? '').toLowerCase();
+          });
+        });
 
-  //     inputs.forEach((input) => {
-  //       const value = input.value || input.getAttribute('value');
-  //       const hypotheticalOptions = { ...currentOptions, [optionName]: value };
-
-  //       const isPossible = product.variants.some((variant) => {
-  //         return Object.entries(hypotheticalOptions).every(([name, val]) => {
-  //           const optIndex = product.options.findIndex(opt => opt.name === name);
-  //           return optIndex === -1 || variant[`option${optIndex + 1}`] === val;
-  //         });
-  //       });
-
-  //       if (input.tagName === 'INPUT') {
-  //         const label = variantPicker.querySelector(`label[for="${input.id}"]`);
-  //         if (isPossible) {
-  //           input.classList.remove('disabled');
-  //           input.disabled = false;
-  //           label?.classList.remove('opacity-50', 'pointer-events-none');
-  //         } else {
-  //           input.classList.add('disabled');
-  //           label?.classList.add('opacity-50', 'pointer-events-none');
-  //         }
-  //       } else if (input.tagName === 'OPTION') {
-  //         input.disabled = !isPossible;
-  //       }
-  //     });
-  //   });
-  // }
+        if (input.tagName === 'INPUT') {
+          input.classList.toggle('disabled', !available);
+        } else {
+          input.disabled = !available;
+        }
+      });
+    });
+  }
 
   // ---------------------------------------------------------------------------
   // Init
@@ -679,19 +706,52 @@
       return;
     }
 
-    document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('color-swatch')) {
-        handleVariantChange(event, swatchData, sectionId, productId);
-      }
-    });
+    if (variantPicker.dataset.asyncInit === '1') return;
+    variantPicker.dataset.asyncInit = '1';
+
+    if (!variantPicker.dataset.activeProductHandle) {
+      variantPicker.dataset.activeProductHandle = swatchData.current_product?.handle || '';
+    }
 
     variantPicker.addEventListener('change', (event) => {
+      event.stopImmediatePropagation();
       handleVariantChange(event, swatchData, sectionId, productId);
+    }, true);
+
+    const jugRoot = document.getElementById(`ProductInfo-${sectionId}-${productId}`) || document;
+    jugRoot.addEventListener('click', (event) => {
+      const jugSwatch = event.target.closest('[data-jug-color]');
+      if (!jugSwatch) return;
+      if (!jugRoot.contains(jugSwatch)) return;
+
+      const clickedLink = event.target.closest('a[href]');
+      if (clickedLink) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+      }
+
+      if (jugSwatch.classList.contains('active')) return;
+      handleJugColorChange(event, swatchData, sectionId, productId);
     });
   }
 
   if (typeof window !== 'undefined') {
     window.initAsyncVariants = initAsyncVariants;
     window.initAsyncSwatch = initAsyncVariants;
+  }
+
+  function autoInit() {
+    document.querySelectorAll('script[data-swatch-collection]').forEach((script) => {
+      const sectionId = script.getAttribute('data-section-id');
+      const productId = script.getAttribute('data-product-id');
+      if (sectionId && productId) initAsyncVariants(sectionId, productId);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInit);
+  } else {
+    autoInit();
   }
 })();
