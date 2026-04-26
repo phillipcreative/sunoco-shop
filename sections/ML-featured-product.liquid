@@ -105,16 +105,16 @@
                   </slider-element>
 
                   <div class="indicators flex gap-2d5 items-center !justify-between absolute top-0 left-0 w-full h-full pointer-events-none">
-                    <button class="button button--secondary pointer-events-auto" type="button" is="previous-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled data-button="previous">
+                    <button class="button button--primary pointer-events-auto" type="button" is="previous-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled data-button="previous">
                       <span class="btn-fill" data-fill></span>
                       <span class="btn-text">
-                        {%- render 'icon', icon: 'chevron-left', class: 'transform' -%}
+                        {%- render 'icon', icon: 'chevron-left', class: 'stroke-2 transform' -%}
                       </span>
                     </button>
-                    <button class="button button--secondary pointer-events-auto" type="button" is="next-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}" data-button="next">
+                    <button class="button button--primary pointer-events-auto" type="button" is="next-button" aria-controls="SliderGallery-{{ section.id }}-{{ product.id }}" aria-label="{{ 'general.pagination.next' | t | escape }}" data-button="next">
                       <span class="btn-fill" data-fill></span>
                       <span class="btn-text">
-                        {%- render 'icon', icon: 'chevron-right', class: 'transform' -%}
+                        {%- render 'icon', icon: 'chevron-right', class: 'stroke-2 transform' -%}
                       </span>
                     </button>
                   </div>
