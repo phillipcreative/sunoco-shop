@@ -8474,7 +8474,12 @@ details.active .drawer__promotions .mega-menu__item,
     position: relative;
   }
 
-  .dropdown__nav a:after,
+  dropdown__nav a:hover,
+  .footer__accordions .reversed-link:hover {
+    color: #004785 !important;
+  }
+
+  /* .dropdown__nav a:after,
   .footer__accordions .reversed-link:after {
     position: absolute;
     top: 110%;
@@ -8499,7 +8504,7 @@ details.active .drawer__promotions .mega-menu__item,
     -webkit-transform: translateY(0px);
     -moz-transform: translateY(0px);
     transform: translateY(0px);
-  }
+  } */
 }
 
 @media screen and (max-width: 767px) {

@@ -965,7 +965,7 @@ a.product-card__title {
 }
 
 .footer__accordions .details .details__summary {
-    text-transform: uppercase !important;
+    /* text-transform: uppercase !important; */
     color: #004785 !important;
 }
 
@@ -1043,13 +1043,13 @@ a.product-card__title {
 
 .footer__logo .items-center svg {
   color: #004785;
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
 }
 
 .footer__logo .items-center {
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 /* ============================================
@@ -2564,6 +2564,13 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
        font-weight: 800 !important;
        text-transform: uppercase !important;
        letter-spacing: 0.5px !important;
+   }
+
+   /* ---- Footer Link Size ----  */
+
+   .details__content ul li a{
+    font-size: .85rem;
+    line-height: 2rem;
    }
 
    /* ---- Section Heading Color ---- */
