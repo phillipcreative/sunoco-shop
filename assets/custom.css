@@ -2374,3 +2374,187 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 .drawer__title.heading {
     font-family: var(--font-body-family) !important;
 }
+
+
+/* ============================================
+   MARKETING SITE STYLE ALIGNMENT
+      Matching sunocoracefuels.com brand styles
+         ============================================ */
+
+         /* ---- Google Fonts Import ---- */
+         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Asap+Condensed:wght@400;700;800;900&display=swap');
+
+         /* ---- CSS Variables Override ---- */
+         :root {
+           --color-brand-blue: #004785;
+             --color-brand-yellow: #FFDF1C;
+               --color-brand-navy: #031D34;
+                 --color-brand-dark: #202020;
+                   --font-heading-brand: 'Asap Condensed', sans-serif;
+                     --font-body-brand: 'Roboto', sans-serif;
+                     }
+
+                     /* ---- Body & Base Typography ---- */
+                     body {
+                       font-family: 'Roboto', sans-serif !important;
+                         color: #202020;
+                         }
+
+                         /* ---- Global Heading Styles ---- */
+                         h1, h2, h3, h4, h5, h6 {
+                           font-family: 'Asap Condensed', sans-serif !important;
+                             font-weight: 800 !important;
+                               text-transform: uppercase !important;
+                               }
+
+                               /* ---- Heading Colors on Light Backgrounds ---- */
+                               .shopify-section:not(.banner__box) h2,
+                               .shopify-section:not(.banner__box) h3,
+                               .shopify-section:not(.banner__box) h4 {
+                                 color: #004785 !important;
+                                 }
+
+                                 /* ---- H1 Size & Letter Spacing (hero) ---- */
+                                 h1 {
+                                   font-size: clamp(40px, 6vw, 64px) !important;
+                                     letter-spacing: 0.64px !important;
+                                     }
+
+                                     /* ---- H2 Size ---- */
+                                     h2 {
+                                       font-size: clamp(32px, 4vw, 50px) !important;
+                                         letter-spacing: 0.5px !important;
+                                         }
+
+                                         /* ---- H3 Size ---- */
+                                         h3 {
+                                           font-size: clamp(24px, 3vw, 36px) !important;
+                                           }
+
+                                           /* ---- Navigation Link Font ---- */
+                                           .header__menu-item,
+                                           header nav a,
+                                           .header a,
+                                           .navigation a,
+                                           .site-nav a {
+                                             font-family: 'Asap Condensed', sans-serif !important;
+                                               font-size: 18px !important;
+                                                 font-weight: 400 !important;
+                                                 }
+
+                                                 /* ---- Primary CTA Button (Yellow) ---- */
+                                                 .btn,
+                                                 .button,
+                                                 a.button,
+                                                 button.button,
+                                                 .button--primary,
+                                                 .btn--primary {
+                                                   font-family: 'Asap Condensed', sans-serif !important;
+                                                     font-weight: 900 !important;
+                                                       font-size: 18px !important;
+                                                         text-transform: uppercase !important;
+                                                           letter-spacing: 0.81px !important;
+                                                             border-radius: 0 !important;
+                                                             }
+
+                                                             /* ---- Yellow CTA Color Correction ---- */
+                                                             .button--primary,
+                                                             .btn--primary,
+                                                             .banner__box .button {
+                                                               background-color: #FFDF1C !important;
+                                                                 color: #000000 !important;
+                                                                 }
+
+                                                                 /* ---- Blue Secondary Button ---- */
+                                                                 .button--secondary,
+                                                                 .btn--secondary {
+                                                                   background-color: #004785 !important;
+                                                                     color: #ffffff !important;
+                                                                       font-family: 'Asap Condensed', sans-serif !important;
+                                                                         font-weight: 900 !important;
+                                                                           font-size: 18px !important;
+                                                                             text-transform: uppercase !important;
+                                                                               letter-spacing: 0.81px !important;
+                                                                                 border-radius: 0 !important;
+                                                                                 }
+
+                                                                                 /* ---- Buy Now / Shop All Buttons ---- */
+                                                                                 .banner__box a.button,
+                                                                                 .banner__box .btn {
+                                                                                   background-color: #FFDF1C !important;
+                                                                                     color: #000000 !important;
+                                                                                       font-family: 'Asap Condensed', sans-serif !important;
+                                                                                         font-weight: 900 !important;
+                                                                                           letter-spacing: 0.81px !important;
+                                                                                             border-radius: 0 !important;
+                                                                                             }
+
+                                                                                             /* ---- Body Paragraph Text ---- */
+                                                                                             p, li, .rte {
+                                                                                               font-family: 'Roboto', sans-serif !important;
+                                                                                                 font-size: 16px;
+                                                                                                 }
+
+                                                                                                 /* ---- Product Card Headings ---- */
+                                                                                                 .product-card h2,
+                                                                                                 .product-card h3,
+                                                                                                 .product-card__title,
+                                                                                                 a.product-card__title {
+                                                                                                   font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                     font-weight: 700 !important;
+                                                                                                       text-transform: uppercase !important;
+                                                                                                         color: #004785 !important;
+                                                                                                         }
+
+                                                                                                         /* ---- Price Color Override ---- */
+                                                                                                         .price__current,
+                                                                                                         .price-item--sale,
+                                                                                                         .product__price {
+                                                                                                           color: #004785 !important;
+                                                                                                             font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                               font-weight: 800 !important;
+                                                                                                               }
+
+                                                                                                               /* ---- Footer Heading Color ---- */
+                                                                                                               footer h3,
+                                                                                                               footer h4,
+                                                                                                               .footer__heading {
+                                                                                                                 color: #004785 !important;
+                                                                                                                   font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                                     font-weight: 800 !important;
+                                                                                                                       text-transform: uppercase !important;
+                                                                                                                         letter-spacing: 0.5px !important;
+                                                                                                                         }
+
+                                                                                                                         /* ---- Section Heading Color ---- */
+                                                                                                                         .section-heading,
+                                                                                                                         .collection__heading {
+                                                                                                                           color: #004785 !important;
+                                                                                                                             font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                                               text-transform: uppercase !important;
+                                                                                                                               }
+
+                                                                                                                               /* ---- "Shop All" / Carousel Buttons on Sections ---- */
+                                                                                                                               .shop-all-btn,
+                                                                                                                               .section__view-all a,
+                                                                                                                               a[href*="collections"] .button {
+                                                                                                                                 background-color: #FFDF1C !important;
+                                                                                                                                   color: #000000 !important;
+                                                                                                                                     font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                                                       font-weight: 900 !important;
+                                                                                                                                         text-transform: uppercase !important;
+                                                                                                                                           letter-spacing: 0.81px !important;
+                                                                                                                                             border-radius: 0 !important;
+                                                                                                                                             }
+
+                                                                                                                                             /* ---- Buy Now product buttons ---- */
+                                                                                                                                             .buy-now-btn,
+                                                                                                                                             .product-card .button,
+                                                                                                                                             .add-to-cart,
+                                                                                                                                             form[action*="/cart"] button[type="submit"] {
+                                                                                                                                               font-family: 'Asap Condensed', sans-serif !important;
+                                                                                                                                                 font-weight: 900 !important;
+                                                                                                                                                   text-transform: uppercase !important;
+                                                                                                                                                     letter-spacing: 0.5px !important;
+                                                                                                                                                       border-radius: 0 !important;
+                                                                                                                                                       }
