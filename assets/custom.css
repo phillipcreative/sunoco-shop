@@ -2377,7 +2377,8 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 
 
 /* ============================================
-   MARKETING SITE STYLE ALIGNMENT
+   MARKETING SITE STYLE ALIGNMENT2560
+
       Matching sunocoracefuels.com brand styles
          ============================================ */
 
@@ -2391,6 +2392,25 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
                --color-brand-navy: #031D34;
                  --color-brand-dark: #202020;
                    --font-heading-brand: 'Asap Condensed', sans-serif;
+
+                   /* ---- Button Hover States - White Text ---- */
+                   .btn:hover,
+                   .button:hover,
+                   a.button:hover,
+                   button.button:hover,
+                   .button--primary:hover,
+                   .btn--primary:hover,
+                   .banner__box .button:hover,
+                   .banner__box a.button:hover,
+                   .banner__box .btn:hover,
+                   .button--secondary:hover,
+                   .btn--secondary:hover,
+                   .buy-now-btn:hover,
+                   .product-card .button:hover,
+                   .add-to-cart:hover,
+                   form[action*="/cart"] button[type="submit"]:hover {
+                     color: #ffffff !important;
+                     }
                      --font-body-brand: 'Roboto', sans-serif;
                      }
 
