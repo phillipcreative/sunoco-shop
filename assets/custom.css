@@ -1917,7 +1917,33 @@ a.product-card__title {
     }
 
     .footer__accordions {
-        grid-template-columns: 1fr !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 32px 24px !important;
+    }
+
+    .footer__accordions .details,
+    .footer__accordions .no-details {
+        width: 100% !important;
+        border-block-end-width: 0 !important;
+    }
+
+    .footer__accordions .details .details__summary {
+        pointer-events: none !important;
+        cursor: default !important;
+        padding-block-start: 0 !important;
+    }
+
+    .footer__accordions .details .details__summary > .icon {
+        display: none !important;
+    }
+
+    /* .footer__accordions .details__summary + .details__content::before {
+        padding-block-start: var(--sp-3) !important;
+    } */
+
+    .footer__accordions .details:last-of-type .details__content::after {
+        padding-block-end: 0 !important;
     }
 
     .footer__logo {
@@ -2571,6 +2597,22 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    .details__content ul li a{
     font-size: .85rem;
     line-height: 2rem;
+   }
+
+   .js .footer__accordions .details .details__summary {
+    font-family: 'Asap Condensed', sans-serif !important;
+    padding: 0px;
+   }
+
+   .footer__accordions .details .details__content:after,
+   .footer__accordions .details__summary+.details__content:before {
+    display: none !important;
+   }
+
+   @media only screen and (max-width: 767px) {
+    .js .footer__accordions .details .details__summary .heading {
+      font-size: 18px !important;
+    }
    }
 
    /* ---- Section Heading Color ---- */
