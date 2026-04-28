@@ -136,7 +136,7 @@
         "non_color_option_type": "dropdown",
         "featured_image": "shopify://shop_images/Featured_Product_BG_no_white.jpg",
         "featured_image_text": "SHOP FUEL JUGS",
-        "featured_image_link": "shopify://collections/frontpage",
+        "featured_image_link": "shopify://collections/race-jugs-all",
         "featured_image_width": 450,
         "color_text": "",
         "color_background": "#f5f5f5",
@@ -208,7 +208,7 @@
           "type": "timer",
           "settings": {
             "year": "2026",
-            "month": "01",
+            "month": "05",
             "day": "31",
             "hour": "03",
             "minute": "00",
@@ -221,7 +221,7 @@
           "type": "button",
           "settings": {
             "button_label": "SHOP ALL DEALS",
-            "button_link": "",
+            "button_link": "shopify://collections/apparel",
             "button_style": "primary",
             "button_size": "md",
             "button_external": false,

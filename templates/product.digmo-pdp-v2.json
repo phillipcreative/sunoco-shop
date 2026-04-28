@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "main-product": {
       "type": "main-product",
@@ -438,7 +438,7 @@
       ],
       "name": "t:sections.image-with-text.name",
       "settings": {
-        "image": "shopify://shop_images/ChatGPT_Image_Oct_9_2025_09_16_58_AM.png",
+        "image": "shopify://shop_images/f56824f9-8940-4c52-b03e-5c7f97655239-1777335011.png",
         "image_height": "650px",
         "image_width": "medium",
         "layout": "text_first",

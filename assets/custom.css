@@ -2535,6 +2535,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
        border: 1px solid #004785 !important;
    }
 
+   form[action*="/cart"] button[type="submit"] {
+    font-size: 25px !important;
+   }
+
    /* ---- Primary Button (Yellow) Hover - Outlined Effect ---- */
    .button--primary:hover,
    .btn--primary:hover,
@@ -2716,5 +2720,15 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    }
 
    .sort-listbox input[type=radio]+label:hover {
+    color: #004785 !important;
+   }
+
+
+   .social-sharing .social-sharing__link {
+    max-width: 25px;
+   }
+
+
+   .newsletter-section .banner__title .word {
     color: #004785 !important;
    }
