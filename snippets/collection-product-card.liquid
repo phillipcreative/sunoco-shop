@@ -341,7 +341,6 @@
         {%- if show_color_swatches -%}
           {%- liquid
             assign swatch_trigger_list = 'products.general.color_swatch_trigger' | t | downcase | split: ','
-            assign color_count = 0
           -%}
           {%- for option in product.options_with_values -%}
             {%- liquid
@@ -367,54 +366,65 @@
             {%- if is_color and exclude_jug_color == false -%}
               {%- liquid
                 assign option_index = forloop.index0
-                assign values = ''
-                assign max_color_count = settings.product_max_color_swatches
+                assign values_precount = ''
+                assign unique_color_count = 0
               -%}
-              <div class="product-card__bottom w-full flex items-baseline gap-2">
-                <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start justify-center md:justify-start gap-2">
-                  {%- for variant in product.variants -%}
-                    {%- assign value = variant.options[option_index] %}
-                    {%- unless values contains value -%}
-                      {%- liquid
-                        assign values = values | join: ',' | append: ',' | append: value | split: ','
-                        assign color_count = color_count | plus: 1
-                        assign color_title = product.title | append: ' - ' | append: value
-                        assign color_url = variant.url | within: collection
-                        if settings.product_disable_collection_portion
-                          assign color_url = variant.url
-                        endif
+              {%- for variant in product.variants -%}
+                {%- assign value = variant.options[option_index] %}
+                {%- unless values_precount contains value -%}
+                  {%- liquid
+                    assign values_precount = values_precount | join: ',' | append: ',' | append: value | split: ','
+                    assign unique_color_count = unique_color_count | plus: 1
+                  -%}
+                {%- endunless -%}
+              {%- endfor -%}
+              {%- if unique_color_count > 1 -%}
+                {%- liquid
+                  assign values = ''
+                  assign max_color_count = settings.product_max_color_swatches
+                  assign color_count = 0
+                -%}
+                <div class="product-card__bottom w-full flex items-baseline gap-2">
+                  <ul class="swatches swatches--{{ settings.rounded_swatch }}{% if settings.product_color_swatch_type == 'variant' %} swatches--variant{% endif %} swatches--{{ product.id }} inline-flex items-start justify-center md:justify-start gap-2">
+                    {%- for variant in product.variants -%}
+                      {%- assign value = variant.options[option_index] %}
+                      {%- unless values contains value -%}
+                        {%- liquid
+                          assign values = values | join: ',' | append: ',' | append: value | split: ','
+                          assign color_count = color_count | plus: 1
+                          assign color_title = product.title | append: ' - ' | append: value
+                          assign color_url = variant.url | within: collection
+                          if settings.product_disable_collection_portion
+                            assign color_url = variant.url
+                          endif
 
-                        assign swatch = blank
-                        if value.swatch != blank
-                          assign swatch = value.swatch
-                        endif
+                          assign swatch = blank
+                          if value.swatch != blank
+                            assign swatch = value.swatch
+                          endif
 
-                        if settings.product_color_swatch_type == 'variant' and variant.image
-                          assign swatch = variant
-                        endif
-                      -%}
-                      {%- if color_count <= max_color_count -%}
-                        <li>
-                          {%- liquid
-                            assign swatch_class = ''
-                            if color_count == 1
-                              assign swatch_class = 'is-selected'
-                            endif
-                          -%}
-                          {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, dynamic_swatches: dynamic_swatches, class: swatch_class -%}
-                        </li>
-                      {%- endif -%}
-                    {%- endunless -%}
-                  {%- endfor -%}
-                </ul>
-                {%- if color_count > max_color_count -%}
-                  <a href="{{ product_url }}" class="reversed-link font-medium text-xs text-opacity leading-none tracking-widest" is="hover-link"{% if show_quick_view %} aria-controls="{{ quick_view_id }}" aria-expanded="false"{% endif %}>+{{ color_count | minus: max_color_count }}</a>
-                {%- endif -%}
-              </div>
-              {%- if color_count < 1 -%}
-                <style>
-                  .swatches--{{ product.id }} { display: none; }
-                </style>
+                          if settings.product_color_swatch_type == 'variant' and variant.image
+                            assign swatch = variant
+                          endif
+                        -%}
+                        {%- if color_count <= max_color_count -%}
+                          <li>
+                            {%- liquid
+                              assign swatch_class = ''
+                              if color_count == 1
+                                assign swatch_class = 'is-selected'
+                              endif
+                            -%}
+                            {%- render 'swatch', href: color_url, title: color_title, value: value, value_label: value, swatch: swatch, variant: variant, product: product, dynamic_swatches: dynamic_swatches, class: swatch_class -%}
+                          </li>
+                        {%- endif -%}
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  </ul>
+                  {%- if color_count > max_color_count -%}
+                    <a href="{{ product_url }}" class="reversed-link font-medium text-xs text-opacity leading-none tracking-widest" is="hover-link"{% if show_quick_view %} aria-controls="{{ quick_view_id }}" aria-expanded="false"{% endif %}>+{{ color_count | minus: max_color_count }}</a>
+                  {%- endif -%}
+                </div>
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}

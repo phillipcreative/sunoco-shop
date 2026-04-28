@@ -4568,6 +4568,13 @@
           "label": "White logo",
           "info": "Appears on the transparent header."
         },
+        "header__other_pages": {
+          "content": "Other pages"
+        },
+        "logo_other_pages": {
+          "label": "Logo (other pages)",
+          "info": "Header logo on every page except the home page. Leave blank to use the main logo."
+        },
         "logo_width": {
           "label": "Desktop logo width"
         },
@@ -4579,6 +4586,10 @@
         },
         "white_logo_mobile": {
           "label": "Mobile white logo"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Mobile logo (other pages)",
+          "info": "Optional. Uses the other-pages desktop logo, then the main mobile logo, if unset."
         },
         "logo_width_mobile": {
           "label": "Mobile logo width",

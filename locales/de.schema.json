@@ -4568,6 +4568,13 @@
           "label": "Weißes Logo",
           "info": "Erscheint in der transparenten Kopfzeile."
         },
+        "header__other_pages": {
+          "content": "Weitere Seiten"
+        },
+        "logo_other_pages": {
+          "label": "Logo (weitere Seiten)",
+          "info": "Header-Logo auf allen Seiten außer der Startseite. Leer lassen, um überall das Hauptlogo zu verwenden."
+        },
         "logo_width": {
           "label": "Breite des Desktop-Logos"
         },
@@ -4579,6 +4586,10 @@
         },
         "white_logo_mobile": {
           "label": "Mobiles weißes Logo"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Mobiles Logo (weitere Seiten)",
+          "info": "Optional. Sonst werden das Desktop-Logo für weitere Seiten und danach das Haupt-Mobile-Logo verwendet."
         },
         "logo_width_mobile": {
           "label": "Breite des Mobile-Logos",

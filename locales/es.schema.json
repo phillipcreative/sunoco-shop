@@ -4568,6 +4568,13 @@
           "label": "Logotipo blanco",
           "info": "Aparece en el encabezado transparente."
         },
+        "header__other_pages": {
+          "content": "Otras páginas"
+        },
+        "logo_other_pages": {
+          "label": "Logotipo (otras páginas)",
+          "info": "Logotipo del encabezado en todas las páginas excepto la de inicio. Déjalo en blanco para usar el logotipo principal."
+        },
         "logo_width": {
           "label": "Ancho del logotipo de escritorio"
         },
@@ -4579,6 +4586,10 @@
         },
         "white_logo_mobile": {
           "label": "Logo blanco para móvil"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Logotipo móvil (otras páginas)",
+          "info": "Opcional. Si no se define, se usa el logotipo de escritorio para otras páginas y luego el logotipo móvil principal."
         },
         "logo_width_mobile": {
           "label": "Anchura del logotipo en el móvil",

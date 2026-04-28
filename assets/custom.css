@@ -16,6 +16,10 @@ a.product-card__title:hover {
     letter-spacing: normal !important;
 }
 
+.banner__box .split-words .word {
+    color: #ffffff !important;
+}
+
 .banner__box .btn-text .icon-arrow-right {
     width: 40px;
     height: 40px;
@@ -73,6 +77,10 @@ a.product-card__title {
     margin-top: 0 !important;
 }
 
+.product-card__details .cost_row .price__regular {
+    font-size: 30px !important;
+}
+
 @media screen and (max-width: 1400px) {
     .ml-featured-collection .slider--desktop .product-card {
         min-width: 0 !important;
@@ -101,6 +109,10 @@ a.product-card__title {
 @media screen and (max-width: 550px) {
     .recently-viewed .product-card__details .cost_row  {
         flex-direction: column;
+    }
+
+    a.product-card__title {
+        text-align: center !important;
     }
 }
 
@@ -543,13 +555,13 @@ a.product-card__title {
 
 .ml-featured-collection__product-wrapper .product-card__details .button {
     min-width: 138px;
-    min-height: 45px;
+    min-height: 45px !important;
     padding: 14px 0px;
 }
 
 .product-card__details .button {
     min-width: 138px;
-    min-height: 45px;
+    min-height: 45px !important;
     padding: 14px 0px;
 }
 
@@ -1477,6 +1489,7 @@ a.product-card__title {
 .ml-featured-product__add-to-cart .btn-text {
   position: relative;
   z-index: 1;
+  font-size: 25px !important;
 }
 
 .ml-featured-product__featured-image {
@@ -2396,10 +2409,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    Product Page Styles
 ============================================ */
 
-.drawer__inner,
+/* .drawer__inner,
 .drawer__title.heading {
     font-family: var(--font-body-family) !important;
-}
+} */
 
 
 /* ============================================
@@ -2461,6 +2474,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
        font-size: clamp(24px, 3vw, 36px) !important;
    }
 
+   .banner__box h3 {
+    font-size: var(--title-lg) !important;
+   }
+
    /* ---- Navigation Link Font ---- */
    .header__menu-item,
    header nav a,
@@ -2470,6 +2487,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
        font-family: 'Asap Condensed', sans-serif !important;
        font-size: 18px !important;
        font-weight: 400 !important;
+   }
+
+   header nav a:hover {
+    color: #004785 !important;
    }
 
    /* ---- Primary CTA Button (Yellow) ---- */
@@ -2559,6 +2580,15 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    .rte {
        font-family: 'Roboto', sans-serif !important;
        font-size: 16px;
+   }
+
+   .banner__box .rte p {
+    font-size: 18px !important;
+   }
+
+   .banner__box .countdown__timer .countdown__item p {
+       font-family: inherit !important;
+       font-size: inherit !important;
    }
 
    /* ---- Product Card Headings ---- */
@@ -2679,4 +2709,12 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
 
    .ml-featured-product__add-to-cart .btn-fill {
        background-color: #FFDF1C !important;
+   }
+
+   facet-sort .button--primary .btn-fill {
+    background-color: #ffffff !important;
+   }
+
+   .sort-listbox input[type=radio]+label:hover {
+    color: #004785 !important;
    }

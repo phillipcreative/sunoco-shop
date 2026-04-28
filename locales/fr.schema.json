@@ -4568,6 +4568,13 @@
           "label": "Logo blanc",
           "info": "Apparaît sur l'en-tête transparent."
         },
+        "header__other_pages": {
+          "content": "Autres pages"
+        },
+        "logo_other_pages": {
+          "label": "Logo (autres pages)",
+          "info": "Logo d'en-tête sur toutes les pages sauf l'accueil. Laissez vide pour utiliser le logo principal partout."
+        },
         "logo_width": {
           "label": "Largeur du logo pour ordinateur de bureau"
         },
@@ -4579,6 +4586,10 @@
         },
         "white_logo_mobile": {
           "label": "Logo mobile blanc"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Logo mobile (autres pages)",
+          "info": "Facultatif. Sinon : logo bureau « autres pages », puis logo mobile principal."
         },
         "logo_width_mobile": {
           "label": "Largeur du logo pour mobile",

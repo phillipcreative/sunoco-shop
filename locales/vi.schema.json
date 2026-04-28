@@ -4571,6 +4571,13 @@
           "label": "Logo trắng",
           "info": "Xuất hiện trên đầu trang trong suốt."
         },
+        "header__other_pages": {
+          "content": "Trang khác"
+        },
+        "logo_other_pages": {
+          "label": "Logo (trang khác ngoài trang chủ)",
+          "info": "Logo header trên mọi trang trừ trang chủ. Để trống để dùng logo chính."
+        },
         "logo_width": {
           "label": "Chiều rộng logo trên máy tính để bàn"
         },
@@ -4582,6 +4589,10 @@
         },
         "white_logo_mobile": {
           "label": "Logo trắng trên thiết bị di động"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Logo mobile (trang khác)",
+          "info": "Tùy chọn. Nếu không đặt: dùng logo desktop cho trang khác, sau đó logo mobile chính."
         },
         "logo_width_mobile": {
           "label": "Chiều rộng logo trên thiết bị di động",

@@ -1,7 +1,7 @@
 {%- doc -%}
   Renders responsive header logo with white variants and SEO optimization.
 
-  Displays site logo with mobile/desktop versions, overlay support, and text fallback.
+  Home page uses theme Logo / Mobile logo (+ white variants). All other pages use Logo (other pages) when set, else the main logo.
 
   @param {boolean} [logo_h1] - Wrap logo in H1 tag for homepage SEO
 
@@ -10,8 +10,13 @@
 {%- enddoc -%}
 
 {%- liquid
-  assign logo = settings.logo
-  assign logo_mobile = settings.logo_mobile | default: logo
+  if request.page_type == 'index'
+    assign logo = settings.logo
+    assign logo_mobile = settings.logo_mobile | default: logo
+  else
+    assign logo = settings.logo_other_pages | default: settings.logo
+    assign logo_mobile = settings.logo_other_pages_mobile | default: settings.logo_other_pages | default: settings.logo_mobile | default: logo
+  endif
 
   assign white_logo = settings.white_logo
   assign white_logo_mobile = settings.white_logo_mobile | default: white_logo

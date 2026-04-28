@@ -22,6 +22,16 @@
         "info": "t:settings_schema.logo.settings.white_logo.info"
       },
       {
+        "type": "header",
+        "content": "t:settings_schema.logo.settings.header__other_pages.content"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_other_pages",
+        "label": "t:settings_schema.logo.settings.logo_other_pages.label",
+        "info": "t:settings_schema.logo.settings.logo_other_pages.info"
+      },
+      {
         "type": "range",
         "id": "logo_width",
         "min": 40,
@@ -44,6 +54,12 @@
         "type": "image_picker",
         "id": "white_logo_mobile",
         "label": "t:settings_schema.logo.settings.white_logo_mobile.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_other_pages_mobile",
+        "label": "t:settings_schema.logo.settings.logo_other_pages_mobile.label",
+        "info": "t:settings_schema.logo.settings.logo_other_pages_mobile.info"
       },
       {
         "type": "range",

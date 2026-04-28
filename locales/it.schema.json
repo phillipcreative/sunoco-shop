@@ -4571,6 +4571,13 @@
           "label": "Logo bianco",
           "info": "Appare sull'intestazione trasparente."
         },
+        "header__other_pages": {
+          "content": "Altre pagine"
+        },
+        "logo_other_pages": {
+          "label": "Logo (altre pagine)",
+          "info": "Logo nell'intestazione su tutte le pagine tranne la home. Lascia vuoto per usare il logo principale."
+        },
         "logo_width": {
           "label": "Larghezza logo desktop"
         },
@@ -4582,6 +4589,10 @@
         },
         "white_logo_mobile": {
           "label": "Logo bianco mobile"
+        },
+        "logo_other_pages_mobile": {
+          "label": "Logo mobile (altre pagine)",
+          "info": "Facoltativo. Altrimenti si usa il logo desktop per le altre pagine e poi il logo mobile principale."
         },
         "logo_width_mobile": {
           "label": "Larghezza logo mobile",
