@@ -234,7 +234,6 @@
         "timer_HJiPRB",
         "button_DzkfCt"
       ],
-      "disabled": true,
       "name": "t:sections.countdown-timer.name",
       "settings": {
         "transparent_header": false,
@@ -327,7 +326,7 @@
         "color_button_text": "",
         "color_button_background": "",
         "color_button_gradient": "",
-        "padding_top": 0,
+        "padding_top": 72,
         "padding_bottom": 72,
         "divider": false,
         "full_width": false,
