@@ -44,7 +44,7 @@
     endif
 
     if header_layout == 'center'
-      render 'header-icons', section: section, show_search: true, show_account: true, show_cart: true, show_hamburger: true, context: 'end'
+      render 'header-icons', section: section, show_search: true, show_account: false, show_cart: true, show_hamburger: true, context: 'end'
     endif
   -%}
 
@@ -70,7 +70,7 @@
 
   {%- liquid
     if header_layout != 'center'
-      render 'header-icons', section: section, show_search: true, show_account: true, show_cart: true, show_hamburger: true, context: 'end'
+      render 'header-icons', section: section, show_search: true, show_account: false, show_cart: true, show_hamburger: true, context: 'end'
     endif
   -%}
 

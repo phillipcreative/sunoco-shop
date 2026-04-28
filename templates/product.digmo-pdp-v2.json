@@ -7,14 +7,13 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
     "main-product": {
       "type": "main-product",
       "blocks": {
         "vendor": {
           "type": "text",
-          "disabled": true,
           "settings": {
             "icon": "none",
             "iwidth": "custom",
@@ -350,10 +349,10 @@
           "type": "button",
           "settings": {
             "button_label": "Learn More",
-            "button_link": "https://www.sunocoracefuels.com/tech-corner/what-fuel-does-nascar-use-the-fuel-powering-200-mph-racing",
+            "button_link": "",
             "button_style": "primary",
             "button_size": "md",
-            "button_external": true,
+            "button_external": false,
             "button_icon": true
           }
         }
@@ -424,7 +423,7 @@
           "type": "button",
           "settings": {
             "button_label": "SHOP APPAREL",
-            "button_link": "shopify://collections/apparel",
+            "button_link": "",
             "button_style": "primary",
             "button_size": "md",
             "button_external": false,
