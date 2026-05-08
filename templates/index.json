@@ -234,7 +234,6 @@
         "timer_HJiPRB",
         "button_DzkfCt"
       ],
-      "disabled": true,
       "name": "t:sections.countdown-timer.name",
       "settings": {
         "transparent_header": false,
