@@ -2738,3 +2738,7 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    .newsletter-section .banner__title .word {
     color: #004785 !important;
    }
+
+   .non-homepage {
+    background-color: #ffffff;
+   }
