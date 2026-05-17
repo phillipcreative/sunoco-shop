@@ -257,10 +257,10 @@
         "heading_8qLQ6Y": {
           "type": "heading",
           "settings": {
-            "heading": "HIGH OCTANE. <strong>HIGHER STANDARDS.</strong>",
+            "heading": "HIGH OCTANE. <em><strong>HIGHER STANDARDS.</strong></em>",
             "heading_size": "title-lg tracking-heading",
             "heading_tag": "h2",
-            "highlighted_text": "none",
+            "highlighted_text": "text",
             "highlighted_scribble": "circle"
           }
         },
@@ -302,7 +302,7 @@
         "color_text": "#ffffff",
         "color_background": "",
         "gradient_background": "",
-        "color_highlight": "#e0a580",
+        "color_highlight": "#ffdf1c",
         "gradient_highlight": "",
         "color_button_text": "#171717",
         "color_button_background": "#ffffff",
@@ -438,7 +438,7 @@
       ],
       "name": "t:sections.image-with-text.name",
       "settings": {
-        "image": "shopify://shop_images/ChatGPT_Image_Oct_9_2025_09_16_58_AM.png",
+        "image": "shopify://shop_images/76bc76bf-8987-4b49-8f49-2feede66f4dc.png",
         "image_height": "650px",
         "image_width": "medium",
         "layout": "text_first",
