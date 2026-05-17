@@ -104,16 +104,6 @@
             "text_size": "text-sm"
           }
         },
-        "text-1": {
-          "type": "text",
-          "settings": {
-            "icon": "truck",
-            "iwidth": "custom",
-            "icon_width": 20,
-            "text": "Get your essentials delivered for free! Spend $100 or more and enjoy complimentary shipping on all orders.",
-            "text_size": "text-sm"
-          }
-        },
         "text-3": {
           "type": "text",
           "settings": {
@@ -121,16 +111,6 @@
             "iwidth": "custom",
             "icon_width": 20,
             "text": "Shop confidently knowing your payment information is securely processed. Your privacy and security are our top priorities.",
-            "text_size": "text-sm"
-          }
-        },
-        "text-4": {
-          "type": "text",
-          "settings": {
-            "icon": "box",
-            "iwidth": "custom",
-            "icon_width": 20,
-            "text": "Refer a friend and get 15% off each other.",
             "text_size": "text-sm"
           }
         },
@@ -150,9 +130,7 @@
         "share",
         "complementary",
         "text-2",
-        "text-1",
         "text-3",
-        "text-4",
         "sticky_buy_button"
       ],
       "settings": {
