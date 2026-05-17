@@ -185,7 +185,7 @@
         "color_button_background": "#ffdf1c",
         "color_button_gradient": "",
         "padding_top": 72,
-        "padding_bottom": 72,
+        "padding_bottom": 40,
         "divider": false,
         "full_width": false,
         "rounded": false
@@ -198,7 +198,7 @@
           "type": "collection",
           "settings": {
             "collection": "hats",
-            "image": "shopify://shop_images/Frame_3.png",
+            "image": "shopify://shop_images/f56824f9-8940-4c52-b03e-5c7f97655239-1777335011.png",
             "title": "shop hats",
             "description": "",
             "overlay_content": true,
@@ -211,7 +211,7 @@
           "type": "collection",
           "settings": {
             "collection": "shirts",
-            "image": "shopify://shop_images/Frame_2_961105df-f3b2-4810-ab0f-4fdc6e9173a9.png",
+            "image": "shopify://shop_images/76bc76bf-8987-4b49-8f49-2feede66f4dc.png",
             "title": "shop t-shirts",
             "description": "",
             "overlay_content": true,
@@ -253,7 +253,7 @@
         "color_button_text": "",
         "color_button_background": "",
         "color_button_gradient": "",
-        "padding_top": 72,
+        "padding_top": 40,
         "padding_bottom": 72,
         "divider": false,
         "full_width": false,
