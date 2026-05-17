@@ -191,79 +191,6 @@
         "rounded": false
       }
     },
-    "countdown_timer_FXcJe4": {
-      "type": "countdown-timer",
-      "blocks": {
-        "heading_VdnKkR": {
-          "type": "heading",
-          "settings": {
-            "heading": "Limited Time Offers",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h3",
-            "highlighted_text": "none",
-            "highlighted_scribble": "circle"
-          }
-        },
-        "timer_HJiPRB": {
-          "type": "timer",
-          "settings": {
-            "year": "2026",
-            "month": "05",
-            "day": "31",
-            "hour": "03",
-            "minute": "00",
-            "text_font": "heading",
-            "text_size": "title-lg tracking-heading",
-            "message": ""
-          }
-        },
-        "button_DzkfCt": {
-          "type": "button",
-          "settings": {
-            "button_label": "SHOP ALL DEALS",
-            "button_link": "shopify://collections/apparel",
-            "button_style": "primary",
-            "button_size": "md",
-            "button_external": false,
-            "button_icon": true
-          }
-        }
-      },
-      "block_order": [
-        "heading_VdnKkR",
-        "timer_HJiPRB",
-        "button_DzkfCt"
-      ],
-      "name": "t:sections.countdown-timer.name",
-      "settings": {
-        "transparent_header": false,
-        "image": "shopify://shop_images/Frame_5.jpg",
-        "image_height": "650px",
-        "content_width": "small",
-        "content_position": "md:items-center md:justify-start",
-        "text_alignment": "left",
-        "image_height_mobile": "auto",
-        "content_position_mobile": "items-center justify-center",
-        "text_alignment_mobile": "center",
-        "color_text": "#ffffff",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "#ffdf1c",
-        "gradient_highlight": "",
-        "color_button_text": "#000000",
-        "color_button_background": "#ffdf1c",
-        "color_button_gradient": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 0,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "divider": false,
-        "full_width": true,
-        "rounded": false,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
-      }
-    },
     "collection_list_enUYFV": {
       "type": "collection-list",
       "blocks": {
@@ -339,7 +266,6 @@
     "product_list_AyhGWz",
     "ml_featured_product_UVFnB9",
     "ml_featured_collection_h73MyP",
-    "countdown_timer_FXcJe4",
     "collection_list_enUYFV"
   ]
 }
