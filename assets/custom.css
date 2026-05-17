@@ -2457,6 +2457,10 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
        color: #004785 !important;
    }
 
+   .banner__content h2 {
+    color: inherit !important;
+   }
+
    /* ---- H1 Size & Letter Spacing (hero) ---- */
    h1 {
        font-size: clamp(40px, 6vw, 64px) !important;
