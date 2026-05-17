@@ -2451,7 +2451,7 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    }
 
    /* ---- Heading Colors on Light Backgrounds ---- */
-   .shopify-section:not(.banner__box) h2,
+   /* .shopify-section:not(.banner__box) h2,
    .shopify-section:not(.banner__box) h3,
    .shopify-section:not(.banner__box) h4 {
        color: #004785 !important;
@@ -2461,7 +2461,7 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
    .banner__content .shopify-section:not(.banner__box) h3,
    .banner__content .shopify-section:not(.banner__box) h4 {
     color: inherit !important;
-   }
+   } */
 
    /* ---- H1 Size & Letter Spacing (hero) ---- */
    h1 {
