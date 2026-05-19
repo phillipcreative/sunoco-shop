@@ -2247,6 +2247,31 @@ body:not(.template-index) .header__menu>ul.with-block .menu__item {
     color:  #004785 !important;
 }
 
+body:not(.template-index) .header__menu > ul.with-sunoco .menu__item {
+    color: #004785 !important;
+}
+
+/* Sunoco menu active: color on li hover (magnet disabled in liquid via data-magnet="0") */
+.header__menu > ul.with-sunoco .menu__item,
+.header__menu > ul.with-sunoco .menu__item .btn-text {
+    transition: none !important;
+}
+
+.header__menu > ul.with-sunoco .menu__item .btn-text {
+    transform: none;
+}
+
+.header__menu > ul.with-sunoco > li:hover .menu__item,
+.header__menu > ul.with-sunoco > li:hover > a.menu__item,
+.header__menu > ul.with-sunoco > li > details[open] .menu__item {
+    color: #004785 !important;
+}
+
+.header__menu>ul .menu__item {
+    font-family: 'Asap Condensed', sans-serif !important;
+    font-size: 18px !important;
+}
+
 .white-logo {
     display: none;
 }

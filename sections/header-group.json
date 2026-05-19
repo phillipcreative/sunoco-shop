@@ -72,7 +72,7 @@
         "logo_h1": true,
         "menu": "main-menu-testing-duplicate",
         "menu_mobile": "",
-        "menu_active": "block",
+        "menu_active": "sunoco",
         "hover_menu": true,
         "header_layout": "left",
         "sticky_header_type": "on-scroll-up",
