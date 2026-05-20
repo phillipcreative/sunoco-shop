@@ -401,7 +401,7 @@
           "type": "button",
           "settings": {
             "button_label": "SHOP APPAREL",
-            "button_link": "",
+            "button_link": "shopify://collections/apparel",
             "button_style": "primary",
             "button_size": "md",
             "button_external": false,
