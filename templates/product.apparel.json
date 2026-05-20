@@ -400,7 +400,7 @@
         "button_fNRcUj": {
           "type": "button",
           "settings": {
-            "button_label": "SHOP APPAREL",
+            "button_label": "SHOP JUGS",
             "button_link": "",
             "button_style": "primary",
             "button_size": "md",
@@ -416,7 +416,7 @@
       ],
       "name": "t:sections.image-with-text.name",
       "settings": {
-        "image": "shopify://shop_images/76bc76bf-8987-4b49-8f49-2feede66f4dc.png",
+        "image": "shopify://shop_images/Gemini_Generated_Image_ch7utxch7utxch7u.png",
         "image_height": "650px",
         "image_width": "medium",
         "layout": "text_first",
@@ -489,7 +489,7 @@
         "show_product_variants": false,
         "show_product_description": false,
         "custom_button_label": "SHOP ALL",
-        "custom_button_link": "",
+        "custom_button_link": "shopify://collections/race-jugs-all",
         "custom_button_external": false,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
