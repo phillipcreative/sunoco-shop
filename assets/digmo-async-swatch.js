@@ -237,23 +237,37 @@
   }
 
   function updatePrice(variant, sectionId, productId) {
-    const priceElement = document.getElementById(`Price-${sectionId}-${productId}`);
-    if (!priceElement) return;
+    if (!variant) return;
 
-    const regularPriceEl = priceElement.querySelector('.price__regular .price-item--regular');
-    if (regularPriceEl) {
-      regularPriceEl.textContent = formatMoney(variant.price);
+    [`Price-${sectionId}-${productId}`, `StickyPrice-${sectionId}-${productId}`].forEach((id) => {
+      const priceElement = document.getElementById(id);
+      if (!priceElement) return;
+
+      const priceRoot = priceElement.querySelector('.price') || priceElement;
+      const regularPriceEl = priceRoot.querySelector('.price__regular');
+      const compareAtPriceEl = priceRoot.querySelector('.price__sale');
+
+      if (regularPriceEl) {
+        regularPriceEl.textContent = formatMoney(variant.price);
+      }
+
+      if (variant.compareAtPrice && variant.compareAtPrice > variant.price) {
+        priceRoot.classList.add('price--on-sale');
+        if (compareAtPriceEl) compareAtPriceEl.textContent = formatMoney(variant.compareAtPrice);
+      } else {
+        priceRoot.classList.remove('price--on-sale');
+      }
+    });
+
+    const buyButtonPrice = document.querySelector(`#BuyButtonPrice-${sectionId}-${productId} product-buy-price`);
+    if (buyButtonPrice) {
+      buyButtonPrice.setAttribute('data-price', variant.price);
+      buyButtonPrice.textContent = formatMoney(variant.price);
     }
 
-    const salePriceEl = priceElement.querySelector('.product__price .price__regular');
-    const compareAtPriceEl = priceElement.querySelector('.product__price :is(.price__sale,.unit-price)');
-
-    if (variant.compareAtPrice && variant.compareAtPrice > variant.price) {
-      priceElement.classList.add('price--on-sale');
-      if (salePriceEl) salePriceEl.textContent = formatMoney(variant.price);
-      if (compareAtPriceEl) compareAtPriceEl.textContent = formatMoney(variant.compareAtPrice);
-    } else {
-      priceElement.classList.remove('price--on-sale');
+    const titleElement = document.querySelector(`#ProductInfo-${sectionId}-${productId} .product__title.with-price`);
+    if (titleElement) {
+      titleElement.classList.toggle('with-price--on-sale', variant.compareAtPrice && variant.compareAtPrice > variant.price);
     }
   }
 
