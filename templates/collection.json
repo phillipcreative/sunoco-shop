@@ -142,7 +142,7 @@
         "promotion-2"
       ],
       "settings": {
-        "products_per_page": 10,
+        "products_per_page": 11,
         "columns": 4,
         "columns_mobile": "1",
         "pagination": "paginated",
