@@ -104,7 +104,7 @@
           "type": "contact",
           "settings": {
             "heading": "Address",
-            "text": "<p>620 King St W, Toronto, ON M5V 1M7, Canada</p>"
+            "text": "<p>PO Box 1226<br/>Linwood, PA 19061</p>"
           }
         },
         "contact-2": {
@@ -118,7 +118,7 @@
           "type": "contact",
           "settings": {
             "heading": "Phone",
-            "text": "<p><a href=\"#\" title=\"tel:+33 (0) 31-305-210\">+33 (0) 31-305-210<br/></a>mo – fri: 09:00 – 17:00</p>"
+            "text": "<p>P: 1-800-RACE GAS (1-800-722-3427)<br/>F: 877-304-0375</p>"
           }
         },
         "media": {
