@@ -1,9 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-list-collections",
+      "blocks": {
+        "collection_8ingD3": {
+          "type": "collection",
+          "settings": {
+            "collection": "apparel",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_eRn7y7": {
+          "type": "collection",
+          "settings": {
+            "collection": "accessories",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_3GpUDw": {
+          "type": "collection",
+          "settings": {
+            "collection": "hats",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_8wyBnm": {
+          "type": "collection",
+          "settings": {
+            "collection": "race-jugs-all",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_zLWijf": {
+          "type": "collection",
+          "settings": {
+            "collection": "single-race-jugs",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_gy7U4L": {
+          "type": "collection",
+          "settings": {
+            "collection": "race-jugs-two-packs",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_VeDznY": {
+          "type": "collection",
+          "settings": {
+            "collection": "race-jugs-four-packs",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_KPRxWg": {
+          "type": "collection",
+          "settings": {
+            "collection": "shirts",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "collection_8ingD3",
+        "collection_eRn7y7",
+        "collection_3GpUDw",
+        "collection_8wyBnm",
+        "collection_zLWijf",
+        "collection_gy7U4L",
+        "collection_VeDznY",
+        "collection_KPRxWg"
+      ],
       "settings": {
-        "display_type": "all",
+        "display_type": "selected",
         "sort": "alphabetical",
         "card_style": "card",
         "image_type": "collection",
