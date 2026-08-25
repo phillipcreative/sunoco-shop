@@ -186,6 +186,11 @@
         "type": "shopify://apps/pandectes-gdpr/blocks/banner/58c0baa2-6cc1-480c-9ea6-38d6d559556a",
         "disabled": true,
         "settings": {}
+      },
+      "2647664283302970701": {
+        "type": "shopify://apps/cookiebot-cmp/blocks/uc-banner/42d95aba-03be-478d-adf0-7bb4f5efae78",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
