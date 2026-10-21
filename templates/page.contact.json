@@ -123,6 +123,7 @@
         },
         "media": {
           "type": "media",
+          "disabled": true,
           "settings": {
             "heading": "Follow us"
           }
